@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+//#include "ShaderProgram.h"
+
 float points[] = {
 	-0.5f, 0.5f, 0.0f,
 	0.5f, -0.5f, 0.0f,
@@ -149,6 +151,20 @@ int main(void)
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
+	//vertex buffer object (VBO)
+	GLuint VBO2 = 0;
+	glGenBuffers(1, &VBO2); // generate the VBO
+	glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(points2), points2, GL_STATIC_DRAW);
+
+	//Vertex Array Object (VAO)
+	GLuint VAO2 = 0;
+	glGenVertexArrays(1, &VAO2); //generate the VAO
+	glBindVertexArray(VAO2); //bind the VAO
+	glEnableVertexAttribArray(0); //enable vertex attributes
+	glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
 	//create and compile shaders
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexShader, 1, &vertex_shader, NULL);
@@ -160,6 +176,17 @@ int main(void)
 	glAttachShader(shaderProgram, fragmentShader);
 	glAttachShader(shaderProgram, vertexShader);
 	glLinkProgram(shaderProgram); 
+
+	GLuint vertexShader2 = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader2, 1, &vertex_shader, NULL);
+	glCompileShader(vertexShader2);
+	GLuint fragmentShader2 = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader2, 1, &fragment_shader, NULL);
+	glCompileShader(fragmentShader2);
+	GLuint shaderProgram2 = glCreateProgram();
+	glAttachShader(shaderProgram2, fragmentShader2);
+	glAttachShader(shaderProgram2, vertexShader2);
+	glLinkProgram(shaderProgram2);
 
 	GLint status;
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &status);
@@ -185,6 +212,13 @@ int main(void)
 		glBindVertexArray(VAO);
 		// draw triangles
 		glDrawArrays(GL_TRIANGLES, 0, 3); //mode,first,count
+
+		
+		glUseProgram(shaderProgram2);
+		glBindVertexArray(VAO2);
+		// draw triangles
+		glDrawArrays(GL_TRIANGLES, 0, 3); //mode,first,count
+		
 		// update other events like input handling
 		glfwPollEvents();
 		// put the stuff we’ve been drawing onto the display
