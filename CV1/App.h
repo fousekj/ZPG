@@ -38,8 +38,7 @@ private:
 	GLFWwindow* window;
 
 	static void error_callback(int error, const char* description);
-	void compileShaders();
-	void createModels();
+
 	void draw();
 	ShaderProgram* shaderProgram;
 	Model* model;
@@ -54,6 +53,8 @@ public:
 	~App();
 	void initialization();
 	void run();
+	void compileShaders();
+	void createModels();
 
 };
 

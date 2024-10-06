@@ -29,11 +29,10 @@ private:
 	GLuint vao;
 	GLuint vbo;
 	GLuint vertex_shader, fragment_shader;
-	float* points;
 	GLenum drawMode;
 	int size;
 public:
-	Model(float* points, int size, GLenum drawMode);
+	Model(GLenum drawMode);
 	void createModel();
 	void drawModel();
 	

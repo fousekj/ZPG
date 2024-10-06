@@ -46,14 +46,9 @@ void App::compileShaders()
 
 void App::createModels()
 {
-	float points[] = {
-	-0.5f, 0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f,
-	-0.5f, -0.5f, 0.0f,
-	};
+	
 
-	this->model = new Model(points, sizeof(points), GL_TRIANGLES);
-	this->model->createModel();
+	this->model = new Model( GL_TRIANGLES);
 	
 	//models.push_back(model1);
 
@@ -137,9 +132,6 @@ void App::run()
 	glfwSetWindowSizeCallback(window, window_size_callback);
 	glfwSetCursorPosCallback(window, cursor_callback);
 	glfwSetMouseButtonCallback(window, button_callback);*/
-
-	compileShaders();
-	createModels();
 
 	while (!glfwWindowShouldClose(this->window))
 	{

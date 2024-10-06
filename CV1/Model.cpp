@@ -8,20 +8,20 @@
  * @author Jiøí Fousek
   **/
 
-Model::Model(float* points, int size, GLenum drawMode)
+Model::Model(GLenum drawMode)
 {
-	this->points = points;
-	this->size = size;
 	this->drawMode = drawMode;
 
-}
+	float points[] = {
+	-0.5f, 0.5f, 0.0f,
+	 0.5f, -0.5f, 0.0f,
+	-0.5f, -0.5f, 0.0f,
+	};
 
-void Model::createModel()
-{
 	//vertex buffer object (VBO)
 	glGenBuffers(1, &this->vbo); // generate the VBO
 	glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(this->points), this->points, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
 
 	//Vertex Array Object (VAO)
 	glGenVertexArrays(1, &this->vao); //generate the VAO
@@ -29,12 +29,18 @@ void Model::createModel()
 	glEnableVertexAttribArray(0); //enable vertex attributes
 	glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+}
+
+void Model::createModel()
+{
+	
 }
 
 void Model::drawModel()
 {
 	glBindVertexArray(this->vao);
-	glDrawArrays(this->drawMode, 0, this->size);
+	glDrawArrays(this->drawMode, 0, 3);
 	//glDisableVertexAttribArray(0);
 	//glBindVertexArray(0);
 }

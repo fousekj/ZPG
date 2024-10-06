@@ -19,6 +19,8 @@ int main(void)
 	
 	App* app = new App();
 	app->initialization();
+	app->compileShaders();
+	app->createModels();
 	app->run();
 
 
