@@ -14,26 +14,20 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <string>
-using namespace std;
-#include "Model.h"
-#include <vector>
 
-class ShaderProgram
+class Model
 {
 private:
-	GLuint vertexShader, fragmentShader;
-	GLuint shaderProgram;
-	float points;
-	const char* vertex_shader_def;
-	const char* fragment_shader_def;
-	vector<Model*> models;
-
-
+	GLuint vao;
+	GLuint vbo;
+	GLuint vertex_shader, fragment_shader;
+	float* points;
+	GLenum drawMode;
+	int size;
 public:
-	void createShaderProgram();
-	ShaderProgram(const char* vertex_shader, const char* fragment_shader);
-	void addModel(Model* model);
-	void draw();
+	Model(float* points, int size, GLenum drawMode);
+	void createModel();
+	void drawModel();
+	
 };
 
