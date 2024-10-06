@@ -1,5 +1,13 @@
 #include "ShaderProgram.h"
 
+/**
+ * @file ShaderProgram.cpp
+ *
+ * @brief ShaderProgram.cpp file with functions implementations
+ *
+ * @author Jiøí Fousek
+  **/
+
 void ShaderProgram::createShaderProgram()
 {
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -11,9 +19,10 @@ void ShaderProgram::createShaderProgram()
 	glCompileShader(fragmentShader);
 
 	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
+	glAttachShader(shaderProgram, vertexShader);
 	glLinkProgram(shaderProgram);
+
 	GLint status;
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &status);
 	if (status == GL_FALSE)
@@ -29,28 +38,22 @@ void ShaderProgram::createShaderProgram()
 		glfwTerminate();
 		exit(EXIT_SUCCESS);
 	}
-	//glUseProgram(shaderProgram);
+	glUseProgram(shaderProgram);
 }
 
 ShaderProgram::ShaderProgram(const char* vertex_shader, const char* fragment_shader)
 {
-	vertex_shader_def = vertex_shader;
-	fragment_shader_def = fragment_shader;
+	this->vertex_shader_def = vertex_shader;
+	this->fragment_shader_def = fragment_shader;
 
 }
 
-void ShaderProgram::addModel(Model* model)
-{
-	models.push_back(model);
-}
 
-void ShaderProgram::draw()
+void ShaderProgram::draw(Model* model)
 {
 	glUseProgram(shaderProgram);
-	for (int i = 0; i < models.size(); i++)
-	{
-		models[i]->drawModel();
-	}
+	model->drawModel();
+	
 }
 
 

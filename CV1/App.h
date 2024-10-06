@@ -23,6 +23,14 @@ using namespace std;
 #include <vector>
 
 
+/**
+ * @file App.H
+ *
+ * @brief App. file with functions declarations
+ *
+ * @author Jiøí Fousek
+  **/
+
 
 class App
 {
@@ -33,8 +41,8 @@ private:
 	void compileShaders();
 	void createModels();
 	void draw();
-	vector<ShaderProgram*> shaderPrograms;
-	vector<Model*> models;
+	ShaderProgram* shaderProgram;
+	Model* model;
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void window_focus_callback(GLFWwindow* window, int focused);
 	static void window_iconify_callback(GLFWwindow* window, int iconified);

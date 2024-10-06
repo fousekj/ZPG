@@ -19,6 +19,15 @@ using namespace std;
 #include "Model.h"
 #include <vector>
 
+/**
+ * @file ShaderProgram.h
+ *
+ * @brief ShaderProgram.h file with functions implementations
+ *
+ * @author Jiøí Fousek
+  **/
+
+
 class ShaderProgram
 {
 private:
@@ -27,13 +36,14 @@ private:
 	float points;
 	const char* vertex_shader_def;
 	const char* fragment_shader_def;
-	vector<Model*> models;
+	//vector<Model*> models;
+
 
 
 public:
 	void createShaderProgram();
 	ShaderProgram(const char* vertex_shader, const char* fragment_shader);
-	void addModel(Model* model);
-	void draw();
+	
+	void draw(Model* model);
 };
 

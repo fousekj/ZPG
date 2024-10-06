@@ -1,5 +1,13 @@
 #include "App.h"
 
+/**
+ * @file App.cpp
+ *
+ * @brief App. cpp file with functions implementations
+ *
+ * @author Jiøí Fousek
+  **/
+
 App::App()
 {
 
@@ -7,14 +15,7 @@ App::App()
 
 App::~App()
 {
-	for (int i = 0; i < shaderPrograms.size(); i++)
-	{
-		delete shaderPrograms[i];
-	}
-	for (int i = 0; i < models.size(); i++)
-	{
-		delete models[i];
-	}
+
 }
 
 void App::error_callback(int error, const char* description)
@@ -37,9 +38,8 @@ void App::compileShaders()
 	"void main () {"
 	"     frag_colour = vec4 (0.6, 0.2, 0.9, 1.0);"
 	"}";
-	ShaderProgram* shaderProgram = new ShaderProgram(vertex_shader, fragment_shader);
-	shaderProgram->createShaderProgram();
-	shaderPrograms.push_back(shaderProgram);
+	this->shaderProgram = new ShaderProgram(vertex_shader, fragment_shader);
+	this->shaderProgram->createShaderProgram();
 	
 
 }
@@ -52,10 +52,10 @@ void App::createModels()
 	-0.5f, -0.5f, 0.0f,
 	};
 
-	Model* model1 = new Model(points, sizeof(points), GL_TRIANGLES);
-	model1->createModel();
-	shaderPrograms[0]->addModel(model1);
-	models.push_back(model1);
+	this->model = new Model(points, sizeof(points), GL_TRIANGLES);
+	this->model->createModel();
+	
+	//models.push_back(model1);
 
 	
 }
@@ -63,10 +63,7 @@ void App::createModels()
 void App::draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	for (int i = 0; i < models.size(); i++)
-	{
-		shaderPrograms[i]->draw();
-	}
+	this->shaderProgram->draw(this->model);
 }
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)

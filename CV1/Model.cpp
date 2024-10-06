@@ -1,5 +1,13 @@
 #include "Model.h"
 
+/**
+ * @file Model.cpp
+ *
+ * @brief Model.cpp file with functions implementations
+ *
+ * @author Jiøí Fousek
+  **/
+
 Model::Model(float* points, int size, GLenum drawMode)
 {
 	this->points = points;
@@ -27,6 +35,6 @@ void Model::drawModel()
 {
 	glBindVertexArray(this->vao);
 	glDrawArrays(this->drawMode, 0, this->size);
-	glDisableVertexAttribArray(0);
-	glBindVertexArray(0);
+	//glDisableVertexAttribArray(0);
+	//glBindVertexArray(0);
 }
