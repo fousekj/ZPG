@@ -139,6 +139,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="tree_model.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

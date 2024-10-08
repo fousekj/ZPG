@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "tree_model.h"
+
 /**
  * @file Model.h
  *

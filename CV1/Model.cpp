@@ -16,12 +16,16 @@ Model::Model(GLenum drawMode)
 	-0.5f, 0.5f, 0.0f,
 	 0.5f, -0.5f, 0.0f,
 	-0.5f, -0.5f, 0.0f,
+
+	-0.5f, 0.6f, 0.0f,
+	 0.5f, -0.4f, 0.0f,
+	0.5f, 0.5f, 0.0f,
 	};
 
 	//vertex buffer object (VBO)
 	glGenBuffers(1, &this->vbo); // generate the VBO
 	glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(tree), tree, GL_STATIC_DRAW);
 
 	//Vertex Array Object (VAO)
 	glGenVertexArrays(1, &this->vao); //generate the VAO
@@ -32,15 +36,9 @@ Model::Model(GLenum drawMode)
 
 }
 
-void Model::createModel()
-{
-	
-}
-
 void Model::drawModel()
 {
 	glBindVertexArray(this->vao);
-	glDrawArrays(this->drawMode, 0, 3);
-	//glDisableVertexAttribArray(0);
-	//glBindVertexArray(0);
+	glDrawArrays(this->drawMode, 0, 92814);
+
 }

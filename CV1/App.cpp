@@ -28,15 +28,20 @@ void App::compileShaders()
 	const char* vertex_shader =
 	"#version 330\n"
 	"layout(location=0) in vec3 vp;"
+	"layout(location=1) in vec3 vn;"
+	"uniform mat4 modelMatrix;"
+	"out vec3 color;"
 	"void main () {"
-	"     gl_Position = vec4 (vp, 1.0);"
+	"	  color = vn;"
+	"     gl_Position = modelMatrix * vec4 (vp, 1.0);"
 	"}";
 
 	const char* fragment_shader =
 	"#version 330\n"
 	"out vec4 frag_colour;"
+	"in vec3 color;"
 	"void main () {"
-	"     frag_colour = vec4 (0.6, 0.2, 0.9, 1.0);"
+	"     frag_colour = vec4 (color, 1.0);"
 	"}";
 	this->shaderProgram = new ShaderProgram(vertex_shader, fragment_shader);
 	this->shaderProgram->createShaderProgram();
@@ -46,7 +51,15 @@ void App::compileShaders()
 
 void App::createModels()
 {
-	
+	float points[] = {
+	-0.5f, 0.5f, 0.0f,
+	 0.5f, -0.5f, 0.0f,
+	-0.5f, -0.5f, 0.0f,
+
+	-0.5f, 0.6f, 0.0f,
+	 0.5f, -0.4f, 0.0f,
+	0.5f, 0.5f, 0.0f,
+	};
 
 	this->model = new Model( GL_TRIANGLES);
 	
