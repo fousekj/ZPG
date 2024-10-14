@@ -24,7 +24,8 @@ void App::createForest()
 
 void App::createObjects()
 {
-	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(0.5f, glm::vec3(0.3f, 0.3f, 0), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(0.5f, glm::vec3(0.5f, 0.5f, 0), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(0.5f, glm::vec3(-0.5f, -0.5f, 0), 0.f, glm::vec3(1, 0, 0))));
 }
 
 App::App() 
@@ -92,6 +93,10 @@ void App::key_callback(GLFWwindow* window, int key, int scancode, int action, in
 
 	if (key == 32 && action == 1) {
 		this->forest = !this->forest;
+	}
+
+	if (key == 262) {
+		this->sceneForest->getObjects()[0]->setTransformRotation(90, glm::vec3(0, 1, 0));
 	}
 
 	printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);

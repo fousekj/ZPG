@@ -38,3 +38,8 @@ void Scene::render()
 		obj->draw();
 	}
 }
+
+vector<DrawableObject*> Scene::getObjects()
+{
+	return this->objects;
+}
