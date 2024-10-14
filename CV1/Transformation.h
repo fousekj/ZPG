@@ -19,6 +19,14 @@
 #include <vector>
 using namespace std;
 
+/**
+ * @file Transformation.h
+ *
+ * @brief Transformation.h file with functions implementations
+ *
+ * @author Jiøí Fousek
+  **/
+
 class Transformation
 {
 private:
@@ -26,15 +34,10 @@ private:
 
 public:
 	Transformation();
-	void scale(float scaleFactor);
-	void translate(const glm::vec3& translation);
-	glm::mat4 getMatrix() const;
-	/*
-	static glm::mat4 createIdentityMatrix();
-	static glm::mat4 rotateY(float angle);
-	static glm::mat4 rotateX(float angle, const glm::mat4& modelMatrix);
-	static glm::mat4 translate(float myView);
-	static glm::mat4 combineTransformations(float angleY, float angleX, float myView, float scaleFactor);
-	*/
+	Transformation(float scale, glm::vec3 translation, float angle, glm::vec3 axis);
+	void scale(float scale);
+	void translate(glm::vec3 translation);
+	void useTransformation(GLuint matrixID);
+	void rotate(float angle, glm::vec3 axis);
 };
 

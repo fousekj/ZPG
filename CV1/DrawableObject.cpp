@@ -1,5 +1,13 @@
 #include "DrawableObject.h"
 
+/**
+ * @file DrawableObject.cpp
+ *
+ * @brief DrawableObject.cpp file with functions implementations
+ *
+ * @author Jiøí Fousek
+  **/
+
 
 DrawableObject::DrawableObject(ShaderProgram* shaderProgram, Model* model, Transformation* transformation)
 {
@@ -8,13 +16,26 @@ DrawableObject::DrawableObject(ShaderProgram* shaderProgram, Model* model, Trans
 	this->transformation = transformation;
 }
 
+void DrawableObject::setTransformScale(float scale)
+{
+	this->transformation->scale(scale);
+}
+
+void DrawableObject::setTransformTranslation(glm::vec3 matrix)
+{
+	this->transformation->translate(matrix);
+}
+
+void DrawableObject::setTransformRotation(float angle, glm::vec3 axis)
+{
+	this->transformation->rotate(angle, axis);
+}
+
 void DrawableObject::draw()
 {
 	this->shaderProgram->use();
-
-	GLuint idModelTransform = glGetUniformLocation(this->shaderProgram->getProgramId(), "modelMatrix");
-	glm::mat4 modelMatrix = this->transformation->getMatrix();
-	glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, &this->transformation->getMatrix()[0][0]);
+	
+	this->transformation->useTransformation(this->shaderProgram->getTransformID());
 
 	this->model->drawModel();
 }

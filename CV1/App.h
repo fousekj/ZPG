@@ -23,6 +23,9 @@ using namespace std;
 #include "Transformation.h"
 #include "DrawableObject.h"
 #include "Scene.h"
+#include "tree.h"
+#include "bushes.h"
+#include "suzi_smooth.h"
 
 #include <vector>
 
@@ -41,17 +44,20 @@ class App
 private:
 	GLFWwindow* window;
 
-	static void error_callback(int error, const char* description);
-	/*static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	static void window_focus_callback(GLFWwindow* window, int focused);
-	static void window_iconify_callback(GLFWwindow* window, int iconified);
-	static void window_size_callback(GLFWwindow* window, int width, int height);
-	static void cursor_callback(GLFWwindow* window, double x, double y);
-	static void button_callback(GLFWwindow* window, int button, int action, int mode);*/
-	Shader* vertexShader;
-	Shader* fragmentShader;
-	ShaderProgram* shaderProgram;
-	Model* model;
+	static void error_callback_static(int error, const char* description);
+	static void key_callback_static(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void window_focus_callback_static(GLFWwindow* window, int focused);
+	static void window_iconify_callback_static(GLFWwindow* window, int iconified);
+	static void window_size_callback_static(GLFWwindow* window, int width, int height);
+	static void cursor_callback_static(GLFWwindow* window, double x, double y);
+	static void button_callback_static(GLFWwindow* window, int button, int action, int mode);
+
+	Scene* sceneForest;
+	Scene* sceneObjects;
+	bool forest;
+
+	void createForest();
+	void createObjects();
 
 public:
 	App();
@@ -59,6 +65,14 @@ public:
 	void initialization();
 	void run();
 	void compileShaders();
+
+	void error_callback(int error, const char* description);
+	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	void window_focus_callback(GLFWwindow* window, int focused);
+	void window_iconify_callback(GLFWwindow* window, int iconified);
+	void window_size_callback(GLFWwindow* window, int width, int height);
+	void cursor_callback(GLFWwindow* window, double x, double y);
+	void button_callback(GLFWwindow* window, int button, int action, int mode);
 
 };
 

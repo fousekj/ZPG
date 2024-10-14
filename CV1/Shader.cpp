@@ -1,5 +1,13 @@
 #include "Shader.h"
 
+/**
+ * @file Shader.cpp
+ *
+ * @brief Shader.cpp file with functions implementations
+ *
+ * @author Jiøí Fousek
+  **/
+
 Shader::Shader(GLenum shaderType, const char* shaderSource)
 {
     this->shaderType = shaderType;
@@ -8,7 +16,7 @@ Shader::Shader(GLenum shaderType, const char* shaderSource)
     glShaderSource(this->shaderID, 1, &this->shaderSource, NULL);
     glCompileShader(this->shaderID);
 
-    // Check compilation status
+
     GLint status;
     glGetShaderiv(this->shaderID, GL_COMPILE_STATUS, &status);
     if (status == GL_FALSE)
@@ -26,13 +34,4 @@ Shader::Shader(GLenum shaderType, const char* shaderSource)
 GLuint Shader::getShaderId()
 {
     return this->shaderID;
-}
-void Shader::setUniformMatrix4fv(GLuint programID, const char* uniformName, const glm::mat4& matrix)
-{
-    GLint idModelTransform = glGetUniformLocation(programID, uniformName);
-    if (idModelTransform == -1) {
-        fprintf(stderr, "Uniform variable '%s' not found!\n", uniformName);
-        return;
-    }
-    glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, glm::value_ptr(matrix));
 }

@@ -3,20 +3,36 @@
 /**
  * @file App.cpp
  *
- * @brief App. cpp file with functions implementations
+ * @brief App.cpp file with functions implementations
  *
  * @author Jiøí Fousek
   **/
 
-App::App()
+void App::createForest()
 {
-
+	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(0.2f, glm::vec3(-3.0f, -4.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(0.2f, glm::vec3(3.0f, -4.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, bushes, 8730), new Transformation(0.2f, glm::vec3(2.0f, -4.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, bushes, 8730), new Transformation(0.2f, glm::vec3(-2.0f, -4.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, bushes, 8730), new Transformation(0.2f, glm::vec3(-1.f, -4.0f, -0.5f), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, bushes, 8730), new Transformation(0.2f, glm::vec3(1.f, -4.0f, -0.5f), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(0.15f, glm::vec3(-2.0f, -2.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(0.15f, glm::vec3(2.0f, -2.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(0.1f, glm::vec3(-5.0f, -1.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(0.1f, glm::vec3(5.0f, -1.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
 }
 
-App::~App()
+void App::createObjects()
 {
-
+	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(0.5f, glm::vec3(0.3f, 0.3f, 0), 0.f, glm::vec3(1, 0, 0))));
 }
+
+App::App() 
+{ 
+	this->forest = true;
+}
+
+App::~App() { }
 
 void App::error_callback(int error, const char* description)
 {
@@ -25,58 +41,113 @@ void App::error_callback(int error, const char* description)
 
 void App::compileShaders()
 {
-	const char* vertex_shader =
+	const char* vertexShaderForest =
 		"#version 330\n"
-		"layout(location=0) in vec3 vp;"
+		"layout(location=0) in vec3 vPos;"
+		"layout(location=1) in vec3 vColor;"
+		"out vec3 fragColor;"
 		"uniform mat4 modelMatrix;"
 		"void main () {"
-		"     gl_Position = modelMatrix * vec4 (vp, 1.0);"
+		"     gl_Position = modelMatrix * vec4 (vPos, 1.0);"
+		"     fragColor = vColor;"
 		"}";
 
-	const char* fragment_shader =
+	const char* fragmentShaderForest =
+		"#version 330\n"
+		"in vec3 fragColor;"
+		"out vec4 fragColorOut;"
+		"void main () {"
+		"     fragColorOut = vec4 (fragColor, 1.0);"
+		"}";
+
+	this->sceneForest = new Scene(new ShaderProgram(new Shader(GL_VERTEX_SHADER, vertexShaderForest), new Shader(GL_FRAGMENT_SHADER, fragmentShaderForest)));
+
+
+	const char* vertexShaderObjects =
+		"#version 330\n"
+		"layout(location=0) in vec3 vPos;"
+		"layout(location=1) in vec3 vColor;"
+		"uniform mat4 modelMatrix;"
+		"void main () {"
+		"     gl_Position = modelMatrix * vec4 (vPos, 1.0);"
+		"}";
+
+	const char* fragmentShaderObjects =
 		"#version 330\n"
 		"out vec4 frag_colour;"
 		"void main () {"
 		"     frag_colour = vec4 (0.0, 1.0, 0.0, 1.0);"
 		"}";
 
-	this->vertexShader = new Shader(GL_VERTEX_SHADER, vertex_shader);
-	this->fragmentShader = new Shader(GL_FRAGMENT_SHADER, fragment_shader);
-	this->shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
-	this->shaderProgram->createShaderProgram();
-	
+	this->sceneObjects = new Scene(new ShaderProgram(new Shader(GL_VERTEX_SHADER, vertexShaderObjects), new Shader(GL_FRAGMENT_SHADER, fragmentShaderObjects)));
 
 }
 
 
 
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void App::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 
+	if (key == 32 && action == 1) {
+		this->forest = !this->forest;
+	}
+
 	printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
 }
 
-static void window_focus_callback(GLFWwindow* window, int focused) { printf("window_focus_callback \n"); }
+void App::window_focus_callback(GLFWwindow* window, int focused) { printf("window_focus_callback \n"); }
 
-static void window_iconify_callback(GLFWwindow* window, int iconified) { printf("window_iconify_callback \n"); }
+void App::window_iconify_callback(GLFWwindow* window, int iconified) { printf("window_iconify_callback \n"); }
 
-static void window_size_callback(GLFWwindow* window, int width, int height) {
+void App::window_size_callback(GLFWwindow* window, int width, int height) {
 	printf("resize %d, %d \n", width, height);
 	glViewport(0, 0, width, height);
 }
 
-static void cursor_callback(GLFWwindow* window, double x, double y) { printf("cursor_callback \n"); }
+void App::cursor_callback(GLFWwindow* window, double x, double y) { printf("cursor_callback \n"); }
 
-static void button_callback(GLFWwindow* window, int button, int action, int mode) {
+void App::button_callback(GLFWwindow* window, int button, int action, int mode) {
 
 	if (action == GLFW_PRESS) printf("button_callback [%d,%d,%d]\n", button, action, mode);
 }
 
+void App::error_callback_static(int error, const char* description) { fputs(description, stderr); }
+
+void App::key_callback_static(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	App* app = static_cast<App*>(glfwGetWindowUserPointer(window));
+	app->key_callback(window, key, scancode, action, mods); 
+}
+
+void App::window_focus_callback_static(GLFWwindow* window, int focused) {
+	App* app = static_cast<App*>(glfwGetWindowUserPointer(window));
+	app->window_focus_callback(window, focused); 
+}
+
+void App::window_iconify_callback_static(GLFWwindow* window, int iconified) {
+	App* app = static_cast<App*>(glfwGetWindowUserPointer(window));
+	app->window_iconify_callback(window, iconified);
+}
+
+void App::window_size_callback_static(GLFWwindow* window, int width, int height) {
+	App* app = static_cast<App*>(glfwGetWindowUserPointer(window));
+	app->window_size_callback(window, width, height);
+}
+
+void App::cursor_callback_static(GLFWwindow* window, double x, double y) {
+	App* app = static_cast<App*>(glfwGetWindowUserPointer(window));
+	app->cursor_callback(window, x, y); 
+}
+
+void App::button_callback_static(GLFWwindow* window, int button, int action, int mode) {
+	App* app = static_cast<App*>(glfwGetWindowUserPointer(window));
+	app->button_callback(window, button, action, mode);
+}
+
 void App::initialization()
 {
-	glfwSetErrorCallback(this->error_callback);
+	glfwSetErrorCallback(this->error_callback_static);
 	if (!glfwInit()) {
 		fprintf(stderr, "ERROR: could not start GLFW3\n");
 		exit(EXIT_FAILURE);
@@ -87,11 +158,10 @@ void App::initialization()
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-
+	glfwSetWindowUserPointer(window, this);
 	glfwMakeContextCurrent(this->window);
 	glfwSwapInterval(1);
 
-	// start GLEW extension handler
 	glewExperimental = GL_TRUE;
 	glewInit();
 
@@ -114,55 +184,32 @@ void App::initialization()
 
 void App::run()
 {
-	/*
-	glfwSetKeyCallback(window, key_callback);
-	glfwSetWindowFocusCallback(window, window_focus_callback);
-	glfwSetWindowIconifyCallback(window, window_iconify_callback);
-	glfwSetWindowSizeCallback(window, window_size_callback);
-	glfwSetCursorPosCallback(window, cursor_callback);
-	glfwSetMouseButtonCallback(window, button_callback);*/
+	glfwSetKeyCallback(this->window, this->key_callback_static);
+	glfwSetWindowFocusCallback(this->window, this->window_focus_callback_static);
+	glfwSetWindowIconifyCallback(this->window, this->window_iconify_callback_static);
+	glfwSetWindowSizeCallback(this->window, this->window_size_callback_static);
+	glfwSetMouseButtonCallback(this->window, this->button_callback_static);
 
-	/*while (!glfwWindowShouldClose(this->window))
-	{
-		draw();
-		glfwPollEvents();
-		glfwSwapBuffers(this->window);
-	}
-	glfwTerminate();
-	exit(EXIT_SUCCESS);
-	*/
+	this->createForest();
+	this->createObjects();
 
-	Model* model = Model::createTree();
-	Transformation* transformation = new Transformation();
-	transformation->scale(0.2f);
 
-	DrawableObject* obj1 = new DrawableObject(shaderProgram, model, transformation);
-	vector<DrawableObject*> objects = { obj1 };
-	Scene scene(objects, shaderProgram);
-
-	GLint idModelTransform = glGetUniformLocation(shaderProgram->getProgramId(), "modelMatrix");
-
-	// Check if the uniform location is valid
-	if (idModelTransform == -1) {
-		fprintf(stderr, "Error: Uniform variable 'modelMatrix' not found in shader program.\n");
-	}
+	glEnable(GL_DEPTH_TEST);
 
 	while (!glfwWindowShouldClose(this->window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, &transformation->getMatrix()[0][0]);
-		if (idModelTransform == -1) {
-			fprintf(stderr, "Uniform variable 'modelMatrix' not found in shader program.\n");
-		}
-		scene.render();
+		if (forest == true)
+			this->sceneForest->render();
+		else
+			this->sceneObjects->render();
 
 		glfwPollEvents();
 		glfwSwapBuffers(this->window);
 	}
-	delete obj1;
-	delete transformation;
 	glfwTerminate();
 	exit(EXIT_SUCCESS);
 }
+
 

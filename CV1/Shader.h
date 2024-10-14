@@ -16,18 +16,22 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-using namespace std;
+
+/**
+ * @file Shader.h
+ *
+ * @brief Shader.h file with functions implementations
+ *
+ * @author Jiøí Fousek
+  **/
 
 class Shader
 {
 private:
-	GLuint shaderID;        // ID of the shader
-	GLenum shaderType;		// VERTEX/FRAGMENT
+	GLuint shaderID; 
+	GLenum shaderType;
 	const char* shaderSource;
-
-
 public:
 	Shader(GLenum shaderType, const char* shaderSource);
 	GLuint getShaderId();
-	void setUniformMatrix4fv(GLuint programID, const char* uniformName, const glm::mat4& matrix);
 };

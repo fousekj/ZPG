@@ -8,17 +8,16 @@
  * @author Jiøí Fousek
   **/
 
-Model::Model(GLenum drawMode, const float* points) {
+Model::Model(GLenum drawMode, const float* points, int pointsSize) {
 
 	this->drawMode = drawMode;
 	this->points = points;
-
-
+	this->pointsSize = pointsSize;
 
 	//vertex buffer object (VBO)
 	glGenBuffers(1, &this->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
-	glBufferData(GL_ARRAY_BUFFER, 92814 * 6 * sizeof(float), this->points, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, pointsSize * 6 * sizeof(float), this->points, GL_STATIC_DRAW);
 
 	//Vertex Array Object (VAO)
 	glGenVertexArrays(1, &this->vao);
@@ -35,15 +34,8 @@ Model::Model(GLenum drawMode, const float* points) {
 }
 
 
-Model* Model::createTree()
-{
-
-	return new Model(GL_TRIANGLES, tree);
-}
-
-
 void Model::drawModel()
 {
 	glBindVertexArray(this->vao);
-	glDrawArrays(GL_TRIANGLES, 0, 92814);
+	glDrawArrays(GL_TRIANGLES, 0, pointsSize);
 }

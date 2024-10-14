@@ -14,7 +14,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "tree.h"
 
 /**
  * @file Model.h
@@ -32,12 +31,12 @@ private:
 	GLuint vbo;
 	const float* points;
 	GLenum drawMode;
+	int pointsSize;
 
 public:
-	Model(GLenum drawMode, const float* points);
+	Model(GLenum drawMode, const float* points, int pointsSize);
 
 	void drawModel();
-	static Model* createTree();
 
 };
 

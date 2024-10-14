@@ -27,6 +27,8 @@ using namespace std;
 
 
 #include "Shader.h"
+#include "Transformation.h"
+#include "Model.h"
 
 class ShaderProgram
 {
@@ -34,14 +36,13 @@ private:
 
 	Shader* vertexShader;
 	Shader* fragmentShader;
-	GLuint shaderProgram;
+	GLuint programID;
 
 public:
 
 	ShaderProgram(Shader* vertexShader, Shader* fragmentShader);
-	GLuint getProgramId();
-	void createShaderProgram();
 	void use();
+	GLuint getTransformID();
 
 };
 
