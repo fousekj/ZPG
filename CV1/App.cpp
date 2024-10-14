@@ -26,40 +26,29 @@ void App::error_callback(int error, const char* description)
 void App::compileShaders()
 {
 	const char* vertex_shader =
-	"#version 330\n"
-	"layout(location=0) in vec3 vp;"
-	"void main () {"
-	"     gl_Position = vec4 (vp, 1.0);"
-	"}";
+		"#version 330\n"
+		"layout(location=0) in vec3 vp;"
+		"uniform mat4 modelMatrix;"
+		"void main () {"
+		"     gl_Position = modelMatrix * vec4 (vp, 1.0);"
+		"}";
 
 	const char* fragment_shader =
-	"#version 330\n"
-	"out vec4 frag_colour;"
-	"void main () {"
-	"     frag_colour = vec4 (0.6, 0.2, 0.9, 1.0);"
-	"}";
-	this->shaderProgram = new ShaderProgram(vertex_shader, fragment_shader);
+		"#version 330\n"
+		"out vec4 frag_colour;"
+		"void main () {"
+		"     frag_colour = vec4 (0.0, 1.0, 0.0, 1.0);"
+		"}";
+
+	this->vertexShader = new Shader(GL_VERTEX_SHADER, vertex_shader);
+	this->fragmentShader = new Shader(GL_FRAGMENT_SHADER, fragment_shader);
+	this->shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
 	this->shaderProgram->createShaderProgram();
 	
 
 }
 
-void App::createModels()
-{
-	
 
-	this->model = new Model( GL_TRIANGLES);
-	
-	//models.push_back(model1);
-
-	
-}
-
-void App::draw()
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	this->shaderProgram->draw(this->model);
-}
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -133,7 +122,7 @@ void App::run()
 	glfwSetCursorPosCallback(window, cursor_callback);
 	glfwSetMouseButtonCallback(window, button_callback);*/
 
-	while (!glfwWindowShouldClose(this->window))
+	/*while (!glfwWindowShouldClose(this->window))
 	{
 		draw();
 		glfwPollEvents();
@@ -141,6 +130,39 @@ void App::run()
 	}
 	glfwTerminate();
 	exit(EXIT_SUCCESS);
+	*/
 
+	Model* model = Model::createTree();
+	Transformation* transformation = new Transformation();
+	transformation->scale(0.2f);
+
+	DrawableObject* obj1 = new DrawableObject(shaderProgram, model, transformation);
+	vector<DrawableObject*> objects = { obj1 };
+	Scene scene(objects, shaderProgram);
+
+	GLint idModelTransform = glGetUniformLocation(shaderProgram->getProgramId(), "modelMatrix");
+
+	// Check if the uniform location is valid
+	if (idModelTransform == -1) {
+		fprintf(stderr, "Error: Uniform variable 'modelMatrix' not found in shader program.\n");
+	}
+
+	while (!glfwWindowShouldClose(this->window))
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, &transformation->getMatrix()[0][0]);
+		if (idModelTransform == -1) {
+			fprintf(stderr, "Uniform variable 'modelMatrix' not found in shader program.\n");
+		}
+		scene.render();
+
+		glfwPollEvents();
+		glfwSwapBuffers(this->window);
+	}
+	delete obj1;
+	delete transformation;
+	glfwTerminate();
+	exit(EXIT_SUCCESS);
 }
 

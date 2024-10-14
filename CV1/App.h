@@ -19,6 +19,10 @@ using namespace std;
 
 #include "Model.h"
 #include "ShaderProgram.h"
+#include "Shader.h"
+#include "Transformation.h"
+#include "DrawableObject.h"
+#include "Scene.h"
 
 #include <vector>
 
@@ -38,23 +42,23 @@ private:
 	GLFWwindow* window;
 
 	static void error_callback(int error, const char* description);
-
-	void draw();
-	ShaderProgram* shaderProgram;
-	Model* model;
-	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	/*static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void window_focus_callback(GLFWwindow* window, int focused);
 	static void window_iconify_callback(GLFWwindow* window, int iconified);
 	static void window_size_callback(GLFWwindow* window, int width, int height);
 	static void cursor_callback(GLFWwindow* window, double x, double y);
-	static void button_callback(GLFWwindow* window, int button, int action, int mode);
+	static void button_callback(GLFWwindow* window, int button, int action, int mode);*/
+	Shader* vertexShader;
+	Shader* fragmentShader;
+	ShaderProgram* shaderProgram;
+	Model* model;
+
 public:
 	App();
 	~App();
 	void initialization();
 	void run();
 	void compileShaders();
-	void createModels();
 
 };
 

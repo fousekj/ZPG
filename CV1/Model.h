@@ -14,6 +14,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "tree.h"
 
 /**
  * @file Model.h
@@ -23,18 +24,20 @@
  * @author Jiøí Fousek
   **/
 
+
 class Model
 {
 private:
 	GLuint vao;
 	GLuint vbo;
-	GLuint vertex_shader, fragment_shader;
+	const float* points;
 	GLenum drawMode;
-	int size;
+
 public:
-	Model(GLenum drawMode);
-	void createModel();
+	Model(GLenum drawMode, const float* points);
+
 	void drawModel();
-	
+	static Model* createTree();
+
 };
 

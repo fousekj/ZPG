@@ -8,53 +8,43 @@
  * @author Jiøí Fousek
   **/
 
-void ShaderProgram::createShaderProgram()
+ShaderProgram::ShaderProgram(Shader* vertexShader, Shader* fragmentShader) {
+	this->vertexShader = vertexShader;
+	this->fragmentShader = fragmentShader;
+}
+
+GLuint ShaderProgram::getProgramId()
 {
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertex_shader_def, NULL);
-	glCompileShader(vertexShader);
+	return this->shaderProgram;
+}
 
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragment_shader_def, NULL);
-	glCompileShader(fragmentShader);
+void ShaderProgram::createShaderProgram() {
 
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, fragmentShader);
-	glAttachShader(shaderProgram, vertexShader);
-	glLinkProgram(shaderProgram);
+	this->shaderProgram = glCreateProgram();
+	glAttachShader(this->shaderProgram, vertexShader->getShaderId());
+	glAttachShader(this->shaderProgram, fragmentShader->getShaderId());
+	glLinkProgram(this->shaderProgram);
 
 	GLint status;
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &status);
+	glGetProgramiv(this->shaderProgram, GL_LINK_STATUS, &status);
 	if (status == GL_FALSE)
 	{
 		GLint infoLogLength;
-		glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH, &infoLogLength);
+		glGetProgramiv(this->shaderProgram, GL_INFO_LOG_LENGTH, &infoLogLength);
 		GLchar* strInfoLog = new GLchar[infoLogLength + 1];
-		glGetProgramInfoLog(shaderProgram, infoLogLength, NULL, strInfoLog);
+		glGetProgramInfoLog(this->shaderProgram, infoLogLength, NULL, strInfoLog);
 		fprintf(stderr, "Linker failure: %s\n", strInfoLog);
 		delete[] strInfoLog;
-		//glfwDestroyWindow(window);
 
 		glfwTerminate();
 		exit(EXIT_SUCCESS);
 	}
-	glUseProgram(shaderProgram);
 }
 
-ShaderProgram::ShaderProgram(const char* vertex_shader, const char* fragment_shader)
+
+void ShaderProgram::use()
 {
-	this->vertex_shader_def = vertex_shader;
-	this->fragment_shader_def = fragment_shader;
-
+	glUseProgram(this->shaderProgram);
 }
-
-
-void ShaderProgram::draw(Model* model)
-{
-	glUseProgram(shaderProgram);
-	model->drawModel();
-	
-}
-
 
 
