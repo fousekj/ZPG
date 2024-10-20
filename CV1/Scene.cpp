@@ -36,9 +36,7 @@ ShaderProgram* Scene::getShaderProgram()
 void Scene::render()
 {
 	this->shaderProgram->use();
-	//this->controlCamera()
-	//this->camera->matrix(45.0f, 0.1f, 100.0f, this->shaderProgram->getCamMatrixID());
-	
+	this->shaderProgram->setCamMatrix(this->camera->getProjectionMatrix(60.0f, 4.0f / 3.0f, 0.1f, 100.0f), this->camera->getViewMatrix());
 	for (DrawableObject* obj : objects) {
 		obj->draw();
 	}
@@ -47,13 +45,4 @@ void Scene::render()
 vector<DrawableObject*> Scene::getObjects()
 {
 	return this->objects;
-}
-
-void Scene::controlCamera(GLFWwindow* window)
-{
-	//this->camera->cameraKeyMove(window);
-	//this->camera->cameraMouseMove(window);
-	//this->camera->matrix(45.0f, 0.1f, 100.0f, this->shaderProgram->getCamMatrixID());
-
-	
 }

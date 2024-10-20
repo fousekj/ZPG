@@ -39,3 +39,8 @@ void DrawableObject::draw()
 
 	this->model->drawModel();
 }
+
+ShaderProgram* DrawableObject::getShaderProgram()
+{
+	return this->shaderProgram;
+}

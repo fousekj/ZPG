@@ -50,14 +50,31 @@ GLuint ShaderProgram::getTransformID()
 	return modelMatrix;
 }
 
-GLuint ShaderProgram::getCamMatrixID()
+GLuint ShaderProgram::getProjectionMatrixID()
 {
-	GLuint camMatrix = glGetUniformLocation(this->programID, "camMatrix");
-	if (camMatrix == -1)
+	GLuint projMat = glGetUniformLocation(this->programID, "projectionMatrix");
+	if (projMat == -1)
 	{
-		fprintf(stderr, "Error: Uniform variable 'camMatrix' not found in shader program.\n");
+		fprintf(stderr, "Error: Uniform variable 'projectionMatrix' not found in shader program.\n");
 		return -1;
 	}
-	return camMatrix;
+	return projMat;
+}
+
+GLuint ShaderProgram::getViewMatrixID()
+{
+	GLuint viewMat = glGetUniformLocation(this->programID, "viewMatrix");
+	if (viewMat == -1)
+	{
+		fprintf(stderr, "Error: Uniform variable 'viewMatrix' not found in shader program.\n");
+		return -1;
+	}
+	return viewMat;
+}
+
+void ShaderProgram::setCamMatrix(glm::mat4 projectionMat, glm::mat4 viewMat)
+{
+	glUniformMatrix4fv(this->getViewMatrixID(), 1, GL_FALSE, glm::value_ptr(viewMat));
+	glUniformMatrix4fv(this->getProjectionMatrixID(), 1, GL_FALSE, glm::value_ptr(projectionMat));
 }
 

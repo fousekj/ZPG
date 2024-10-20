@@ -23,58 +23,30 @@ using namespace std;
 
 class Camera
 {
+private:
+	glm::vec3 position;
+	glm::vec3 front;
+	glm::vec3 up;
+	glm::vec3 right;
+	glm::vec3 worldUp;
+	
+	float yaw;
+	float pitch;
+	float speed;
+	float sensitivity;
+
+	void updateVectors();
+
 public:
-	glm::vec3 Position;
-	glm::vec3 Front;
-	glm::vec3 Up;
-	glm::vec3 Right;
-	glm::vec3 WorldUp;
-
-	float Yaw;
-	float Pitch;
-
-	float MovementSpeed;
-	float MouseSensitivity;
-
-	void updateCameraVectors();
-
-	std::vector<Shader*> shaders;
-
 	Camera(glm::vec3 position, glm::vec3 up);
 
 	glm::mat4 getViewMatrix();
 	glm::mat4 getProjectionMatrix(float fov, float aspect, float near, float far);
 
-	void moveForward(float deltaTime);
-	void moveBackward(float deltaTime);
-	void moveLeft(float deltaTime);
-	void moveRight(float deltaTime);
-
-	void updatePosition(float xoffset, float yoffset);
-
-	void attach(Shader* shader);
-	void notify();
-	void updateCamMatrix(GLint matrixID);
-
-// old
-	/*glm::vec3 position;
-	glm::vec3 orientation = glm::vec3(0.0f, 0.0f, -1.0f);
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-
-	int width;
-	int height; 
-	float yaw;
-	float pitch;
-
-	float speed = 0.1f;
-	float sensitivity = 100.0f;
-
-	Camera(int width, int height, glm::vec3 position);
-	void matrix(float fovDeg, float nearPlane, float farPlane, GLint uniform);
-
-	void cameraKeyMove(GLFWwindow* window);
-	void cameraMouseMove(GLFWwindow* window);
-	*/
-
+	void moveForward();
+	void moveBackward();
+	void moveLeft();
+	void moveRight();
+	void moveMouse(float width, float height, float posX, float posY);
 };
 

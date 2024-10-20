@@ -43,7 +43,8 @@ public:
 	ShaderProgram(Shader* vertexShader, Shader* fragmentShader);
 	void use();
 	GLuint getTransformID();
-	GLuint getCamMatrixID();
-	
+	GLuint getProjectionMatrixID();
+	GLuint getViewMatrixID();
+	void setCamMatrix(glm::mat4 projectionMat, glm::mat4 viewMat);
 };
 
