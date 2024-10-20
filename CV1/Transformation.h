@@ -32,6 +32,7 @@ class Transformation
 private:
 	glm::mat4 modelMatrix;
 
+
 public:
 	Transformation();
 	Transformation(float scale, glm::vec3 translation, float angle, glm::vec3 axis);

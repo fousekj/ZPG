@@ -1,6 +1,5 @@
 ﻿#include "App.h"
-
-//Include the standard C++ headers  
+  
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -20,7 +19,6 @@ int main(void)
 	App* app = new App();
 	app->initialization();
 	app->compileShaders();
-	//app->createModels();
 	app->run();
 
 

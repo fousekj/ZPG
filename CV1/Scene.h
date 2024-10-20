@@ -1,6 +1,7 @@
 #pragma once
 #include "DrawableObject.h"
 #include "ShaderProgram.h"
+#include "Camera.h"
 
 /**
  * @file Scene.h
@@ -15,6 +16,7 @@ class Scene
 private:
 	vector<DrawableObject*> objects;
 	ShaderProgram* shaderProgram;
+	
 public:
 	Scene(vector<DrawableObject*> objects, ShaderProgram* shaderProgram);
 	Scene(ShaderProgram* shaderProgram);
@@ -22,7 +24,8 @@ public:
 	ShaderProgram* getShaderProgram();
 	void render();
 	vector<DrawableObject*> getObjects();
-
+	void controlCamera(GLFWwindow* window);
+	Camera* camera;
 };
 
 

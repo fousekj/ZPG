@@ -12,12 +12,14 @@ Scene::Scene(vector<DrawableObject*> objects, ShaderProgram* shaderProgram)
 {
 	this->objects = objects;
 	this->shaderProgram = shaderProgram;
+	this->camera = new Camera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 Scene::Scene(ShaderProgram* shaderProgram)
 {
 	this->shaderProgram = shaderProgram;
 	this->objects = { };
+	this->camera = new Camera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void Scene::addObject(DrawableObject* object)
@@ -34,6 +36,9 @@ ShaderProgram* Scene::getShaderProgram()
 void Scene::render()
 {
 	this->shaderProgram->use();
+	//this->controlCamera()
+	//this->camera->matrix(45.0f, 0.1f, 100.0f, this->shaderProgram->getCamMatrixID());
+	
 	for (DrawableObject* obj : objects) {
 		obj->draw();
 	}
@@ -42,4 +47,13 @@ void Scene::render()
 vector<DrawableObject*> Scene::getObjects()
 {
 	return this->objects;
+}
+
+void Scene::controlCamera(GLFWwindow* window)
+{
+	//this->camera->cameraKeyMove(window);
+	//this->camera->cameraMouseMove(window);
+	//this->camera->matrix(45.0f, 0.1f, 100.0f, this->shaderProgram->getCamMatrixID());
+
+	
 }

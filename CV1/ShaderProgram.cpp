@@ -50,6 +50,14 @@ GLuint ShaderProgram::getTransformID()
 	return modelMatrix;
 }
 
-
-
+GLuint ShaderProgram::getCamMatrixID()
+{
+	GLuint camMatrix = glGetUniformLocation(this->programID, "camMatrix");
+	if (camMatrix == -1)
+	{
+		fprintf(stderr, "Error: Uniform variable 'camMatrix' not found in shader program.\n");
+		return -1;
+	}
+	return camMatrix;
+}
 

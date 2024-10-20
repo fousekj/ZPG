@@ -43,6 +43,7 @@ public:
 	ShaderProgram(Shader* vertexShader, Shader* fragmentShader);
 	void use();
 	GLuint getTransformID();
-
+	GLuint getCamMatrixID();
+	
 };
 

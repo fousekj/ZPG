@@ -47,9 +47,10 @@ void App::compileShaders()
 		"layout(location=0) in vec3 vPos;"
 		"layout(location=1) in vec3 vColor;"
 		"out vec3 fragColor;"
-		"uniform mat4 modelMatrix;"
+		"uniform mat4 modelMatrix;"		
+		"uniform mat4 camMatrix;"
 		"void main () {"
-		"     gl_Position = modelMatrix * vec4 (vPos, 1.0);"
+		"     gl_Position = camMatrix * modelMatrix * vec4 (vPos, 1.0);"
 		"     fragColor = vColor;"
 		"}";
 
@@ -91,12 +92,14 @@ void App::key_callback(GLFWwindow* window, int key, int scancode, int action, in
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 
+	this->sceneForest->controlCamera(window);
+
 	if (key == 32 && action == 1) {
 		this->forest = !this->forest;
 	}
 
 	if (key == 262) {
-		this->sceneForest->getObjects()[0]->setTransformRotation(90, glm::vec3(0, 1, 0));
+		this->sceneForest->getObjects()[0]->setTransformRotation(10, glm::vec3(0, 1, 0));
 	}
 
 	printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
@@ -111,11 +114,44 @@ void App::window_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 }
 
-void App::cursor_callback(GLFWwindow* window, double x, double y) { printf("cursor_callback \n"); }
+void App::cursor_callback(GLFWwindow* window, double x, double y) { 
+	printf("cursor_callback \n");
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
+
+	float xoffset = x - (width / 2);
+	float yoffset = (height / 2) - y;
+
+	glfwSetCursorPos(window, width / 2, height / 2);
+
+	this->sceneForest->camera->updatePosition(xoffset, yoffset);
+
+	this->sceneForest->camera->updateCamMatrix(this->sceneForest->getShaderProgram()->getCamMatrixID());
+}
 
 void App::button_callback(GLFWwindow* window, int button, int action, int mode) {
-
+	//this->sceneForest->controlCamera(window);
 	if (action == GLFW_PRESS) printf("button_callback [%d,%d,%d]\n", button, action, mode);
+}
+
+void App::processInput(float deltaTime)
+{
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+		this->sceneForest->camera->moveForward(deltaTime);
+		this->sceneForest->camera->updateCamMatrix(this->sceneForest->getShaderProgram()->getCamMatrixID());
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+		this->sceneForest->camera->moveBackward(deltaTime);
+		this->sceneForest->camera->updateCamMatrix(this->sceneForest->getShaderProgram()->getCamMatrixID());
+	}
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+		this->sceneForest->camera->moveLeft(deltaTime);
+		this->sceneForest->camera->updateCamMatrix(this->sceneForest->getShaderProgram()->getCamMatrixID());
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		this->sceneForest->camera->moveRight(deltaTime);
+		this->sceneForest->camera->updateCamMatrix(this->sceneForest->getShaderProgram()->getCamMatrixID());
+	}
 }
 
 void App::error_callback_static(int error, const char* description) { fputs(description, stderr); }
@@ -194,6 +230,7 @@ void App::run()
 	glfwSetWindowIconifyCallback(this->window, this->window_iconify_callback_static);
 	glfwSetWindowSizeCallback(this->window, this->window_size_callback_static);
 	glfwSetMouseButtonCallback(this->window, this->button_callback_static);
+	glfwSetCursorPosCallback(this->window, this->cursor_callback_static);
 
 	this->createForest();
 	this->createObjects();
@@ -201,9 +238,18 @@ void App::run()
 
 	glEnable(GL_DEPTH_TEST);
 
+	float deltaTime = 0.0f;
+	float lastFrame = 0.0f;
+
 	while (!glfwWindowShouldClose(this->window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
+		processInput(deltaTime);
 
 		if (forest == true)
 			this->sceneForest->render();
