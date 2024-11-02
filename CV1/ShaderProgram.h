@@ -29,6 +29,7 @@ using namespace std;
 #include "Shader.h"
 #include "Transformation.h"
 #include "Model.h"
+#include "ShaderLoader.h"
 
 class ShaderProgram
 {
@@ -41,6 +42,7 @@ private:
 public:
 
 	ShaderProgram(Shader* vertexShader, Shader* fragmentShader);
+	ShaderProgram(const char* vertexPath, const char* fragmentPath);
 	void use();
 	GLuint getTransformID();
 	GLuint getProjectionMatrixID();

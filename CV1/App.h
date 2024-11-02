@@ -26,6 +26,8 @@ using namespace std;
 #include "tree.h"
 #include "bushes.h"
 #include "suzi_smooth.h"
+#include "sphere.h"
+#include "ShaderLoader.h"
 
 #include <vector>
 
@@ -55,6 +57,9 @@ private:
 	Scene* sceneForest;
 	Scene* sceneObjects;
 	bool forest;
+
+	vector<Scene*> scenes;
+	int currentScene;
 
 	void createForest();
 	void createObjects();

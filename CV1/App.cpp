@@ -10,18 +10,7 @@
 
 void App::createForest()
 {
-	/*
-	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(0.2f, glm::vec3(-3.0f, -4.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(0.2f, glm::vec3(3.0f, -4.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, bushes, 8730), new Transformation(0.2f, glm::vec3(2.0f, -4.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, bushes, 8730), new Transformation(0.2f, glm::vec3(-2.0f, -4.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, bushes, 8730), new Transformation(0.2f, glm::vec3(-1.f, -4.0f, -0.5f), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, bushes, 8730), new Transformation(0.2f, glm::vec3(1.f, -4.0f, -0.5f), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(0.15f, glm::vec3(-2.0f, -2.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(0.15f, glm::vec3(2.0f, -2.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(0.1f, glm::vec3(-5.0f, -1.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(0.1f, glm::vec3(5.0f, -1.0f, 0.0f), 0.f, glm::vec3(1, 0, 0))));
-	*/
+	
 	for (int i = 0; i < 10; i++)
 	{
 		for (int j = 0; j < 10; j++)
@@ -40,12 +29,17 @@ void App::createForest()
 
 void App::createObjects()
 {
-	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(0.5f, glm::vec3(0.5f, 0.5f, 0), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(0.5f, glm::vec3(-0.5f, -0.5f, 0), 0.f, glm::vec3(1, 0, 0))));
+	//this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(0.5f, glm::vec3(0.5f, 0.5f, 0), 0.f, glm::vec3(1, 0, 0))));
+	//this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(0.5f, glm::vec3(-0.5f, -0.5f, 0), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(-2.0f, 0.0f, 0), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(0.0f, 2.0f, 0), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(2.0f, 0.0f, 0), 0.f, glm::vec3(1, 0, 0))));
+	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(0.0f, -2.0f, 0), 0.f, glm::vec3(1, 0, 0))));
 }
 
 App::App() 
 { 
+	this->currentScene = 0;
 	this->forest = true;
 }
 
@@ -58,47 +52,12 @@ void App::error_callback(int error, const char* description)
 
 void App::compileShaders()
 {
-	const char* vertexShaderForest =
-		"#version 330\n"
-		"layout(location=0) in vec3 vPos;"
-		"layout(location=1) in vec3 vColor;"
-		"out vec3 fragColor;"
-		"uniform mat4 modelMatrix;"		
-		"uniform mat4 projectionMatrix;"
-		"uniform mat4 viewMatrix;"
-		"void main () {"
-		"     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4 (vPos, 1.0);"
-		"     fragColor = vColor;"
-		"}";
+	this->sceneForest = new Scene(new ShaderProgram("ForestVertex.vert", "ForestFragment.frag"));
 
-	const char* fragmentShaderForest =
-		"#version 330\n"
-		"in vec3 fragColor;"
-		"out vec4 fragColorOut;"
-		"void main () {"
-		"     fragColorOut = vec4 (fragColor, 1.0);"
-		"}";
+	this->sceneObjects = new Scene(new ShaderProgram("BallsVertex.vert", "BallsFragment.frag"));
 
-	this->sceneForest = new Scene(new ShaderProgram(new Shader(GL_VERTEX_SHADER, vertexShaderForest), new Shader(GL_FRAGMENT_SHADER, fragmentShaderForest)));
-
-
-	const char* vertexShaderObjects =
-		"#version 330\n"
-		"layout(location=0) in vec3 vPos;"
-		"layout(location=1) in vec3 vColor;"
-		"uniform mat4 modelMatrix;"
-		"void main () {"
-		"     gl_Position = modelMatrix * vec4 (vPos, 1.0);"
-		"}";
-
-	const char* fragmentShaderObjects =
-		"#version 330\n"
-		"out vec4 frag_colour;"
-		"void main () {"
-		"     frag_colour = vec4 (0.0, 1.0, 0.0, 1.0);"
-		"}";
-
-	this->sceneObjects = new Scene(new ShaderProgram(new Shader(GL_VERTEX_SHADER, vertexShaderObjects), new Shader(GL_FRAGMENT_SHADER, fragmentShaderObjects)));
+	this->createForest();
+	this->createObjects();
 
 }
 
@@ -233,8 +192,7 @@ void App::run()
 	glfwSetMouseButtonCallback(this->window, this->button_callback_static);
 	glfwSetCursorPosCallback(this->window, this->cursor_callback_static);
 
-	this->createForest();
-	this->createObjects();
+	
 
 
 	glEnable(GL_DEPTH_TEST);

@@ -34,6 +34,12 @@ ShaderProgram::ShaderProgram(Shader* vertexShader, Shader* fragmentShader) {
 	}
 }
 
+ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath)
+{
+	ShaderLoader* shaderLoader = new ShaderLoader();
+	this->programID = shaderLoader->loadShader(vertexPath, fragmentPath);
+}
+
 void ShaderProgram::use()
 {
 	glUseProgram(this->programID);
