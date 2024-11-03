@@ -20,11 +20,11 @@ private:
 public:
 	Scene(vector<DrawableObject*> objects, ShaderProgram* shaderProgram);
 	Scene(ShaderProgram* shaderProgram);
+	Scene();
 	void addObject(DrawableObject* object);
 	ShaderProgram* getShaderProgram();
 	void render();
 	vector<DrawableObject*> getObjects();
-	void controlCamera(GLFWwindow* window);
 	Camera* camera;
 };
 

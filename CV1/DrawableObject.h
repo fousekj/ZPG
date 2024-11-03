@@ -23,7 +23,7 @@ public:
 	void setTransformScale(float scale);
 	void setTransformTranslation(glm::vec3 matrix);
 	void setTransformRotation(float angle, glm::vec3 axis);
-	void draw();
+	void draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix);
 	ShaderProgram* getShaderProgram();
 };
 

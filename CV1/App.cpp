@@ -10,6 +10,8 @@
 
 void App::createForest()
 {
+	ShaderProgram* shaderForest = new ShaderProgram("ForestVertex.vert", "ForestFragment.frag");
+	Scene* scene = new Scene();
 	
 	for (int i = 0; i < 10; i++)
 	{
@@ -18,29 +20,40 @@ void App::createForest()
 			float randScale = (float)rand() / RAND_MAX;
 			glm::vec3 loc(i * 10.f, 0.f, j * 10);
 			float randRot = 1 + (rand() % 180);
-			this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, tree, 92814), new Transformation(randScale, loc, randRot, glm::vec3(0, 1, 0))));
+			scene->addObject(new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), new Transformation(randScale, loc, randRot, glm::vec3(0, 1, 0))));
 			
 			loc = glm::vec3(i * 10.f + 5.f, 0.f, j * 10);
-			this->sceneForest->addObject(new DrawableObject(this->sceneForest->getShaderProgram(), new Model(GL_TRIANGLES, bushes, 8730), new Transformation(randScale, loc, randRot, glm::vec3(0, 1, 0))));
+			scene->addObject(new DrawableObject(shaderForest, new Model(GL_TRIANGLES, bushes, 8730), new Transformation(randScale, loc, randRot, glm::vec3(0, 1, 0))));
 		}		
 	}
+	this->scenes.push_back(scene);
 
 }
 
-void App::createObjects()
+void App::createBalls()
 {
 	//this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(0.5f, glm::vec3(0.5f, 0.5f, 0), 0.f, glm::vec3(1, 0, 0))));
 	//this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(0.5f, glm::vec3(-0.5f, -0.5f, 0), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(-2.0f, 0.0f, 0), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(0.0f, 2.0f, 0), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(2.0f, 0.0f, 0), 0.f, glm::vec3(1, 0, 0))));
-	this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(0.0f, -2.0f, 0), 0.f, glm::vec3(1, 0, 0))));
+	ShaderProgram* shaderPhong = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag", new Light(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f)));
+	Scene* sceneBalls = new Scene();
+	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(-2.0f, 0.0f, 0), 0.f, glm::vec3(1, 0, 0))));
+	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(0.0f, 2.0f, 0), 0.f, glm::vec3(1, 0, 0))));
+	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(2.0f, 0.0f, 0), 0.f, glm::vec3(1, 0, 0))));
+	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(0.0f, -2.0f, 0), 0.f, glm::vec3(1, 0, 0))));
+	this->scenes.push_back(sceneBalls);
+}
+
+void App::createTriangle()
+{
+	ShaderProgram* shaderTriangle = new ShaderProgram("TriangleVertex.vert", "TriangleFragment.frag");
+	Scene* sceneTriangle = new Scene();
+	sceneTriangle->addObject(new DrawableObject(shaderTriangle, new Model(GL_TRIANGLES, triangle, 3), new Transformation(0.5f, glm::vec3(0.f, 0.f, 0.f), 0.f, glm::vec3(1, 0, 0))));
+	this->scenes.push_back(sceneTriangle);
 }
 
 App::App() 
 { 
 	this->currentScene = 0;
-	this->forest = true;
 }
 
 App::~App() { }
@@ -52,12 +65,14 @@ void App::error_callback(int error, const char* description)
 
 void App::compileShaders()
 {
-	this->sceneForest = new Scene(new ShaderProgram("ForestVertex.vert", "ForestFragment.frag"));
+	//this->sceneForest = new Scene(new ShaderProgram("ForestVertex.vert", "ForestFragment.frag"));
 
-	this->sceneObjects = new Scene(new ShaderProgram("BallsVertex.vert", "BallsFragment.frag"));
+	//this->sceneObjects = new Scene(new ShaderProgram("BallsVertex.vert", "BallsFragment.frag"));
+
+	this->createTriangle();
 
 	this->createForest();
-	this->createObjects();
+	this->createBalls();
 
 }
 
@@ -68,25 +83,27 @@ void App::key_callback(GLFWwindow* window, int key, int scancode, int action, in
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 
-	if (key == 32 && action == 1) {
-		this->forest = !this->forest;
+	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+		this->currentScene++;
+		if (this->currentScene == this->scenes.size())
+			this->currentScene = 0;
 	}
 
 	if (key == 262) {
-		this->sceneForest->getObjects()[0]->setTransformRotation(10, glm::vec3(0, 1, 0));
+		//this->sceneForest->getObjects()[0]->setTransformRotation(10, glm::vec3(0, 1, 0));
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		this->sceneForest->camera->moveForward();
+		this->scenes[this->currentScene]->camera->moveForward();
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		this->sceneForest->camera->moveBackward();
+		this->scenes[this->currentScene]->camera->moveBackward();
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		this->sceneForest->camera->moveLeft();
+		this->scenes[this->currentScene]->camera->moveLeft();
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		this->sceneForest->camera->moveRight();
+		this->scenes[this->currentScene]->camera->moveRight();
 	}
 
 	//printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
@@ -106,7 +123,7 @@ void App::cursor_callback(GLFWwindow* window, double x, double y) {
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);
 	glfwSetCursorPos(window, width / 2, height / 2);
-	this->sceneForest->camera->moveMouse(width, height, x, y);
+	this->scenes[this->currentScene]->camera->moveMouse(width, height, x, y);
 
 }
 
@@ -201,10 +218,12 @@ void App::run()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		if (forest == true)
+		/*if (forest == true)
 			this->sceneForest->render();
 		else
-			this->sceneObjects->render();
+			this->sceneObjects->render();*/
+
+		this->scenes[currentScene]->render();
 
 		glfwPollEvents();
 		glfwSwapBuffers(this->window);

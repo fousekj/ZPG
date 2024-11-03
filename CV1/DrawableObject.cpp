@@ -31,10 +31,10 @@ void DrawableObject::setTransformRotation(float angle, glm::vec3 axis)
 	this->transformation->rotate(angle, axis);
 }
 
-void DrawableObject::draw()
+void DrawableObject::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix)
 {
 	this->shaderProgram->use();
-	
+	this->shaderProgram->setCamMatrix(projectionMatrix, viewMatrix);
 	this->transformation->useTransformation(this->shaderProgram->getTransformID());
 
 	this->model->drawModel();

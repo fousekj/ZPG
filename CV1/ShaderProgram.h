@@ -30,6 +30,7 @@ using namespace std;
 #include "Transformation.h"
 #include "Model.h"
 #include "ShaderLoader.h"
+#include "Light.h"
 
 class ShaderProgram
 {
@@ -38,15 +39,20 @@ private:
 	Shader* vertexShader;
 	Shader* fragmentShader;
 	GLuint programID;
+	Light* light;
+	void setMat4Uniform(const char* name, glm::mat4 value);
+	void setVec3Uniform(const char* name, glm::vec3 value);
 
 public:
 
 	ShaderProgram(Shader* vertexShader, Shader* fragmentShader);
+	ShaderProgram(const char* vertexPath, const char* fragmentPath, Light* light);
 	ShaderProgram(const char* vertexPath, const char* fragmentPath);
 	void use();
 	GLuint getTransformID();
 	GLuint getProjectionMatrixID();
 	GLuint getViewMatrixID();
 	void setCamMatrix(glm::mat4 projectionMat, glm::mat4 viewMat);
+	void setObjectColor(glm::vec3 color);
 };
 

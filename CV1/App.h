@@ -28,6 +28,8 @@ using namespace std;
 #include "suzi_smooth.h"
 #include "sphere.h"
 #include "ShaderLoader.h"
+#include "plain.h"
+#include "triangle.h"
 
 #include <vector>
 
@@ -62,7 +64,8 @@ private:
 	int currentScene;
 
 	void createForest();
-	void createObjects();
+	void createBalls();
+	void createTriangle();
 
 public:
 	App();
