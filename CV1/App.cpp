@@ -20,10 +20,18 @@ void App::createForest()
 			float randScale = (float)rand() / RAND_MAX;
 			glm::vec3 loc(i * 10.f, 0.f, j * 10);
 			float randRot = 1 + (rand() % 180);
-			scene->addObject(new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), new Transformation(randScale, loc, randRot, glm::vec3(0, 1, 0))));
-			
+			DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814));
+			treeObj->setScale(randScale);
+			treeObj->setTranslation(loc);
+			treeObj->setRotation(randRot, glm::vec3(0, 1, 0));
+			scene->addObject(treeObj);
+
 			loc = glm::vec3(i * 10.f + 5.f, 0.f, j * 10);
-			scene->addObject(new DrawableObject(shaderForest, new Model(GL_TRIANGLES, bushes, 8730), new Transformation(randScale, loc, randRot, glm::vec3(0, 1, 0))));
+			DrawableObject* bushObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, bushes, 8730));
+			bushObj->setScale(randScale);
+			bushObj->setTranslation(loc);
+			bushObj->setRotation(randRot, glm::vec3(0, 1, 0));
+			scene->addObject(bushObj);
 		}		
 	}
 	this->scenes.push_back(scene);
@@ -34,10 +42,31 @@ void App::createBalls()
 {
 	ShaderProgram* shaderPhong = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag", new Light(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f)));
 	Scene* sceneBalls = new Scene();
-	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(-2.0f, 0.0f, 0), 0.f, glm::vec3(1, 0, 0)), glm::vec3(0.4f)));
-	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(0.0f, 2.0f, 0), 0.f, glm::vec3(1, 0, 0)), glm::vec3(0.4f)));
-	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(2.0f, 0.0f, 0), 0.f, glm::vec3(1, 0, 0)), glm::vec3(0.4f)));
-	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(0.0f, -2.0f, 0), 0.f, glm::vec3(1, 0, 0)), glm::vec3(0.4f)));
+	glm::vec3 color = glm::vec3(0.2f);
+
+	DrawableObject* ball_1 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color);
+	ball_1->setScale(0.5f);
+	ball_1->setTranslation(glm::vec3(-2.0f, 0.0f, 0));
+	ball_1->setRotation(0.f, glm::vec3(1, 0, 0));
+	sceneBalls->addObject(ball_1);
+
+	DrawableObject* ball_2 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color);
+	ball_2->setScale(0.5f);
+	ball_2->setTranslation(glm::vec3(0.0f, 2.0f, 0));
+	ball_2->setRotation(0.f, glm::vec3(1, 0, 0));
+	sceneBalls->addObject(ball_2);
+
+	DrawableObject* ball_3 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color);
+	ball_3->setScale(0.5f);
+	ball_3->setTranslation(glm::vec3(2.0f, 0.0f, 0));
+	ball_3->setRotation(0.f, glm::vec3(1, 0, 0));
+	sceneBalls->addObject(ball_3);
+
+	DrawableObject* ball_4 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color);
+	ball_4->setScale(0.5f);
+	ball_4->setTranslation(glm::vec3(0.0f, -2.0f, 0.f));
+	ball_4->setRotation(0.f, glm::vec3(1, 0, 0));
+	sceneBalls->addObject(ball_4);
 	this->scenes.push_back(sceneBalls);
 }
 
@@ -45,30 +74,50 @@ void App::createTriangle()
 {
 	ShaderProgram* shaderTriangle = new ShaderProgram("TriangleVertex.vert", "TriangleFragment.frag");
 	Scene* sceneTriangle = new Scene();
-	sceneTriangle->addObject(new DrawableObject(shaderTriangle, new Model(GL_TRIANGLES, triangle, 3), new Transformation(0.5f, glm::vec3(0.f, 0.f, 0.f), 0.f, glm::vec3(1, 0, 0))));
+	DrawableObject* trinagle = new DrawableObject(shaderTriangle, new Model(GL_TRIANGLES, triangle, 3));
+	trinagle->setScale(0.5f);
+	trinagle->setTranslation(glm::vec3(0.0f, 0.0f, 0.f));
+	sceneTriangle->addObject(trinagle);
 	this->scenes.push_back(sceneTriangle);
 }
 
 void App::create4Lights()
 {
 	Light* light = new Light(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, 1.f, 1.f));
-	glm::vec3 color = glm::vec3(0.4f);
+	glm::vec3 color = glm::vec3(0.2f);
+	Model* suzi = new Model(GL_TRIANGLES, suziSmooth, 2904);
+	Scene* scene4Lights = new Scene();
 	// Phong
 	ShaderProgram* spPhong = new ShaderProgram("4LightsVertex.vert", "PhongFragment.frag", light);
-	Scene* scene4Lights = new Scene();
-	scene4Lights->addObject(new DrawableObject(spPhong, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(-5.f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f)), color));
-	
+	DrawableObject* phong = new DrawableObject(spPhong, suzi, color);
+	phong->setScale(1.f);
+	phong->setTranslation(glm::vec3(-5.f, 0.f, 0.f));
+	phong->setRotation(0.f, glm::vec3(1, 0, 0));
+	scene4Lights->addObject(phong);
+
 	// Blinn
 	ShaderProgram* spBlinn = new ShaderProgram("4LightsVertex.vert", "BlinnFragment.frag", light);
-	scene4Lights->addObject(new DrawableObject(spBlinn, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(-1.5f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f)), color));
-	
+	DrawableObject* blinn = new DrawableObject(spBlinn, suzi, color);
+	blinn->setScale(1.f);
+	blinn->setTranslation(glm::vec3(-1.5f, 0.f, 0.f));
+	blinn->setRotation(0.f, glm::vec3(1, 0, 0));
+	scene4Lights->addObject(blinn);
+
 	// Lambert
 	ShaderProgram* spLambert = new ShaderProgram("4LightsVertex.vert", "LambertFragment.frag", light);
-	scene4Lights->addObject(new DrawableObject(spLambert, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(1.5f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f)), color));
+	DrawableObject* lambert = new DrawableObject(spLambert, suzi, color);
+	lambert->setScale(1.f);
+	lambert->setTranslation(glm::vec3(1.5f, 0.f, 0.f));
+	lambert->setRotation(0.f, glm::vec3(1, 0, 0));
+	scene4Lights->addObject(lambert);
 
 	// Constant
 	ShaderProgram* spConstant = new ShaderProgram("4LightsVertex.vert", "ConstantFragment.frag", light);
-	scene4Lights->addObject(new DrawableObject(spConstant, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(5.f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f)), color));
+	DrawableObject* constant = new DrawableObject(spConstant, suzi, color);
+	constant->setScale(1.f);
+	constant->setTranslation(glm::vec3(5.f, 0.f, 0.f));
+	constant->setRotation(0.f, glm::vec3(1, 0, 0));
+	scene4Lights->addObject(constant);
 
 	this->scenes.push_back(scene4Lights);
 }
@@ -104,10 +153,6 @@ void App::key_callback(GLFWwindow* window, int key, int scancode, int action, in
 		this->currentScene++;
 		if (this->currentScene == this->scenes.size())
 			this->currentScene = 0;
-	}
-
-	if (key == 262) {
-		//this->sceneForest->getObjects()[0]->setTransformRotation(10, glm::vec3(0, 1, 0));
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {

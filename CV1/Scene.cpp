@@ -47,7 +47,4 @@ void Scene::render()
 	}
 }
 
-vector<DrawableObject*> Scene::getObjects()
-{
-	return this->objects;
-}
+

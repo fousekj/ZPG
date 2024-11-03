@@ -24,7 +24,6 @@ public:
 	void addObject(DrawableObject* object);
 	ShaderProgram* getShaderProgram();
 	void render();
-	vector<DrawableObject*> getObjects();
 	Camera* camera;
 };
 

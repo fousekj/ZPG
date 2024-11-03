@@ -29,6 +29,5 @@ public:
 	void setTranslation(glm::vec3 matrix);
 	void setRotation(float angle, glm::vec3 axis);
 	void draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix);
-	ShaderProgram* getShaderProgram();
 };
 

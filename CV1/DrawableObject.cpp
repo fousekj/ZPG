@@ -27,19 +27,16 @@ DrawableObject::DrawableObject(ShaderProgram* shaderProgram, Model* model, glm::
 void DrawableObject::setScale(float scale)
 {
 	this->transformation->addTransformation(new Scale(scale));
-	//this->transformation->scale(scale);
 }
 
 void DrawableObject::setTranslation(glm::vec3 matrix)
 {
 	this->transformation->addTransformation(new Translation(matrix));
-	//this->transformation->translate(matrix);
 }
 
 void DrawableObject::setRotation(float angle, glm::vec3 axis)
 {
 	this->transformation->addTransformation(new Rotation(angle, axis));
-	//this->transformation->rotate(angle, axis);
 }
 
 void DrawableObject::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix)
@@ -50,9 +47,4 @@ void DrawableObject::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix)
 	this->transformation->useTransformation(this->shaderProgram->getTransformID());
 
 	this->model->drawModel();
-}
-
-ShaderProgram* DrawableObject::getShaderProgram()
-{
-	return this->shaderProgram;
 }
