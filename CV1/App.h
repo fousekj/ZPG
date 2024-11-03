@@ -56,16 +56,13 @@ private:
 	static void cursor_callback_static(GLFWwindow* window, double x, double y);
 	static void button_callback_static(GLFWwindow* window, int button, int action, int mode);
 
-	Scene* sceneForest;
-	Scene* sceneObjects;
-	bool forest;
-
 	vector<Scene*> scenes;
 	int currentScene;
 
 	void createForest();
 	void createBalls();
 	void createTriangle();
+	void create4Lights();
 
 public:
 	App();

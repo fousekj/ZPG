@@ -163,10 +163,15 @@
     <ClInclude Include="triangle.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="4LightsVertex.vert" />
     <None Include="BallsFragment.frag" />
     <None Include="BallsVertex.vert" />
+    <None Include="BlinnFragment.frag" />
+    <None Include="ConstantFragment.frag" />
     <None Include="ForestFragment.frag" />
     <None Include="ForestVertex.vert" />
+    <None Include="LambertFragment.frag" />
+    <None Include="PhongFragment.frag" />
     <None Include="TriangleFragment.frag" />
     <None Include="TriangleVertex.vert" />
   </ItemGroup>

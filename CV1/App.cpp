@@ -51,6 +51,29 @@ void App::createTriangle()
 	this->scenes.push_back(sceneTriangle);
 }
 
+void App::create4Lights()
+{
+	Light* light = new Light(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, 1.f, 1.f));
+	// Phong
+	ShaderProgram* spPhong = new ShaderProgram("4LightsVertex.vert", "PhongFragment.frag", light);
+	Scene* scene4Lights = new Scene();
+	scene4Lights->addObject(new DrawableObject(spPhong, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(-5.f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f))));
+	
+	// Blinn
+	ShaderProgram* spBlinn = new ShaderProgram("4LightsVertex.vert", "BlinnFragment.frag", light);
+	scene4Lights->addObject(new DrawableObject(spBlinn, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(-1.5f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f))));
+	
+	// Lambert
+	ShaderProgram* spLambert = new ShaderProgram("4LightsVertex.vert", "LambertFragment.frag", light);
+	scene4Lights->addObject(new DrawableObject(spLambert, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(1.5f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f))));
+
+	// Constant
+	ShaderProgram* spConstant = new ShaderProgram("4LightsVertex.vert", "ConstantFragment.frag", light);
+	scene4Lights->addObject(new DrawableObject(spConstant, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(5.f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f))));
+
+	this->scenes.push_back(scene4Lights);
+}
+
 App::App() 
 { 
 	this->currentScene = 0;
@@ -73,6 +96,9 @@ void App::compileShaders()
 
 	this->createForest();
 	this->createBalls();
+	this->create4Lights();
+
+
 
 }
 
@@ -209,19 +235,11 @@ void App::run()
 	glfwSetMouseButtonCallback(this->window, this->button_callback_static);
 	glfwSetCursorPosCallback(this->window, this->cursor_callback_static);
 
-	
-
-
 	glEnable(GL_DEPTH_TEST);
 
 	while (!glfwWindowShouldClose(this->window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		/*if (forest == true)
-			this->sceneForest->render();
-		else
-			this->sceneObjects->render();*/
 
 		this->scenes[currentScene]->render();
 

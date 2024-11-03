@@ -124,5 +124,20 @@
     <None Include="TriangleFragment.frag">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="4LightsVertex.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="PhongFragment.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="BlinnFragment.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="LambertFragment.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ConstantFragment.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
