@@ -54,7 +54,7 @@ void ShaderProgram::use()
 	if (this->light != NULL) {
 		this->setVec3Uniform("lightPosition", this->light->position);
 		this->setVec3Uniform("lightColor", this->light->color);
-		this->setObjectColor(glm::vec3(0.2f, 0.2f, 0.2f));
+		//this->setObjectColor(glm::vec3(0.2f, 0.2f, 0.2f));
 		this->setVec3Uniform("viewPosition", glm::vec3(0.f, 0.f, 0.f));
 	}
 }

@@ -32,14 +32,12 @@ void App::createForest()
 
 void App::createBalls()
 {
-	//this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(0.5f, glm::vec3(0.5f, 0.5f, 0), 0.f, glm::vec3(1, 0, 0))));
-	//this->sceneObjects->addObject(new DrawableObject(this->sceneObjects->getShaderProgram(), new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(0.5f, glm::vec3(-0.5f, -0.5f, 0), 0.f, glm::vec3(1, 0, 0))));
 	ShaderProgram* shaderPhong = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag", new Light(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f)));
 	Scene* sceneBalls = new Scene();
-	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(-2.0f, 0.0f, 0), 0.f, glm::vec3(1, 0, 0))));
-	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(0.0f, 2.0f, 0), 0.f, glm::vec3(1, 0, 0))));
-	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(2.0f, 0.0f, 0), 0.f, glm::vec3(1, 0, 0))));
-	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(0.0f, -2.0f, 0), 0.f, glm::vec3(1, 0, 0))));
+	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(-2.0f, 0.0f, 0), 0.f, glm::vec3(1, 0, 0)), glm::vec3(0.4f)));
+	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(0.0f, 2.0f, 0), 0.f, glm::vec3(1, 0, 0)), glm::vec3(0.4f)));
+	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(2.0f, 0.0f, 0), 0.f, glm::vec3(1, 0, 0)), glm::vec3(0.4f)));
+	sceneBalls->addObject(new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), new Transformation(0.5f, glm::vec3(0.0f, -2.0f, 0), 0.f, glm::vec3(1, 0, 0)), glm::vec3(0.4f)));
 	this->scenes.push_back(sceneBalls);
 }
 
@@ -54,22 +52,23 @@ void App::createTriangle()
 void App::create4Lights()
 {
 	Light* light = new Light(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, 1.f, 1.f));
+	glm::vec3 color = glm::vec3(0.4f);
 	// Phong
 	ShaderProgram* spPhong = new ShaderProgram("4LightsVertex.vert", "PhongFragment.frag", light);
 	Scene* scene4Lights = new Scene();
-	scene4Lights->addObject(new DrawableObject(spPhong, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(-5.f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f))));
+	scene4Lights->addObject(new DrawableObject(spPhong, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(-5.f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f)), color));
 	
 	// Blinn
 	ShaderProgram* spBlinn = new ShaderProgram("4LightsVertex.vert", "BlinnFragment.frag", light);
-	scene4Lights->addObject(new DrawableObject(spBlinn, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(-1.5f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f))));
+	scene4Lights->addObject(new DrawableObject(spBlinn, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(-1.5f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f)), color));
 	
 	// Lambert
 	ShaderProgram* spLambert = new ShaderProgram("4LightsVertex.vert", "LambertFragment.frag", light);
-	scene4Lights->addObject(new DrawableObject(spLambert, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(1.5f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f))));
+	scene4Lights->addObject(new DrawableObject(spLambert, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(1.5f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f)), color));
 
 	// Constant
 	ShaderProgram* spConstant = new ShaderProgram("4LightsVertex.vert", "ConstantFragment.frag", light);
-	scene4Lights->addObject(new DrawableObject(spConstant, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(5.f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f))));
+	scene4Lights->addObject(new DrawableObject(spConstant, new Model(GL_TRIANGLES, suziSmooth, 2904), new Transformation(1.f, glm::vec3(5.f, 0.f, 0.f), 0.f, glm::vec3(1.f, 0.f, 0.f)), color));
 
 	this->scenes.push_back(scene4Lights);
 }
@@ -88,18 +87,10 @@ void App::error_callback(int error, const char* description)
 
 void App::compileShaders()
 {
-	//this->sceneForest = new Scene(new ShaderProgram("ForestVertex.vert", "ForestFragment.frag"));
-
-	//this->sceneObjects = new Scene(new ShaderProgram("BallsVertex.vert", "BallsFragment.frag"));
-
 	this->createTriangle();
-
 	this->createForest();
 	this->createBalls();
 	this->create4Lights();
-
-
-
 }
 
 

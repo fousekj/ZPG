@@ -1,5 +1,4 @@
 #pragma once
-
 //Include GLEW
 #include <GL/glew.h>
 
@@ -18,26 +17,13 @@
 #include <string>
 #include <vector>
 #include "BasicTransformation.h"
-using namespace std;
 
-/**
- * @file Transformation.h
- *
- * @brief Transformation.h file with functions implementations
- *
- * @author Jiøí Fousek
-  **/
-
-class Transformation : public BasicTransformation
+class Translation : public BasicTransformation
 {
 private:
-	glm::mat4 modelMatrix;
-	vector<BasicTransformation*> transformations;
+	glm::vec3 position;
 public:
-	Transformation();
-	Transformation(float scale, glm::vec3 translation, float angle, glm::vec3 axis);
-	void useTransformation(GLuint matrixID);
+	Translation(glm::vec3 position);
 	glm::mat4 getTransformMatrix() const override;
-	void addTransformation(BasicTransformation* transformation);
 };
 
