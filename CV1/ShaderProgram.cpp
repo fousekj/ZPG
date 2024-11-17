@@ -8,27 +8,28 @@
  * @author Jiøí Fousek
   **/
 
-ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath, Light* light)
+ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath, PointLight* light)
 {
 	ShaderLoader* shaderLoader = new ShaderLoader();
 	this->programID = shaderLoader->loadShader(vertexPath, fragmentPath);
-	//this->light = light;
+	this->use();
 }
 
 ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath)
 {
 	ShaderLoader* shaderLoader = new ShaderLoader();
 	this->programID = shaderLoader->loadShader(vertexPath, fragmentPath);
-	//this->light = NULL;
+	this->use();
 }
 
 void ShaderProgram::use()
 {
 	glUseProgram(this->programID);
-	/*if (this->light != NULL) {
-		this->setVec3Uniform("lightPosition", this->light->position);
-		this->setVec3Uniform("lightColor", this->light->color);
-	}*/
+}
+
+void ShaderProgram::stop()
+{
+	glUseProgram(0);
 }
 
 GLuint ShaderProgram::getTransformID()
@@ -87,20 +88,48 @@ void ShaderProgram::setTransformMatrix(glm::mat4 matrix)
 
 void ShaderProgram::update(Camera& camera)
 {
+	this->use();
 	this->setCamMatrix(camera.getProjectionMatrix(), camera.getViewMatrix());
 	this->setViewPosition(camera.getPosition());
+	this->stop();
 }
 
-void ShaderProgram::update(Light& light, int light_id)
+void ShaderProgram::update(PointLight& light, int light_id)
 {
-	this->setVec3Uniform("pointLights[" + to_string(light_id) + "].position", light.position);
-	this->setVec3Uniform("pointLights[" + to_string(light_id) + "].color", light.color);
-	this->setFloatUniform("pointLights[" + to_string(light_id) + "].constant", light.constant);
-	this->setFloatUniform("pointLights[" + to_string(light_id) + "].linear", light.linear);
-	this->setFloatUniform("pointLights[" + to_string(light_id) + "].quadratic", light.quadratic);
+	this->use();
+	this->setVec3Uniform("lights[" + to_string(light_id) + "].position", light.position);
+	this->setVec3Uniform("lights[" + to_string(light_id) + "].color", light.color);
+	this->setFloatUniform("lights[" + to_string(light_id) + "].constant", light.constant);
+	this->setFloatUniform("lights[" + to_string(light_id) + "].linear", light.linear);
+	this->setFloatUniform("lights[" + to_string(light_id) + "].quadratic", light.quadratic);
+	this->setIntUniform("lights[" + to_string(light_id) + "].type", POINT_LIGHT);
+	this->setIntUniform("lightCount", light_id + 1);
+	this->stop();
+}
 
-	//this->setVec3Uniform("lightPosition", light.position);
-	//this->setVec3Uniform("lightColor", light.color);
+void ShaderProgram::update(SpotLight& light, int light_id)
+{
+	this->use();
+	this->setVec3Uniform("lights[" + to_string(light_id) + "].position", light.position);
+	this->setVec3Uniform("lights[" + to_string(light_id) + "].color", light.color);
+	this->setFloatUniform("lights[" + to_string(light_id) + "].constant", light.constant);
+	this->setFloatUniform("lights[" + to_string(light_id) + "].linear", light.linear);
+	this->setFloatUniform("lights[" + to_string(light_id) + "].quadratic", light.quadratic);
+	this->setVec3Uniform("lights[" + to_string(light_id) + "].direction", light.direction);
+	this->setFloatUniform("lights[" + to_string(light_id) + "].cutOff", light.cutOff);
+	this->setIntUniform("lights[" + to_string(light_id) + "].type", SPOT_LIGHT);
+	this->setIntUniform("lightCount", light_id + 1);
+	this->stop();
+}
+
+void ShaderProgram::update(DirectionalLight& light, int light_id)
+{
+	this->use();
+	this->setVec3Uniform("lights[" + to_string(light_id) + "].direction", light.direction);
+	this->setVec3Uniform("lights[" + to_string(light_id) + "].color", light.color);
+	this->setIntUniform("lights[" + to_string(light_id) + "].type", DIRECTIONAL_LIGHT);
+	this->setIntUniform("lightCount", light_id + 1);
+	this->stop();
 }
 
 void ShaderProgram::setMat4Uniform(string name, glm::mat4 value)
@@ -131,5 +160,15 @@ void ShaderProgram::setFloatUniform(string name, float value)
 		exit(EXIT_FAILURE);
 	}
 	glUniform1f(id, value);
+}
+
+void ShaderProgram::setIntUniform(string name, int value)
+{
+	GLuint id = glGetUniformLocation(this->programID, name.c_str());
+	if (id == -1) {
+		fprintf(stderr, "Error: Uniform variable '%s' not found in shader program.\n", name.c_str());
+		exit(EXIT_FAILURE);
+	}
+	glUniform1i(id, value);
 }
 

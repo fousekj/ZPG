@@ -57,10 +57,17 @@ void DrawableObject::updateRotation(float angle, glm::vec3 axis, int index)
 
 void DrawableObject::draw()
 {
-	this->shaderProgram->use();
 	this->shaderProgram->setObjectColor(this->color);
 	this->shaderProgram->setTransformMatrix(this->transformation->getTransformMatrix());
-
-
 	this->model->drawModel();
+}
+
+void DrawableObject::useProgram()
+{
+	this->shaderProgram->use();
+}
+
+void DrawableObject::stopProgram()
+{
+	this->shaderProgram->stop();
 }

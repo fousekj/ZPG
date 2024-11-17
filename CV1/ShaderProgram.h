@@ -31,7 +31,9 @@ using namespace std;
 #include "Transformation.h"
 #include "Model.h"
 #include "ShaderLoader.h"
-#include "Light.h"
+#include "PointLight.h"
+#include "SpotLight.h"
+#include "DirectionalLight.h"
 #include "Camera.h"
 
 class ShaderProgram : public Observer
@@ -39,25 +41,27 @@ class ShaderProgram : public Observer
 {
 private:
 	GLuint programID;
-	//Light* light;
 	void setMat4Uniform(string name, glm::mat4 value);
 	void setVec3Uniform(string name, glm::vec3 value);
 	void setFloatUniform(string name, float value);
+	void setIntUniform(string name, int value);
 	GLuint getTransformID();
 	GLuint getProjectionMatrixID();
 	GLuint getViewMatrixID();
 
 public:
-	ShaderProgram(const char* vertexPath, const char* fragmentPath, Light* light);
+	ShaderProgram(const char* vertexPath, const char* fragmentPath, PointLight* light);
 	ShaderProgram(const char* vertexPath, const char* fragmentPath);
 	void use();
-
+	void stop();
 	void setCamMatrix(glm::mat4 projectionMat, glm::mat4 viewMat);
 	void setObjectColor(glm::vec3 color);
 	void setViewPosition(glm::vec3 position);
 	void setTransformMatrix(glm::mat4 matrix);
 	
 	void update(Camera& camera);
-	void update(Light& light, int light_id = 0);
+	void update(PointLight& light, int light_id);
+	void update(SpotLight& light, int light_id);
+	void update(DirectionalLight& light, int light_id);
 };
 

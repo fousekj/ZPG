@@ -59,12 +59,15 @@ private:
 	vector<Scene*> scenes;
 	int currentScene;
 	Camera* camera;
+	SpotLight* spotLight;
 
 	void createForest();
 	void createBalls();
 	void createTriangle();
 	void create4Lights();
 	void createForestWithLights();
+	void createBallsWithLights();
+	void createNightForest();
 
 public:
 	App();

@@ -9,19 +9,20 @@
 #include "Subject.h"
 #include "Observer.h"
 
-class Light : public Subject
+class SpotLight : public Subject
 {
 private:
 	int id;
 public:
 	glm::vec3 position;
+	glm::vec3 direction;
 	glm::vec3 color;
-	Light(glm::vec3 position, glm::vec3 color, int id);
-	void setPosition(glm::vec3 position);
-	void setColor(glm::vec3 color);
+	float cutOff;
+	SpotLight(glm::vec3 position, glm::vec3 direction, glm::vec3 color, float cutOff, int id);
 	void notify_observers() override;
-	
+
 	float constant = 1.0f;
-	float linear = 0.09f;
-	float quadratic = 0.032f;
+	float linear = 0.f;
+	float quadratic = 0.f;
 };
+

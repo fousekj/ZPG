@@ -58,4 +58,6 @@ public:
 	void moveMouse(float width, float height, float posX, float posY);
 
 	glm::vec3 getPosition();
+
+	glm::vec3 getFront();
 };

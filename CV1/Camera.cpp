@@ -67,6 +67,11 @@ glm::vec3 Camera::getPosition()
 	return this->position;
 }
 
+glm::vec3 Camera::getFront()
+{
+	return this->front;
+}
+
 void Camera::notify_observers()
 {
 	for (int i = 0; i < this->observers.size(); i++)

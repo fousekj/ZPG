@@ -33,6 +33,8 @@ public:
 	void addTransformation(BasicTransformation* transformation);
 	void updateRotation(float angle, glm::vec3 axis, int index);
 	void draw();
+	void useProgram();
+	void stopProgram();
 
 };
 
