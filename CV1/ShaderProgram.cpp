@@ -86,6 +86,15 @@ void ShaderProgram::setTransformMatrix(glm::mat4 matrix)
 	glUniformMatrix4fv(this->getTransformID(), 1, GL_FALSE, &matrix[0][0]);
 }
 
+void ShaderProgram::setMaterial(Material* material)
+{
+	//this->use();
+	this->setFloatUniform("r_a", material->r_a);
+	this->setFloatUniform("r_d", material->r_d);
+	this->setFloatUniform("r_s", material->r_s);
+	//this->stop();
+}
+
 void ShaderProgram::update(Camera& camera)
 {
 	this->use();

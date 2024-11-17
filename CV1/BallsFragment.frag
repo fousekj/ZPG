@@ -25,6 +25,10 @@ uniform vec3 lightPosition;
 uniform vec3 lightColor;
 uniform int lightCount;
 
+uniform float r_a;
+uniform float r_d;
+uniform float r_s;
+
 void main() {
     
     float test = lights[0].constant;
@@ -33,6 +37,10 @@ void main() {
     test = lightCount;
     test = lights[0].type;
     test = lights[0].cutOff;
+    test = r_a;
+    test = r_d;
+    test = r_s;
+
 
     vec3 lightDir = normalize(lights[0].position - vec3(ex_worldPos));
     vec3 viewDir = normalize(viewPosition - vec3(ex_worldPos));

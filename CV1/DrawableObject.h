@@ -7,6 +7,7 @@
 #include "Rotation.h"
 #include "Translation.h"
 #include "DynamicRotation.h"
+#include "Material.h"
 
 /**
  * @file DrawableObject.cpp
@@ -23,9 +24,10 @@ private:
 	Model* model;
 	Transformation* transformation;
 	glm::vec3 color;
+	Material* material;
 public:
-	DrawableObject(ShaderProgram* shaderProgram, Model* model);
 	DrawableObject(ShaderProgram* shaderProgram, Model* model, glm::vec3 color);
+	DrawableObject(ShaderProgram* shaderProgram, Model* model, glm::vec3 color, Material* material);
 	void setScale(float scale);
 	void setTranslation(glm::vec3 matrix);
 	void setRotation(float angle, glm::vec3 axis);

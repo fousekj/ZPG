@@ -94,13 +94,13 @@ void App::createBalls()
 void App::createTriangle()
 {
 	ShaderProgram* shaderTriangle = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag");
-	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, 1.f, 1.f), 0);
+	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, .5f, 0.5f), 0);
 	light->attach(shaderTriangle);
 
 	this->camera->attach(shaderTriangle);
 	Scene* sceneTriangle = new Scene();
 	sceneTriangle->addLight(light);
-	DrawableObject* trinagle = new DrawableObject(shaderTriangle, new Model(GL_TRIANGLES, triangle, 3));
+	DrawableObject* trinagle = new DrawableObject(shaderTriangle, new Model(GL_TRIANGLES, triangle, 3), glm::vec3(1.f));
 	trinagle->setScale(0.5f);
 	trinagle->setTranslation(glm::vec3(0.0f, 0.0f, 0.f));
 	sceneTriangle->addObject(trinagle);
@@ -207,7 +207,7 @@ void App::createForestWithLights()
 void App::createBallsWithLights()
 {
 	ShaderProgram* shaderPhong = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag");
-	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 1.f), 0);
+	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
 	light->attach(shaderPhong);
 	this->camera->attach(shaderPhong);
 	Scene* sceneBalls = new Scene();
@@ -242,8 +242,8 @@ void App::createBallsWithLights()
 
 void App::createNightForest()
 {
-	ShaderProgram* shaderForest = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag");
-	this->spotLight->attach(shaderForest);
+	ShaderProgram* shaderNight = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag");
+	this->spotLight->attach(shaderNight);
 
 	Scene* scene = new Scene();
 	scene->addLight(this->spotLight);
@@ -256,14 +256,14 @@ void App::createNightForest()
 			float randScale = 1 + (rand() % 3);
 			glm::vec3 loc(i * 10.f, 0.f, j * 10);
 			float randRot = 1 + (rand() % 180);
-			DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
+			DrawableObject* treeObj = new DrawableObject(shaderNight, new Model(GL_TRIANGLES, tree, 92814), color);
 			treeObj->setScale(randScale);
 			treeObj->setTranslation(loc);
 			treeObj->setDynamicRotation(randRot, glm::vec3(0, 1, 0), 1.f);
 			scene->addObject(treeObj);
 
 			loc = glm::vec3(i * 10.f + 5.f, 0.f, j * 10);
-			DrawableObject* bushObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, bushes, 8730), color);
+			DrawableObject* bushObj = new DrawableObject(shaderNight, new Model(GL_TRIANGLES, bushes, 8730), color);
 			bushObj->setScale(randScale);
 			bushObj->setTranslation(loc);
 			scene->addObject(bushObj);
@@ -276,6 +276,42 @@ void App::createNightForest()
 	treeObj->setDynamicRotation(45.f, glm::vec3(0, 1, 0), 1.f);
 	scene->addObject(treeObj);*/
 	this->scenes.push_back(scene);
+}
+
+void App::createBallsDifferentMaterials()
+{
+	ShaderProgram* shaderPhong = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag");
+	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
+	light->attach(shaderPhong);
+	this->camera->attach(shaderPhong);
+	Scene* sceneBalls = new Scene();
+	sceneBalls->addLight(light);
+	glm::vec3 color = glm::vec3(0.3f, 0.3f, 0.3f);
+
+	DrawableObject* ball_1 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color, new Material(1, 1, 1));
+	ball_1->setScale(0.5f);
+	ball_1->setTranslation(glm::vec3(-2.0f, 0.0f, 0));
+	ball_1->setRotation(0.f, glm::vec3(1, 0, 0));
+	sceneBalls->addObject(ball_1);
+
+	DrawableObject* ball_2 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color, new Material(0.1, 0.1, 0.1));
+	ball_2->setScale(0.5f);
+	ball_2->setTranslation(glm::vec3(0.0f, 2.0f, 0));
+	ball_2->setRotation(0.f, glm::vec3(1, 0, 0));
+	sceneBalls->addObject(ball_2);
+
+	DrawableObject* ball_3 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color, new Material(0.5, 0.5, 0.5));
+	ball_3->setScale(0.5f);
+	ball_3->setTranslation(glm::vec3(2.0f, 0.0f, 0));
+	ball_3->setRotation(0.f, glm::vec3(1, 0, 0));
+	sceneBalls->addObject(ball_3);
+
+	DrawableObject* ball_4 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color, new Material(0.7, 0.7, 0.7));
+	ball_4->setScale(0.5f);
+	ball_4->setTranslation(glm::vec3(0.0f, -2.0f, 0.f));
+	ball_4->setRotation(0.f, glm::vec3(1, 0, 0));
+	sceneBalls->addObject(ball_4);
+	this->scenes.push_back(sceneBalls);
 }
 
 App::App() 
@@ -302,6 +338,7 @@ void App::compileShaders()
 	this->createForestWithLights();
 	this->createNightForest();
 	this->createBallsWithLights();
+	this->createBallsDifferentMaterials();
 }
 
 

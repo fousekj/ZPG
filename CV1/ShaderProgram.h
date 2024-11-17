@@ -35,6 +35,7 @@ using namespace std;
 #include "SpotLight.h"
 #include "DirectionalLight.h"
 #include "Camera.h"
+#include "Material.h"
 
 class ShaderProgram : public Observer
 
@@ -58,6 +59,7 @@ public:
 	void setObjectColor(glm::vec3 color);
 	void setViewPosition(glm::vec3 position);
 	void setTransformMatrix(glm::mat4 matrix);
+	void setMaterial(Material* material);
 	
 	void update(Camera& camera);
 	void update(PointLight& light, int light_id);

@@ -9,20 +9,22 @@
   **/
 
 
-DrawableObject::DrawableObject(ShaderProgram* shaderProgram, Model* model)
-{
-	this->shaderProgram = shaderProgram;
-	this->model = model;
-	this->transformation = new Transformation();
-	this->color = glm::vec3(1.0f, 1.0f, 1.0f);
-}
-
 DrawableObject::DrawableObject(ShaderProgram* shaderProgram, Model* model, glm::vec3 color)
 {
 	this->shaderProgram = shaderProgram;
 	this->model = model;
 	this->transformation = new Transformation();
 	this->color = color;
+	this->material = new Material(1, 1, 1);
+}
+
+DrawableObject::DrawableObject(ShaderProgram* shaderProgram, Model* model, glm::vec3 color, Material* material)
+{
+	this->shaderProgram = shaderProgram;
+	this->model = model;
+	this->transformation = new Transformation();
+	this->color = color;
+	this->material = material;
 }
 
 void DrawableObject::setScale(float scale)
@@ -57,6 +59,7 @@ void DrawableObject::updateRotation(float angle, glm::vec3 axis, int index)
 
 void DrawableObject::draw()
 {
+	this->shaderProgram->setMaterial(this->material);
 	this->shaderProgram->setObjectColor(this->color);
 	this->shaderProgram->setTransformMatrix(this->transformation->getTransformMatrix());
 	this->model->drawModel();

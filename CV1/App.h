@@ -30,6 +30,11 @@ using namespace std;
 #include "ShaderLoader.h"
 #include "plain.h"
 #include "triangle.h"
+#include "Camera.h"
+#include "SpotLight.h"
+#include "PointLight.h"
+#include "DirectionalLight.h"
+#include "Material.h"
 
 #include <vector>
 
@@ -68,6 +73,7 @@ private:
 	void createForestWithLights();
 	void createBallsWithLights();
 	void createNightForest();
+	void createBallsDifferentMaterials();
 
 public:
 	App();
