@@ -6,7 +6,10 @@
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 
-class Light
+#include "Subject.h"
+#include "Observer.h"
+
+class Light : public Subject
 {
 private:
 	
@@ -17,6 +20,7 @@ public:
 	Light(glm::vec3 position, glm::vec3 color);
 	void setPosition(glm::vec3 position);
 	void setColor(glm::vec3 color);
+	void notify_observers() override;
+	
 
 };
-

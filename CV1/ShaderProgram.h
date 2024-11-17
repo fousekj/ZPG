@@ -25,18 +25,21 @@ using namespace std;
  * @author Jiøí Fousek
   **/
 
+#include "Observer.h"
 
 #include "Shader.h"
 #include "Transformation.h"
 #include "Model.h"
 #include "ShaderLoader.h"
 #include "Light.h"
+#include "Camera.h"
 
-class ShaderProgram
+class ShaderProgram : public Observer
+
 {
 private:
 	GLuint programID;
-	Light* light;
+	//Light* light;
 	void setMat4Uniform(const char* name, glm::mat4 value);
 	void setVec3Uniform(const char* name, glm::vec3 value);
 	GLuint getTransformID();
@@ -52,5 +55,7 @@ public:
 	void setObjectColor(glm::vec3 color);
 	void setViewPosition(glm::vec3 position);
 	void setTransformMatrix(glm::mat4 matrix);
+	void update(Camera& camera);
+	void update(Light& light, int light_id = 0);
 };
 

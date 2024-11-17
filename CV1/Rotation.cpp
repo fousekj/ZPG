@@ -6,7 +6,7 @@ Rotation::Rotation(float angle, glm::vec3 axis)
     this->axis = axis;
 }
 
-glm::mat4 Rotation::getTransformMatrix() const
+glm::mat4 Rotation::getTransformMatrix()
 {
     return glm::rotate(glm::mat4(1.0f), glm::radians(this->angle), this->axis);
 }

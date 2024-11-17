@@ -24,7 +24,7 @@ void Transformation::useTransformation(GLuint matrixID)
 	glUniformMatrix4fv(matrixID, 1, GL_FALSE, &this->modelMatrix[0][0]);
 }
 
-glm::mat4 Transformation::getTransformMatrix() const
+glm::mat4 Transformation::getTransformMatrix()
 {
 	glm::mat4 result = glm::mat4(1.f);
 	for (auto transformation : this->transformations) {

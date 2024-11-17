@@ -17,9 +17,11 @@ class Scene
 {
 private:
 	vector<DrawableObject*> objects;
+	vector<Light*> lights;
 public:
 	Scene();
 	void addObject(DrawableObject* object);
+	void addLight(Light* light);
 	void render();
 	Camera* camera;
 	void rotateRandomObject();

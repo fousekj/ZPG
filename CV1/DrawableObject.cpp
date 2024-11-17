@@ -14,6 +14,7 @@ DrawableObject::DrawableObject(ShaderProgram* shaderProgram, Model* model)
 	this->shaderProgram = shaderProgram;
 	this->model = model;
 	this->transformation = new Transformation();
+	this->color = glm::vec3(1.0f, 1.0f, 1.0f);
 }
 
 DrawableObject::DrawableObject(ShaderProgram* shaderProgram, Model* model, glm::vec3 color)
@@ -49,12 +50,10 @@ void DrawableObject::updateRotation(float angle, glm::vec3 axis, int index)
 	this->transformation->updateTransformation(new Rotation(angle, axis), index);
 }
 
-void DrawableObject::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm::vec3 viewPosition)
+void DrawableObject::draw()
 {
 	this->shaderProgram->use();
-	this->shaderProgram->setCamMatrix(projectionMatrix, viewMatrix);
 	this->shaderProgram->setObjectColor(this->color);
-	this->shaderProgram->setViewPosition(viewPosition);
 	this->shaderProgram->setTransformMatrix(this->transformation->getTransformMatrix());
 
 

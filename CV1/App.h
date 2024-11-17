@@ -58,6 +58,7 @@ private:
 
 	vector<Scene*> scenes;
 	int currentScene;
+	Camera* camera;
 
 	void createForest();
 	void createBalls();

@@ -12,23 +12,23 @@ ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath, L
 {
 	ShaderLoader* shaderLoader = new ShaderLoader();
 	this->programID = shaderLoader->loadShader(vertexPath, fragmentPath);
-	this->light = light;
+	//this->light = light;
 }
 
 ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath)
 {
 	ShaderLoader* shaderLoader = new ShaderLoader();
 	this->programID = shaderLoader->loadShader(vertexPath, fragmentPath);
-	this->light = NULL;
+	//this->light = NULL;
 }
 
 void ShaderProgram::use()
 {
 	glUseProgram(this->programID);
-	if (this->light != NULL) {
+	/*if (this->light != NULL) {
 		this->setVec3Uniform("lightPosition", this->light->position);
 		this->setVec3Uniform("lightColor", this->light->color);
-	}
+	}*/
 }
 
 GLuint ShaderProgram::getTransformID()
@@ -77,13 +77,25 @@ void ShaderProgram::setObjectColor(glm::vec3 color)
 
 void ShaderProgram::setViewPosition(glm::vec3 position)
 {
-	if (light != NULL)
+	//if (light != NULL)
 		this->setVec3Uniform("viewPosition", position);
 }
 
 void ShaderProgram::setTransformMatrix(glm::mat4 matrix)
 {
 	glUniformMatrix4fv(this->getTransformID(), 1, GL_FALSE, &matrix[0][0]);
+}
+
+void ShaderProgram::update(Camera& camera)
+{
+	this->setCamMatrix(camera.getProjectionMatrix(), camera.getViewMatrix());
+	this->setViewPosition(camera.getPosition());
+}
+
+void ShaderProgram::update(Light& light, int light_id)
+{
+	this->setVec3Uniform("lightPosition", light.position);
+	this->setVec3Uniform("lightColor", light.color);
 }
 
 void ShaderProgram::setMat4Uniform(const char* name, glm::mat4 value)

@@ -13,6 +13,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 up) {
 	this->far = 100.f;
 
 	updateVectors();
+	
 }
 
 glm::mat4 Camera::getViewMatrix() {
@@ -26,22 +27,27 @@ glm::mat4 Camera::getProjectionMatrix() {
 void Camera::setAspect(float aspect)
 {
 	this->aspect = aspect;
+	this->notify_observers();
 }
 
 void Camera::moveForward() {
 	this->position += this->front * this->speed;
+	this->notify_observers();
 }
 
 void Camera::moveBackward() {
 	this->position -= this->front * this->speed;
+	this->notify_observers();
 }
 
 void Camera::moveLeft() {
 	this->position -= this->right * this->speed;
+	this->notify_observers();
 }
 
 void Camera::moveRight() {
 	this->position += this->right * this->speed;
+	this->notify_observers();
 }
 
 void Camera::moveMouse(float width, float height, float posX, float posY) {
@@ -61,6 +67,14 @@ glm::vec3 Camera::getPosition()
 	return this->position;
 }
 
+void Camera::notify_observers()
+{
+	for (int i = 0; i < this->observers.size(); i++)
+	{
+		this->observers[i]->update(*this);
+	}
+}
+
 void Camera::updateVectors() {
 	glm::vec3 newFfront;
 	newFfront.x = cos(glm::radians(this->yaw)) * cos(glm::radians(this->pitch));
@@ -69,4 +83,5 @@ void Camera::updateVectors() {
 	this->front = glm::normalize(newFfront);
 	this->right = glm::normalize(glm::cross(this->front, this->worldUp));
 	this->up = glm::normalize(glm::cross(this->right, this->front));
+	this->notify_observers();
 }

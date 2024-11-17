@@ -37,7 +37,7 @@ public:
 	Transformation();
 	Transformation(float scale, glm::vec3 translation, float angle, glm::vec3 axis);
 	void useTransformation(GLuint matrixID);
-	glm::mat4 getTransformMatrix() const override;
+	glm::mat4 getTransformMatrix() override;
 	void addTransformation(BasicTransformation* transformation);
 	void updateTransformation(BasicTransformation* transformation, int index);
 };

@@ -31,7 +31,7 @@ public:
 	void setRotation(float angle, glm::vec3 axis);
 	void setDynamicRotation(float angle, glm::vec3 axis);
 	void updateRotation(float angle, glm::vec3 axis, int index);
-	void draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm::vec3 viewPosition);
+	void draw();
 
 };
 

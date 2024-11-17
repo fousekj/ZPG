@@ -18,10 +18,22 @@ void Scene::addObject(DrawableObject* object)
 	this->objects.push_back(object);
 }
 
+void Scene::addLight(Light* light)
+{
+	this->lights.push_back(light);
+}
+
 void Scene::render()
 {
+	if (this->lights.size() > 0)
+	{
+		for (Light* light : lights)
+		{
+			light->notify_observers();
+		}
+	}
 	for (DrawableObject* obj : objects) {
-		obj->draw(this->camera->getProjectionMatrix(), this->camera->getViewMatrix(), this->camera->getPosition());
+		obj->draw();
 	}
 }
 

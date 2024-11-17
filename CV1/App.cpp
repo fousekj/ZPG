@@ -10,8 +10,12 @@
 
 void App::createForest()
 {
-	ShaderProgram* shaderForest = new ShaderProgram("ForestVertex.vert", "ForestFragment.frag", new Light(glm::vec3(0.f, 0.f, 10.f), glm::vec3(1.f, 1.f, 1.f)));
+	ShaderProgram* shaderForest = new ShaderProgram("ForestVertex.vert", "ForestFragment.frag");
+	Light* light = new Light(glm::vec3(0.f, 0.f, 10.f), glm::vec3(1.f, 1.f, 1.f));
+	light->attach(shaderForest);
+	this->camera->attach(shaderForest);
 	Scene* scene = new Scene();
+	scene->addLight(light);
 	glm::vec3 color = glm::vec3(0.3f, 0.3f, 0.3f);
 	
 	/*for (int i = 0; i < 10; i++)
@@ -39,8 +43,8 @@ void App::createForest()
 	DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
 	treeObj->setScale(1.f);
 	treeObj->setTranslation(glm::vec3(0.f, 0.f, -5.f));
-	//treeObj->setRotation(0.f, glm::vec3(0, 1, 0));
-	treeObj->setDynamicRotation(0.f, glm::vec3(0, 1, 0));
+	//treeObj->setRotation(90.f, glm::vec3(1, 0, 0));
+	treeObj->setDynamicRotation(45.f, glm::vec3(0, 1, 0));
 	scene->addObject(treeObj);
 	this->scenes.push_back(scene);
 
@@ -48,9 +52,13 @@ void App::createForest()
 
 void App::createBalls()
 {
-	ShaderProgram* shaderPhong = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag", new Light(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f)));
+	ShaderProgram* shaderPhong = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag");
+	Light* light = new Light(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
+	light->attach(shaderPhong);
+	this->camera->attach(shaderPhong);
 	Scene* sceneBalls = new Scene();
-	glm::vec3 color = glm::vec3(0.0f, 0.0f, 0.3f);
+	sceneBalls->addLight(light);
+	glm::vec3 color = glm::vec3(0.3f, 0.3f, 0.3f);
 
 	DrawableObject* ball_1 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color);
 	ball_1->setScale(0.5f);
@@ -80,8 +88,13 @@ void App::createBalls()
 
 void App::createTriangle()
 {
-	ShaderProgram* shaderTriangle = new ShaderProgram("TriangleVertex.vert", "TriangleFragment.frag");
+	ShaderProgram* shaderTriangle = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag");
+	Light* light = new Light(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, 1.f, 1.f));
+	light->attach(shaderTriangle);
+	//Camera* camera = new Camera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	this->camera->attach(shaderTriangle);
 	Scene* sceneTriangle = new Scene();
+	sceneTriangle->addLight(light);
 	DrawableObject* trinagle = new DrawableObject(shaderTriangle, new Model(GL_TRIANGLES, triangle, 3));
 	trinagle->setScale(0.5f);
 	trinagle->setTranslation(glm::vec3(0.0f, 0.0f, 0.f));
@@ -133,6 +146,7 @@ void App::create4Lights()
 App::App() 
 { 
 	this->currentScene = 0;
+	this->camera = new Camera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 App::~App() { }
@@ -168,16 +182,16 @@ void App::key_callback(GLFWwindow* window, int key, int scancode, int action, in
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		this->scenes[this->currentScene]->camera->moveForward();
+		this->camera->moveForward();
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		this->scenes[this->currentScene]->camera->moveBackward();
+		this->camera->moveBackward();
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		this->scenes[this->currentScene]->camera->moveLeft();
+		this->camera->moveLeft();
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		this->scenes[this->currentScene]->camera->moveRight();
+		this->camera->moveRight();
 	}
 
 	//printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
@@ -191,7 +205,7 @@ void App::window_size_callback(GLFWwindow* window, int width, int height) {
 	printf("resize %d, %d \n", width, height);
 	glViewport(0, 0, width, height);
 	for (int i = 0; i < scenes.size(); i++) {
-		this->scenes[i]->camera->setAspect(width / height);
+		this->camera->setAspect(width / height);
 	}
 
 }
@@ -201,7 +215,7 @@ void App::cursor_callback(GLFWwindow* window, double x, double y) {
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);
 	glfwSetCursorPos(window, width / 2, height / 2);
-	this->scenes[this->currentScene]->camera->moveMouse(width, height, x, y);
+	this->camera->moveMouse(width, height, x, y);
 
 }
 
@@ -294,6 +308,7 @@ void App::run()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		this->scenes[currentScene]->render();
+
 
 		glfwPollEvents();
 		glfwSwapBuffers(this->window);

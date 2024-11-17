@@ -1,6 +1,4 @@
 #pragma once
-
-
 #include <GL/glew.h>
 
 //Include GLFW  
@@ -18,12 +16,11 @@
 #include <string>
 using namespace std;
 
-#include "ShaderProgram.h"
-
 #include "Subject.h"
+#include "Observer.h"
 
 
-class Camera
+class Camera : public Subject
 {
 private:
 	glm::vec3 position;
@@ -41,8 +38,8 @@ private:
 	float near;
 	float far;
 
-	glm::mat4 viewMatrix;
-	glm::mat4 projectionMatrix;
+	void notify_observers() override;
+
 
 	void updateVectors();
 
@@ -62,4 +59,3 @@ public:
 
 	glm::vec3 getPosition();
 };
-

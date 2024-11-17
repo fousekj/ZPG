@@ -7,6 +7,6 @@
 class BasicTransformation
 {
 public:
-	virtual glm::mat4 getTransformMatrix() const = 0;
+	virtual glm::mat4 getTransformMatrix() = 0;
 };
 

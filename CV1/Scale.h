@@ -24,6 +24,6 @@ private:
 	float scale;
 public:
 	Scale(float scale);
-	glm::mat4 getTransformMatrix() const override;
+	glm::mat4 getTransformMatrix() override;
 };
 

@@ -15,7 +15,7 @@ private:
 	float angle;
 public:
 	Rotation(float angle, glm::vec3 axis);
-	glm::mat4 getTransformMatrix() const override;
+	glm::mat4 getTransformMatrix() override;
 	void updateRotation(float angle, glm::vec3 axis);
 };
 

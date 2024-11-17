@@ -1,13 +1,10 @@
 #pragma once
 
-template<class T>
+class Camera;
+class Light;
+
 class Observer {
 public:
-    virtual void update(T* subject) {
-
-    }
-
-    virtual void update(T* subject, int descriptor) {
-
-    }
+    virtual void update(Camera& camera) = 0;
+    virtual void update(Light& light, int light_id = 0) = 0;
 };

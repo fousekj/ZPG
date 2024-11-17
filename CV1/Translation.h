@@ -24,6 +24,6 @@ private:
 	glm::vec3 position;
 public:
 	Translation(glm::vec3 position);
-	glm::mat4 getTransformMatrix() const override;
+	glm::mat4 getTransformMatrix() override;
 };
 
