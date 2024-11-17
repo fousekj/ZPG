@@ -1,0 +1,46 @@
+1. Pøepínání scén za bìhu (Ano/Ne) (kde a jak)
+Projek obsahuje 4 níže popsané scény. Scény se pøepínají pomoci stisknutí mezerníku. Ve tøídì App je atribut currentScene, který udržuje informaci o aktuálním ID
+scény, která se zobrazuje. Pøi stisknutí mezerníku se k této promìnné pøiète 1. V pøípadì, že narazíme na poslední scénu a chceme pøepnout na další, tak se dostaneme
+opìt na nultou scénu.
+a) Základní scéna (Ano/Ne) - Ano, obsahuje trojúhelník se tøemi barvami.
+
+b) Scéna s lesem (Ano/Ne) - Ano, obsahuje 100 stromù a 100 keøù.
+
+c) Scéna se ètyømi kulièkami (Ano/Ne) - Ano, obsahuje 4 kulièky se svìtlem a phong shaderem.
+
+d) Scéna pro demonstraci použití všech shaderù (Konstantní, Lambert, Phong a Blinn) (Ano/Ne) - Ano, ètyøi objekty suziSmooth s rùznými shadery.
+
+Svìtlo (Ano/Ne) (kde a jak máte naimplementováno, jak se updatuje zmìna svìtla) - Ano, svìtlo je implementováno ve tøíì Light. 
+
+Základní tøídy (ShaderProgram, DrowableObject, Camera, Controller) (Ano/Ne) (kdo zodpovídá za vykreslování, kde jsou uloženy modely, shadery atd.)
+
+1. ShaderProgram - Udržuje informaci o každém existujícím ShaderProgramu v rámci aplikace. Tato tøída si udržuje i vlastní svìtlo. Jsou ze uložené jednotlivé shadery.
+2. DrawableObject . Udržuje informaci o každém vykreslitelném objektku, modelu (ten obsahuje points, VAO a VBO, které se pozžívají k vykreslení), transformacích a ShaderProgramu, který objektu náleží.
+3. Scene - Reprezenuje každou scénu v programu. Scéna má uložené své DrawableObjecty a Cameru. 
+4. Camera - Camera je uložena v každé scénì, abych si mohl udržovat pozici kamery v rámci každé scény a pøí pøeskakování scén zaènu vždy tam, kde jsem skonèil
+5. Transformation - udržuje jednotlivé transformace pro daný DrawableObject
+
+Transformace (Composite pattern) (Ano/Ne) (Máte pro transformace základní tøídy? Co a jak jste použili?) - Ano, bez Composite patternu. V rámci každého DrawableObjectu existuje jedna
+instance tøídy Transformation, která dìdí ze tøídy BasicTransformation. V rámci tøídy Transformation existuje vector transfomrací (tøídy Rotation, Translation, Scale), které taktéž dìdí ze tøídy
+BasicTransformation. Takto vždy pøi vykreslování získáme jednu matici po všech transformacích, se kterou následnì pracujeme.
+
+Základy OOP
+
+a) Encapsulation (zapouzdøení) (Ano/Ne) (Kde a jak?) Ano - každá tøída má co nejvíce privátních prvkù a metod. V pøípadì, že potøebujeme nìco s danou promìnnou udìlat, 
+tak k tomu slouží obslužná metoda. Napø. ShaderProgram nikde nesdílí své programID a když chceme daný program nastavit, tak zde máme metodu use().
+
+b) Inheritance (dìdiènost) (Ano/Ne) (Kde a jak?) Ano - Tøída Transformation, Rotation, Scale a Translation dìdí ze tøídy BasicTransformation. Toto zajišuje,
+že každá tøída bude mít implementovanou metodu getTransformMatrix().
+
+
+c) Polymorphism (polymorfismus neboli mnohotvárnost) (Ano/Ne) (Kde a jak?) Ano - opìt v rámci tøíd Transformation, Translation, Rotation a Scale, kdy pøi získávání
+výsledné transformaèní matice voláme na všechny tøídy stejnou metodu. Ta je však v každé tøídì implementovaná jinak.
+
+
+Vertex a fragment shadery prosím uložte do textových souboru a použijte pøiložený ShaderLoader pro jejich naèítání (Ano/Ne) (Kde a jak jste použili?) Ano - implementováno
+pomocí dodané tøídy ShaderLoader. Použita je v jednotlivých konstruktorech tøídy ShaderProgram, kdy vždy naète Shadery a uloží programID do instanèní promìnné.
+
+
+poznamky ze cvika
+1. updatovat sirku a vysku okna -> zmenit aspect ratio v app -> kamera
+2. pokud je dot product=0, tak zrcadlovou slozku nepocitat u phongu

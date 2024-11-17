@@ -16,9 +16,6 @@ Transformation::Transformation()
 Transformation::Transformation(float scale, glm::vec3 translation, float angle, glm::vec3 axis)
 {
 	this->modelMatrix = glm::mat4(1.0f);
-	//this->scale(scale);
-	//this->translate(translation);
-	//this->rotate(angle, axis);
 }
 
 void Transformation::useTransformation(GLuint matrixID)
@@ -39,6 +36,11 @@ glm::mat4 Transformation::getTransformMatrix() const
 void Transformation::addTransformation(BasicTransformation* transformation)
 {
 	this->transformations.push_back(transformation);
+}
+
+void Transformation::updateTransformation(BasicTransformation* transformation, int index)
+{
+	this->transformations[index] = transformation;
 }
 
 

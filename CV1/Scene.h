@@ -3,6 +3,8 @@
 #include "ShaderProgram.h"
 #include "Camera.h"
 
+#include <glm/vec3.hpp> // glm::vec3
+
 /**
  * @file Scene.h
  *
@@ -15,16 +17,12 @@ class Scene
 {
 private:
 	vector<DrawableObject*> objects;
-	ShaderProgram* shaderProgram;
-	
 public:
-	Scene(vector<DrawableObject*> objects, ShaderProgram* shaderProgram);
-	Scene(ShaderProgram* shaderProgram);
 	Scene();
 	void addObject(DrawableObject* object);
-	ShaderProgram* getShaderProgram();
 	void render();
 	Camera* camera;
+	void rotateRandomObject();
 };
 
 

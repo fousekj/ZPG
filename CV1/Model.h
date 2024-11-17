@@ -35,8 +35,6 @@ private:
 
 public:
 	Model(GLenum drawMode, const float* points, int pointsSize);
-
 	void drawModel();
-
 };
 

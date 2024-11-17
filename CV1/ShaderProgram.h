@@ -35,24 +35,22 @@ using namespace std;
 class ShaderProgram
 {
 private:
-
-	Shader* vertexShader;
-	Shader* fragmentShader;
 	GLuint programID;
 	Light* light;
 	void setMat4Uniform(const char* name, glm::mat4 value);
 	void setVec3Uniform(const char* name, glm::vec3 value);
-
-public:
-
-	ShaderProgram(Shader* vertexShader, Shader* fragmentShader);
-	ShaderProgram(const char* vertexPath, const char* fragmentPath, Light* light);
-	ShaderProgram(const char* vertexPath, const char* fragmentPath);
-	void use();
 	GLuint getTransformID();
 	GLuint getProjectionMatrixID();
 	GLuint getViewMatrixID();
+
+public:
+	ShaderProgram(const char* vertexPath, const char* fragmentPath, Light* light);
+	ShaderProgram(const char* vertexPath, const char* fragmentPath);
+	void use();
+
 	void setCamMatrix(glm::mat4 projectionMat, glm::mat4 viewMat);
 	void setObjectColor(glm::vec3 color);
+	void setViewPosition(glm::vec3 position);
+	void setTransformMatrix(glm::mat4 matrix);
 };
 

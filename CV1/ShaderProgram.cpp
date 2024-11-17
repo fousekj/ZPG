@@ -8,32 +8,6 @@
  * @author Jiøí Fousek
   **/
 
-ShaderProgram::ShaderProgram(Shader* vertexShader, Shader* fragmentShader) {
-
-	this->vertexShader = vertexShader;
-	this->fragmentShader = fragmentShader;
-	this->programID = glCreateProgram();
-
-	glAttachShader(this->programID, vertexShader->getShaderId());
-	glAttachShader(this->programID, fragmentShader->getShaderId());
-	glLinkProgram(this->programID);
-
-	GLint status;
-	glGetProgramiv(this->programID, GL_LINK_STATUS, &status);
-	if (status == GL_FALSE)
-	{
-		GLint infoLogLength;
-		glGetProgramiv(this->programID, GL_INFO_LOG_LENGTH, &infoLogLength);
-		GLchar* strInfoLog = new GLchar[infoLogLength + 1];
-		glGetProgramInfoLog(this->programID, infoLogLength, NULL, strInfoLog);
-		fprintf(stderr, "Linker failure: %s\n", strInfoLog);
-		delete[] strInfoLog;
-
-		glfwTerminate();
-		exit(EXIT_SUCCESS);
-	}
-}
-
 ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath, Light* light)
 {
 	ShaderLoader* shaderLoader = new ShaderLoader();
@@ -54,8 +28,6 @@ void ShaderProgram::use()
 	if (this->light != NULL) {
 		this->setVec3Uniform("lightPosition", this->light->position);
 		this->setVec3Uniform("lightColor", this->light->color);
-		//this->setObjectColor(glm::vec3(0.2f, 0.2f, 0.2f));
-		this->setVec3Uniform("viewPosition", glm::vec3(0.f, 0.f, 0.f));
 	}
 }
 
@@ -101,6 +73,17 @@ void ShaderProgram::setCamMatrix(glm::mat4 projectionMat, glm::mat4 viewMat)
 void ShaderProgram::setObjectColor(glm::vec3 color)
 {
 	this->setVec3Uniform("objectColor", color);
+}
+
+void ShaderProgram::setViewPosition(glm::vec3 position)
+{
+	if (light != NULL)
+		this->setVec3Uniform("viewPosition", position);
+}
+
+void ShaderProgram::setTransformMatrix(glm::mat4 matrix)
+{
+	glUniformMatrix4fv(this->getTransformID(), 1, GL_FALSE, &matrix[0][0]);
 }
 
 void ShaderProgram::setMat4Uniform(const char* name, glm::mat4 value)

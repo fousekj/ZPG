@@ -10,30 +10,38 @@
 
 void App::createForest()
 {
-	ShaderProgram* shaderForest = new ShaderProgram("ForestVertex.vert", "ForestFragment.frag");
+	ShaderProgram* shaderForest = new ShaderProgram("ForestVertex.vert", "ForestFragment.frag", new Light(glm::vec3(0.f, 0.f, 10.f), glm::vec3(1.f, 1.f, 1.f)));
 	Scene* scene = new Scene();
+	glm::vec3 color = glm::vec3(0.3f, 0.3f, 0.3f);
 	
-	for (int i = 0; i < 10; i++)
+	/*for (int i = 0; i < 10; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
 			float randScale = (float)rand() / RAND_MAX;
 			glm::vec3 loc(i * 10.f, 0.f, j * 10);
 			float randRot = 1 + (rand() % 180);
-			DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814));
+			DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
 			treeObj->setScale(randScale);
 			treeObj->setTranslation(loc);
 			treeObj->setRotation(randRot, glm::vec3(0, 1, 0));
 			scene->addObject(treeObj);
 
 			loc = glm::vec3(i * 10.f + 5.f, 0.f, j * 10);
-			DrawableObject* bushObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, bushes, 8730));
+			DrawableObject* bushObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, bushes, 8730), color);
 			bushObj->setScale(randScale);
 			bushObj->setTranslation(loc);
 			bushObj->setRotation(randRot, glm::vec3(0, 1, 0));
 			scene->addObject(bushObj);
 		}		
-	}
+	}*/
+
+	DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
+	treeObj->setScale(1.f);
+	treeObj->setTranslation(glm::vec3(0.f, 0.f, -5.f));
+	//treeObj->setRotation(0.f, glm::vec3(0, 1, 0));
+	treeObj->setDynamicRotation(0.f, glm::vec3(0, 1, 0));
+	scene->addObject(treeObj);
 	this->scenes.push_back(scene);
 
 }
@@ -42,7 +50,7 @@ void App::createBalls()
 {
 	ShaderProgram* shaderPhong = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag", new Light(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f)));
 	Scene* sceneBalls = new Scene();
-	glm::vec3 color = glm::vec3(0.2f);
+	glm::vec3 color = glm::vec3(0.0f, 0.0f, 0.3f);
 
 	DrawableObject* ball_1 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color);
 	ball_1->setScale(0.5f);
@@ -155,6 +163,10 @@ void App::key_callback(GLFWwindow* window, int key, int scancode, int action, in
 			this->currentScene = 0;
 	}
 
+	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+		this->scenes[this->currentScene]->rotateRandomObject();
+	}
+
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 		this->scenes[this->currentScene]->camera->moveForward();
 	}
@@ -178,6 +190,10 @@ void App::window_iconify_callback(GLFWwindow* window, int iconified) { printf("w
 void App::window_size_callback(GLFWwindow* window, int width, int height) {
 	printf("resize %d, %d \n", width, height);
 	glViewport(0, 0, width, height);
+	for (int i = 0; i < scenes.size(); i++) {
+		this->scenes[i]->camera->setAspect(width / height);
+	}
+
 }
 
 void App::cursor_callback(GLFWwindow* window, double x, double y) { 

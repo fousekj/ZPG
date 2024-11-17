@@ -11,9 +11,6 @@ uniform vec3 lightPosition;
 uniform vec3 lightColor;
 
 void main() {
-    //vec3 objectColor = vec3(0.2, 0.2, 0.2);
-    //vec3 lightPosition = vec3(0.0, 0.0, 0.0);
-    //vec3 lightColor = vec3(1.0, 1.0, 1.0);
 
     vec3 lightDir = normalize(lightPosition - vec3(ex_worldPos));
     vec3 viewDir = normalize(viewPosition - vec3(ex_worldPos));

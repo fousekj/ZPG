@@ -20,6 +20,8 @@ using namespace std;
 
 #include "ShaderProgram.h"
 
+#include "Subject.h"
+
 
 class Camera
 {
@@ -34,6 +36,13 @@ private:
 	float pitch;
 	float speed;
 	float sensitivity;
+	float fov;
+	float aspect;
+	float near;
+	float far;
+
+	glm::mat4 viewMatrix;
+	glm::mat4 projectionMatrix;
 
 	void updateVectors();
 
@@ -41,12 +50,16 @@ public:
 	Camera(glm::vec3 position, glm::vec3 up);
 
 	glm::mat4 getViewMatrix();
-	glm::mat4 getProjectionMatrix(float fov, float aspect, float near, float far);
+	glm::mat4 getProjectionMatrix();
+
+	void setAspect(float aspect);
 
 	void moveForward();
 	void moveBackward();
 	void moveLeft();
 	void moveRight();
 	void moveMouse(float width, float height, float posX, float posY);
+
+	glm::vec3 getPosition();
 };
 

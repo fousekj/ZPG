@@ -39,12 +39,24 @@ void DrawableObject::setRotation(float angle, glm::vec3 axis)
 	this->transformation->addTransformation(new Rotation(angle, axis));
 }
 
-void DrawableObject::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix)
+void DrawableObject::setDynamicRotation(float angle, glm::vec3 axis)
+{
+	this->transformation->addTransformation(new DynamicRotation(angle, axis));
+}
+
+void DrawableObject::updateRotation(float angle, glm::vec3 axis, int index)
+{
+	this->transformation->updateTransformation(new Rotation(angle, axis), index);
+}
+
+void DrawableObject::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm::vec3 viewPosition)
 {
 	this->shaderProgram->use();
 	this->shaderProgram->setCamMatrix(projectionMatrix, viewMatrix);
 	this->shaderProgram->setObjectColor(this->color);
-	this->transformation->useTransformation(this->shaderProgram->getTransformID());
+	this->shaderProgram->setViewPosition(viewPosition);
+	this->shaderProgram->setTransformMatrix(this->transformation->getTransformMatrix());
+
 
 	this->model->drawModel();
 }

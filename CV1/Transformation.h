@@ -39,5 +39,6 @@ public:
 	void useTransformation(GLuint matrixID);
 	glm::mat4 getTransformMatrix() const override;
 	void addTransformation(BasicTransformation* transformation);
+	void updateTransformation(BasicTransformation* transformation, int index);
 };
 
