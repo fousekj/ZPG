@@ -11,41 +11,46 @@
 void App::createForest()
 {
 	ShaderProgram* shaderForest = new ShaderProgram("ForestVertex.vert", "ForestFragment.frag");
-	Light* light = new Light(glm::vec3(0.f, 0.f, 10.f), glm::vec3(1.f, 1.f, 1.f));
+	Light* light = new Light(glm::vec3(0.f, 100.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
 	light->attach(shaderForest);
 	this->camera->attach(shaderForest);
+
 	Scene* scene = new Scene();
 	scene->addLight(light);
-	glm::vec3 color = glm::vec3(0.3f, 0.3f, 0.3f);
+	glm::vec3 color = glm::vec3(0.3f, 0.3f, 0.3f);	
+
+
+	DrawableObject* lightBall = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, sphere, 2880), glm::vec3(1.f, 0.f, 0.f));
+	lightBall->setScale(0.3f);
+	lightBall->setTranslation(glm::vec3(0.f, 100.f, 0.f));
+	scene->addObject(lightBall);
 	
-	/*for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			float randScale = (float)rand() / RAND_MAX;
+			float randScale = 1 + (rand() % 3);
 			glm::vec3 loc(i * 10.f, 0.f, j * 10);
 			float randRot = 1 + (rand() % 180);
 			DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
 			treeObj->setScale(randScale);
 			treeObj->setTranslation(loc);
-			treeObj->setRotation(randRot, glm::vec3(0, 1, 0));
+			treeObj->setDynamicRotation(randRot, glm::vec3(0, 1, 0), 1.f);
 			scene->addObject(treeObj);
 
 			loc = glm::vec3(i * 10.f + 5.f, 0.f, j * 10);
 			DrawableObject* bushObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, bushes, 8730), color);
 			bushObj->setScale(randScale);
 			bushObj->setTranslation(loc);
-			bushObj->setRotation(randRot, glm::vec3(0, 1, 0));
 			scene->addObject(bushObj);
 		}		
-	}*/
+	}
 
-	DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
+	/*DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
 	treeObj->setScale(1.f);
 	treeObj->setTranslation(glm::vec3(0.f, 0.f, -5.f));
-	//treeObj->setRotation(90.f, glm::vec3(1, 0, 0));
-	treeObj->setDynamicRotation(45.f, glm::vec3(0, 1, 0));
-	scene->addObject(treeObj);
+	treeObj->setDynamicRotation(45.f, glm::vec3(0, 1, 0), 1.f);
+	scene->addObject(treeObj);*/
 	this->scenes.push_back(scene);
 
 }
@@ -53,7 +58,7 @@ void App::createForest()
 void App::createBalls()
 {
 	ShaderProgram* shaderPhong = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag");
-	Light* light = new Light(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f));
+	Light* light = new Light(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
 	light->attach(shaderPhong);
 	this->camera->attach(shaderPhong);
 	Scene* sceneBalls = new Scene();
@@ -89,9 +94,9 @@ void App::createBalls()
 void App::createTriangle()
 {
 	ShaderProgram* shaderTriangle = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag");
-	Light* light = new Light(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, 1.f, 1.f));
+	Light* light = new Light(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, 1.f, 1.f), 0);
 	light->attach(shaderTriangle);
-	//Camera* camera = new Camera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
 	this->camera->attach(shaderTriangle);
 	Scene* sceneTriangle = new Scene();
 	sceneTriangle->addLight(light);
@@ -104,12 +109,15 @@ void App::createTriangle()
 
 void App::create4Lights()
 {
-	Light* light = new Light(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, 1.f, 1.f));
+	Light* light = new Light(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, 1.f, 1.f), 0);
 	glm::vec3 color = glm::vec3(0.2f);
 	Model* suzi = new Model(GL_TRIANGLES, suziSmooth, 2904);
 	Scene* scene4Lights = new Scene();
+	scene4Lights->addLight(light);
 	// Phong
 	ShaderProgram* spPhong = new ShaderProgram("4LightsVertex.vert", "PhongFragment.frag", light);
+	this->camera->attach(spPhong);
+	light->attach(spPhong);
 	DrawableObject* phong = new DrawableObject(spPhong, suzi, color);
 	phong->setScale(1.f);
 	phong->setTranslation(glm::vec3(-5.f, 0.f, 0.f));
@@ -118,6 +126,8 @@ void App::create4Lights()
 
 	// Blinn
 	ShaderProgram* spBlinn = new ShaderProgram("4LightsVertex.vert", "BlinnFragment.frag", light);
+	this->camera->attach(spBlinn);
+	light->attach(spBlinn);
 	DrawableObject* blinn = new DrawableObject(spBlinn, suzi, color);
 	blinn->setScale(1.f);
 	blinn->setTranslation(glm::vec3(-1.5f, 0.f, 0.f));
@@ -126,6 +136,8 @@ void App::create4Lights()
 
 	// Lambert
 	ShaderProgram* spLambert = new ShaderProgram("4LightsVertex.vert", "LambertFragment.frag", light);
+	this->camera->attach(spLambert);
+	light->attach(spLambert);
 	DrawableObject* lambert = new DrawableObject(spLambert, suzi, color);
 	lambert->setScale(1.f);
 	lambert->setTranslation(glm::vec3(1.5f, 0.f, 0.f));
@@ -134,6 +146,8 @@ void App::create4Lights()
 
 	// Constant
 	ShaderProgram* spConstant = new ShaderProgram("4LightsVertex.vert", "ConstantFragment.frag", light);
+	this->camera->attach(spConstant);
+	light->attach(spConstant);
 	DrawableObject* constant = new DrawableObject(spConstant, suzi, color);
 	constant->setScale(1.f);
 	constant->setTranslation(glm::vec3(5.f, 0.f, 0.f));
@@ -141,6 +155,53 @@ void App::create4Lights()
 	scene4Lights->addObject(constant);
 
 	this->scenes.push_back(scene4Lights);
+}
+
+void App::createForestWithLights()
+{
+	ShaderProgram* shaderForest = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag");
+	Light* light = new Light(glm::vec3(0.f, 5.f, 0.f), glm::vec3(0.f, 0.f, 1.f), 0);
+	light->attach(shaderForest);
+	this->camera->attach(shaderForest);
+	Light* light2 = new Light(glm::vec3(30.f, 5.f, 0.f), glm::vec3(1.f, 0.f, 0.f), 1);
+	light2->attach(shaderForest);
+
+	Light* light3 = new Light(glm::vec3(50.f, 5.f, 50.f), glm::vec3(0.f, 1.f, 0.f), 2);
+	light3->attach(shaderForest);
+
+	Scene* scene = new Scene();
+	scene->addLight(light);
+	scene->addLight(light2);
+	scene->addLight(light3);
+	glm::vec3 color = glm::vec3(1.f, 1.f, 1.f);
+
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			float randScale = 1 + (rand() % 3);
+			glm::vec3 loc(i * 10.f, 0.f, j * 10);
+			float randRot = 1 + (rand() % 180);
+			DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
+			treeObj->setScale(randScale);
+			treeObj->setTranslation(loc);
+			treeObj->setDynamicRotation(randRot, glm::vec3(0, 1, 0), 1.f);
+			scene->addObject(treeObj);
+
+			loc = glm::vec3(i * 10.f + 5.f, 0.f, j * 10);
+			DrawableObject* bushObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, bushes, 8730), color);
+			bushObj->setScale(randScale);
+			bushObj->setTranslation(loc);
+			scene->addObject(bushObj);
+		}
+	}
+
+	/*DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
+	treeObj->setScale(1.f);
+	treeObj->setTranslation(glm::vec3(0.f, 0.f, -5.f));
+	treeObj->setDynamicRotation(45.f, glm::vec3(0, 1, 0), 1.f);
+	scene->addObject(treeObj);*/
+	this->scenes.push_back(scene);
 }
 
 App::App() 
@@ -158,10 +219,12 @@ void App::error_callback(int error, const char* description)
 
 void App::compileShaders()
 {
-	this->createTriangle();
-	this->createForest();
+	//this->createTriangle();
+	//this->createForest();
 	this->createBalls();
-	this->create4Lights();
+	//this->create4Lights();
+
+	this->createForestWithLights();
 }
 
 
@@ -204,10 +267,7 @@ void App::window_iconify_callback(GLFWwindow* window, int iconified) { printf("w
 void App::window_size_callback(GLFWwindow* window, int width, int height) {
 	printf("resize %d, %d \n", width, height);
 	glViewport(0, 0, width, height);
-	for (int i = 0; i < scenes.size(); i++) {
-		this->camera->setAspect(width / height);
-	}
-
+	this->camera->setAspect(width / height);
 }
 
 void App::cursor_callback(GLFWwindow* window, double x, double y) { 

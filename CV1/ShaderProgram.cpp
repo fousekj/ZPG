@@ -77,8 +77,7 @@ void ShaderProgram::setObjectColor(glm::vec3 color)
 
 void ShaderProgram::setViewPosition(glm::vec3 position)
 {
-	//if (light != NULL)
-		this->setVec3Uniform("viewPosition", position);
+	this->setVec3Uniform("viewPosition", position);
 }
 
 void ShaderProgram::setTransformMatrix(glm::mat4 matrix)
@@ -94,27 +93,43 @@ void ShaderProgram::update(Camera& camera)
 
 void ShaderProgram::update(Light& light, int light_id)
 {
-	this->setVec3Uniform("lightPosition", light.position);
-	this->setVec3Uniform("lightColor", light.color);
+	this->setVec3Uniform("pointLights[" + to_string(light_id) + "].position", light.position);
+	this->setVec3Uniform("pointLights[" + to_string(light_id) + "].color", light.color);
+	this->setFloatUniform("pointLights[" + to_string(light_id) + "].constant", light.constant);
+	this->setFloatUniform("pointLights[" + to_string(light_id) + "].linear", light.linear);
+	this->setFloatUniform("pointLights[" + to_string(light_id) + "].quadratic", light.quadratic);
+
+	//this->setVec3Uniform("lightPosition", light.position);
+	//this->setVec3Uniform("lightColor", light.color);
 }
 
-void ShaderProgram::setMat4Uniform(const char* name, glm::mat4 value)
+void ShaderProgram::setMat4Uniform(string name, glm::mat4 value)
 {
-	GLuint id = glGetUniformLocation(this->programID, name);
+	GLuint id = glGetUniformLocation(this->programID, name.c_str());
 	if (id == -1) {
-		fprintf(stderr, "Error: Uniform variable '%s' not found in shader program.\n", name);
+		fprintf(stderr, "Error: Uniform variable '%s' not found in shader program.\n", name.c_str());
 		exit(EXIT_FAILURE);
 	}
 	glUniformMatrix4fv(id, 1, GL_FALSE, glm::value_ptr(value));
 }
 
-void ShaderProgram::setVec3Uniform(const char* name, glm::vec3 value)
+void ShaderProgram::setVec3Uniform(string name, glm::vec3 value)
 {
-	GLuint id = glGetUniformLocation(this->programID, name);
+	GLuint id = glGetUniformLocation(this->programID, name.c_str());
 	if (id == -1) {
-		fprintf(stderr, "Error: Uniform variable '%s' not found in shader program.\n", name);
+		fprintf(stderr, "Error: Uniform variable '%s' not found in shader program.\n", name.c_str());
 		exit(EXIT_FAILURE);
 	}
 	glUniform3fv(id, 1, glm::value_ptr(value));
+}
+
+void ShaderProgram::setFloatUniform(string name, float value)
+{
+	GLuint id = glGetUniformLocation(this->programID, name.c_str());
+	if (id == -1) {
+		fprintf(stderr, "Error: Uniform variable '%s' not found in shader program.\n", name.c_str());
+		exit(EXIT_FAILURE);
+	}
+	glUniform1f(id, value);
 }
 

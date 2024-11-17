@@ -12,15 +12,16 @@
 class Light : public Subject
 {
 private:
-	
-
+	int id;
 public:
 	glm::vec3 position;
 	glm::vec3 color;
-	Light(glm::vec3 position, glm::vec3 color);
+	Light(glm::vec3 position, glm::vec3 color, int id);
 	void setPosition(glm::vec3 position);
 	void setColor(glm::vec3 color);
 	void notify_observers() override;
 	
-
+	float constant = 1.0f;
+	float linear = 0.09f;
+	float quadratic = 0.032f;
 };

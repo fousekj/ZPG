@@ -29,7 +29,8 @@ public:
 	void setScale(float scale);
 	void setTranslation(glm::vec3 matrix);
 	void setRotation(float angle, glm::vec3 axis);
-	void setDynamicRotation(float angle, glm::vec3 axis);
+	void setDynamicRotation(float angle, glm::vec3 axis, float speed);
+	void addTransformation(BasicTransformation* transformation);
 	void updateRotation(float angle, glm::vec3 axis, int index);
 	void draw();
 

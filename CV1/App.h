@@ -64,6 +64,7 @@ private:
 	void createBalls();
 	void createTriangle();
 	void create4Lights();
+	void createForestWithLights();
 
 public:
 	App();

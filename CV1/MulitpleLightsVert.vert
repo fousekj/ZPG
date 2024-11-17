@@ -15,5 +15,5 @@ void main () {
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4 (vPos, 1.0);
 	ex_worldPos = vec3(modelMatrix * vec4(vPos, 1.0));
 	mat3 normalMatrix = transpose(inverse(mat3(modelMatrix)));
-	ex_worldNorm = normalMatrix * vNormal;
+	ex_worldNorm = normalize(normalMatrix * vNormal);
 }

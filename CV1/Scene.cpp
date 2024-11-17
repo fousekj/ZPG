@@ -35,6 +35,7 @@ void Scene::render()
 	for (DrawableObject* obj : objects) {
 		obj->draw();
 	}
+	
 }
 
 void Scene::rotateRandomObject()

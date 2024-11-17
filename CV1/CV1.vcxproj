@@ -185,6 +185,8 @@
     <None Include="ForestFragment.frag" />
     <None Include="ForestVertex.vert" />
     <None Include="LambertFragment.frag" />
+    <None Include="MulitpleLightsFrag.frag" />
+    <None Include="MulitpleLightsVert.vert" />
     <None Include="PhongFragment.frag" />
     <None Include="TriangleFragment.frag" />
     <None Include="TriangleVertex.vert" />

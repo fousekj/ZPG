@@ -181,6 +181,12 @@
     <None Include="ConstantFragment.frag">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="MulitpleLightsVert.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MulitpleLightsFrag.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CV1.rc">

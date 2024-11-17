@@ -40,9 +40,14 @@ void DrawableObject::setRotation(float angle, glm::vec3 axis)
 	this->transformation->addTransformation(new Rotation(angle, axis));
 }
 
-void DrawableObject::setDynamicRotation(float angle, glm::vec3 axis)
+void DrawableObject::setDynamicRotation(float angle, glm::vec3 axis, float speed)
 {
-	this->transformation->addTransformation(new DynamicRotation(angle, axis));
+	this->transformation->addTransformation(new DynamicRotation(angle, axis, speed));
+}
+
+void DrawableObject::addTransformation(BasicTransformation* transformation)
+{
+	this->transformation->addTransformation(transformation);
 }
 
 void DrawableObject::updateRotation(float angle, glm::vec3 axis, int index)
