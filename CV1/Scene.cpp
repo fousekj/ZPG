@@ -69,5 +69,22 @@ void Scene::setSkybox(Skybox* skybox)
 	this->skybox = skybox;
 }
 
+bool Scene::isSkyboxSet()
+{
+	return this->skybox != NULL;
+}
+
+void Scene::deattachSkybox()
+{
+	this->skybox->deattach();
+}
+
+void Scene::attachSkybox()
+{
+	this->skybox->attach();
+}
+
+
+
 
 

@@ -42,6 +42,19 @@ void Skybox::update(Camera& camera)
 {
 	this->viewMatrix = camera.getViewMatrix();
 	this->projectionMatrix = camera.getProjectionMatrix();
+	if (this->followCamera) {
+		this->modelMatrix = glm::translate(glm::mat4(1.0f), camera.getPosition());
+	}
+}
+
+void Skybox::deattach()
+{
+	this->followCamera = false;
+}
+
+void Skybox::attach()
+{
+	this->followCamera = true;
 }
 
 void Skybox::update(PointLight& light, int light_id)

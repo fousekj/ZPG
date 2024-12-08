@@ -322,11 +322,43 @@ void App::createBallsDifferentMaterials()
 
 void App::createTestTexture()
 {
-	//Skybox* skybox = new Skybox();
 	Scene* skyboxScene = new Scene();
 	Skybox* skybox = new Skybox();
 	this->camera->attach(skybox);
 	skyboxScene->setSkybox(skybox);
+
+	ShaderProgram* shaderForest = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag");
+	this->camera->attach(shaderForest);
+
+	DirectionalLight* light = new DirectionalLight(glm::vec3(1.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
+	light->attach(shaderForest);
+	skyboxScene->addLight(light);
+
+
+	glm::vec3 color = glm::vec3(1.f, 1.f, 1.f);
+
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			float randScale = 1 + (rand() % 3);
+			glm::vec3 loc(i * 10.f, 0.f, j * 10);
+			float randRot = 1 + (rand() % 180);
+			DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
+			treeObj->setScale(randScale);
+			treeObj->setTranslation(loc);
+			treeObj->setDynamicRotation(randRot, glm::vec3(0, 1, 0), 1.f);
+			skyboxScene->addObject(treeObj);
+
+			loc = glm::vec3(i * 10.f + 5.f, 0.f, j * 10);
+			DrawableObject* bushObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, bushes, 8730), color);
+			bushObj->setScale(randScale);
+			bushObj->setTranslation(loc);
+			skyboxScene->addObject(bushObj);
+		}
+	}
+
+
 	this->scenes.push_back(skyboxScene);
 
 }
@@ -335,7 +367,6 @@ App::App()
 { 
 	this->currentScene = 0;
 	this->camera = new Camera(glm::vec3(0.0f, 0.0f, 1.f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//this->spotLight = new SpotLight(this->camera->getPosition(), this->camera->getFront(), glm::vec3(1.f, 1.f, 1.f), glm::cos(glm::radians(20.f)), 0);
 }
 
 App::~App() { }
@@ -370,26 +401,25 @@ void App::key_callback(GLFWwindow* window, int key, int scancode, int action, in
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 		this->camera->moveForward();
-		//this->spotLight->position = this->camera->getPosition();
-		//this->spotLight->direction = this->camera->getFront();
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 		this->camera->moveBackward();
-		//this->spotLight->position = this->camera->getPosition();
-		//this->spotLight->direction = this->camera->getFront();
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 		this->camera->moveLeft();
-		//this->spotLight->position = this->camera->getPosition();
-		//this->spotLight->direction = this->camera->getFront();
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 		this->camera->moveRight();
-		//this->spotLight->position = this->camera->getPosition();
-		//this->spotLight->direction = this->camera->getFront();
+	}
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+		if (this->scenes[currentScene]->isSkyboxSet())
+			this->scenes[currentScene]->deattachSkybox();
+	}
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
+		if (this->scenes[currentScene]->isSkyboxSet())
+			this->scenes[currentScene]->attachSkybox();
 	}
 
-	//printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
 }
 
 void App::window_focus_callback(GLFWwindow* window, int focused) { printf("window_focus_callback \n"); }

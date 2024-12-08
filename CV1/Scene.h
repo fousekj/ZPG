@@ -32,6 +32,9 @@ public:
 	//Camera* camera;
 	void rotateRandomObject();
 	void setSkybox(Skybox* skybox);
+	bool isSkyboxSet();
+	void deattachSkybox();
+	void attachSkybox();
 };
 
 

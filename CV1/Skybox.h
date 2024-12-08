@@ -22,14 +22,14 @@ private:
 
 public:
 	Skybox();
-	~Skybox();
 	void draw();
-	//void setTexture(GLuint texture);
 	void update(Camera &camera) override;
-	// implement all the necessary functions from observer
+	void deattach();
+	void attach();
+
 	void update(PointLight& light, int light_id = 0);
 	void update(SpotLight& light, int light_id = 0);
-	void update(DirectionalLight& light, int light_id = 0) ;
+	void update(DirectionalLight& light, int light_id = 0);
 
 };
 
