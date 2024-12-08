@@ -15,6 +15,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/**
+* @file BaseModel.h
+ *
+ * @brief BaseModel file with functions declarations
+ *
+ * This file contains declarations of functions for BaseModel class
+ * which is used for drawing models
+ *
+ * @author Jiøí Fousek FOU0027
+*/
+
 class BaseModel
 {
 protected:

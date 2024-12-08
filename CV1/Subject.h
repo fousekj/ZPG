@@ -3,6 +3,14 @@
 #include <vector>	
 using namespace std;
 
+/**
+* @file Subject.h
+* 
+* @brief Subject class with functions declarations
+* 
+* @author Jiøí Fousek FOU0027
+*/
+
 class Observer;
 
 class Subject {

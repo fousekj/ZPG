@@ -1,5 +1,13 @@
 #include "Texture.h"
 
+/**
+* @file Texture.cpp
+* 
+* @brief Texture class implementation
+* 
+* @author Jiøí Fousek FOU0027
+*/
+
 Texture::Texture(string texturePath, GLuint id)
 {
 	this->id = id;

@@ -1,5 +1,13 @@
 #include "PointLight.h"
 
+/**
+* @file PointLight.cpp
+* 
+* @brief PointLight class file
+* 
+* @author Jiøí Fousek FOU0027
+*/
+
 PointLight::PointLight(glm::vec3 position, glm::vec3 color, int id)
 {
 	this->position = position;

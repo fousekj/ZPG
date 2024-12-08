@@ -18,6 +18,17 @@
 #include <vector>
 #include "BasicTransformation.h"
 
+/**
+ * @file Translation.h
+ *
+ * @brief Translation class
+ *
+ *  This class is used for translation of objects
+ * 
+ * @Author Jiøí Fousek FOU0027
+ *
+ */
+
 class Translation : public BasicTransformation
 {
 private:

@@ -1,5 +1,15 @@
 #include "Camera.h"
 
+/**
+* @file Camera.cpp
+ *
+ * @brief Camera file with functions definitions
+ *
+ * This file contains definitions of functions for Camera class
+ *
+ * @author Jiøí Fousek FOU0027
+*/
+
 Camera::Camera(glm::vec3 position, glm::vec3 up) {
 	this->position = position;
 	this->worldUp = up;

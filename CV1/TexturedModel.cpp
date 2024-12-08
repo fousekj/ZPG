@@ -1,5 +1,15 @@
 #include "TexturedModel.h"
 
+/**
+* @file TexturedModel.cpp
+* 
+* @brief TexturedModel class implementation
+* 
+* This class is used for creating textured models
+* 
+* @author Jiøí Fousek FOU0027
+*/
+
 TexturedModel::TexturedModel(GLenum drawMode, const float* points, int pointsSize, string path, GLuint id)
 {
 	this->drawMode = drawMode;

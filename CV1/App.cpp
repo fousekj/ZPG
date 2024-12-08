@@ -4,92 +4,11 @@
  * @file App.cpp
  *
  * @brief App.cpp file with functions implementations
+ * This file contains all functions implementations for App class
  *
- * @author Jiøí Fousek
+ * @author Jiøí Fousek FOU0027
   **/
 
-void App::createForest()
-{
-	ShaderProgram* shaderForest = new ShaderProgram("ForestVertex.vert", "ForestFragment.frag", SHADER_PHONG);
-	PointLight* light = new PointLight(glm::vec3(0.f, 100.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
-	light->attach(shaderForest);
-	this->camera->attach(shaderForest);
-
-	Scene* scene = new Scene();
-	scene->addLight(light);
-	glm::vec3 color = glm::vec3(0.3f, 0.3f, 0.3f);	
-
-
-	DrawableObject* lightBall = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, sphere, 2880), glm::vec3(1.f, 0.f, 0.f));
-	lightBall->setScale(0.3f);
-	lightBall->setTranslation(glm::vec3(0.f, 100.f, 0.f));
-	scene->addObject(lightBall);
-	
-	for (int i = 0; i < 10; i++)
-	{
-		for (int j = 0; j < 10; j++)
-		{
-			float randScale = 1 + (rand() % 3);
-			glm::vec3 loc(i * 10.f, 0.f, j * 10);
-			float randRot = 1 + (rand() % 180);
-			DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
-			treeObj->setScale(randScale);
-			treeObj->setTranslation(loc);
-			treeObj->setDynamicRotation(randRot, glm::vec3(0, 1, 0), 1.f);
-			scene->addObject(treeObj);
-
-			loc = glm::vec3(i * 10.f + 5.f, 0.f, j * 10);
-			DrawableObject* bushObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, bushes, 8730), color);
-			bushObj->setScale(randScale);
-			bushObj->setTranslation(loc);
-			scene->addObject(bushObj);
-		}		
-	}
-
-	/*DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
-	treeObj->setScale(1.f);
-	treeObj->setTranslation(glm::vec3(0.f, 0.f, -5.f));
-	treeObj->setDynamicRotation(45.f, glm::vec3(0, 1, 0), 1.f);
-	scene->addObject(treeObj);*/
-	this->scenes.push_back(scene);
-
-}
-
-void App::createBalls()
-{
-	ShaderProgram* shaderPhong = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag", SHADER_PHONG);
-	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
-	light->attach(shaderPhong);
-	this->camera->attach(shaderPhong);
-	Scene* sceneBalls = new Scene();
-	sceneBalls->addLight(light);
-	glm::vec3 color = glm::vec3(0.3f, 0.3f, 0.3f);
-
-	DrawableObject* ball_1 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color);
-	ball_1->setScale(0.5f);
-	ball_1->setTranslation(glm::vec3(-2.0f, 0.0f, 0));
-	ball_1->setRotation(0.f, glm::vec3(1, 0, 0));
-	sceneBalls->addObject(ball_1);
-
-	DrawableObject* ball_2 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color);
-	ball_2->setScale(0.5f);
-	ball_2->setTranslation(glm::vec3(0.0f, 2.0f, 0));
-	ball_2->setRotation(0.f, glm::vec3(1, 0, 0));
-	sceneBalls->addObject(ball_2);
-
-	DrawableObject* ball_3 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color);
-	ball_3->setScale(0.5f);
-	ball_3->setTranslation(glm::vec3(2.0f, 0.0f, 0));
-	ball_3->setRotation(0.f, glm::vec3(1, 0, 0));
-	sceneBalls->addObject(ball_3);
-
-	DrawableObject* ball_4 = new DrawableObject(shaderPhong, new Model(GL_TRIANGLES, sphere, 2880), color);
-	ball_4->setScale(0.5f);
-	ball_4->setTranslation(glm::vec3(0.0f, -2.0f, 0.f));
-	ball_4->setRotation(0.f, glm::vec3(1, 0, 0));
-	sceneBalls->addObject(ball_4);
-	this->scenes.push_back(sceneBalls);
-}
 
 void App::createTriangle()
 {
@@ -174,7 +93,7 @@ void App::createForestWithLights()
 
 
 	ShaderProgram* shaderTexture = new ShaderProgram("texturedVertexShader.vert", "texturedFragmentShader.frag", SHADER_PHONG);
-	DrawableObject* plainObj = new DrawableObject(shaderTexture, new TexturedModel(GL_TRIANGLES, plain, 6, "grass.png", 1), glm::vec3(1.f, 1.f, 1.f));
+	DrawableObject* plainObj = new DrawableObject(shaderTexture, new TexturedModel(GL_TRIANGLES, plain, 6, "grass.png", 1), glm::vec3(1.f, 1.f, 1.f), new Material(0.3, 0.3, 0.3));
 	this->camera->attach(shaderTexture);
 	light->attach(shaderTexture);
 	light2->attach(shaderTexture);
@@ -357,12 +276,12 @@ void App::createSkyboxScene()
 
 }
 
-void App::createTestScene()
+void App::createHouse()
 {
 	ShaderProgram* shaderAssimp = new ShaderProgram("texturedVertexShader.vert", "texturedFragmentShader.frag", SHADER_PHONG);
 	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
 	light->attach(shaderAssimp);
-	DrawableObject* assimp = new DrawableObject(shaderAssimp, new AssimpModel("house.obj", "house.png", 1), glm::vec3(1.f, 1.f, 1.f));
+	DrawableObject* assimp = new DrawableObject(shaderAssimp, new AssimpModel("house.obj", "house.png", 2), glm::vec3(1.f, 1.f, 1.f));
 	
 	this->camera->attach(shaderAssimp);
 	Scene* scene = new Scene();
@@ -388,14 +307,15 @@ void App::error_callback(int error, const char* description)
 
 void App::compileShaders()
 {
-	/*this->createTriangle();
+	this->createTriangle();
 	this->createForestWithLights();
 	this->createNightForest();
 	this->createBallsWithLights();
 	this->createBallsDifferentMaterials();
+	this->createHouse();
 	this->createSkyboxScene();
-	this->create4Lights();*/
-	this->createTestScene();
+	this->create4Lights();
+	
 }
 
 
@@ -524,6 +444,10 @@ void App::initialization()
 	glfwGetFramebufferSize(this->window, &width, &height);
 	float ratio = width / (float)height;
 	glViewport(0, 0, width, height);
+
+	int a;
+	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &a);
+	printf("Texture units: %d", a);
 }
 
 void App::run()

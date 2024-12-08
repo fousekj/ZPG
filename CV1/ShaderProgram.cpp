@@ -90,15 +90,12 @@ void ShaderProgram::setTransformMatrix(glm::mat4 matrix)
 
 void ShaderProgram::setMaterial(Material* material)
 {
-	//this->use();
 	if (material != NULL && this->shaderType == SHADER_PHONG)
 	{
 		this->setFloatUniform("r_a", material->r_a);
 		this->setFloatUniform("r_d", material->r_d);
 		this->setFloatUniform("r_s", material->r_s);
 	}
-
-	//this->stop();
 }
 
 void ShaderProgram::setTexture(Texture* texture)

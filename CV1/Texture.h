@@ -7,7 +7,18 @@
 
 using namespace std;
 
-#define MAX_TEXTURES 32
+/**
+* @file Texture.h
+ *
+ * @brief Texture class
+ *
+ * This class is used for loading textures
+ * and binding them to the objects
+ *
+ * @author Jiøí Fousek FOU0027
+ *
+ *
+*/
 
 class Texture
 {

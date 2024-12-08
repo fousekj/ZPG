@@ -1,6 +1,17 @@
 #pragma once
 #include "Rotation.h"
 
+/**
+* @file DynamicRotation.h
+* 
+* @brief DynamicRotation class
+* 
+* Class for dynamic rotation of object
+* 
+* @author Jiøí Fousek FOU0027
+* 
+*/
+
 class DynamicRotation : public BasicTransformation
 {
 private:

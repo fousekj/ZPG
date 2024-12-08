@@ -9,6 +9,16 @@
 #include<assimp/scene.h>// aiSceneoutputdata structure
 #include<assimp/postprocess.h>// Post processingflags
 
+/**
+ * @file AssimpModel.H
+ *
+ * @brief AssimpModel.h file with functions declarations
+ * This class is used for loading models with assimp library
+ *
+ * @author Jiøí Fousek FOU0027
+  **/
+
+
 using namespace std;
 
 struct Vertex

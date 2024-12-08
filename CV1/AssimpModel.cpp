@@ -1,5 +1,13 @@
 #include "AssimpModel.h"
 
+/**
+* @file AssimpModel.cpp
+* 
+* @brief AssimpModel file with functions implementations
+* 
+* @author Jiøí Fousek FOU0027
+*/
+
 void AssimpModel::load(string fileName)
 {
     Assimp::Importer importer;

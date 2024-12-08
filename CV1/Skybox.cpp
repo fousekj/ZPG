@@ -1,5 +1,15 @@
 #include "Skybox.h"
 
+/**
+* @file Skybox.cpp
+ *
+ * @brief Skybox class implementation
+ *
+ * This class is used to create skybox
+ *
+ * @author Jiøí Fousek FOU0027
+*/
+
 Skybox::Skybox()
 {
 	this->followCamera = true;

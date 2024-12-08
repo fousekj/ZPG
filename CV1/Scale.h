@@ -18,6 +18,14 @@
 #include <vector>
 #include "BasicTransformation.h"
 
+/**
+* @file Scale.h
+* 
+* @brief Scale class
+* 
+* @author Jiøí Fousek FOU0027
+*/
+
 class Scale : public BasicTransformation
 {
 private:

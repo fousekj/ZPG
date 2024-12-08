@@ -5,6 +5,14 @@
 #include "Subject.h"
 #include "Observer.h"
 
+/**
+* @file DirectionalLight.h
+* 
+* @brief DirectionalLight class
+* 
+* @author Jiri Fousek FOu0027
+* 
+*/
 
 class DirectionalLight : public Subject
 {

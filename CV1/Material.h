@@ -1,4 +1,13 @@
 #pragma once
+
+/**
+* @file Material.h
+* 
+* @brief Material class
+* 
+* @author Jiøí Fousek FOU0027
+*/
+
 class Material
 {
 private:

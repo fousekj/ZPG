@@ -9,6 +9,17 @@
 #include "SkyboxModel.h"
 
 
+/**
+ * @file Skybox.h
+ *
+ * @brief Skybox class
+ *
+ *  This class is used to create skybox
+ *  It is used to create skybox and render it
+ * 
+ * @author Jiøí Fousek FOU0027
+ */
+
 class Skybox : public Observer
 {
 private:

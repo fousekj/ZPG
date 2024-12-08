@@ -1,5 +1,16 @@
 #include "CubeTexture.h"
 
+/**
+* @file CubeTexture.cpp
+ *
+ * @brief CubeTexture. file with functions definitions
+ *
+ * This file contains definitions of functions for CubeTexture class.
+ * This class is used for creating CubeMap textures.
+ * 
+ * @author Jiøí Fousek FOU0027
+*/
+
 CubeTexture::CubeTexture(GLuint id)
 {
 	this->id = id;

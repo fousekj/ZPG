@@ -10,6 +10,14 @@
 #include "Observer.h"
 #include "Camera.h"
 
+/**
+* @file SpotLight.h
+* 
+* @brief SpotLight class 
+* 
+* @author Jiøí Fousek FOU0027
+*/
+
 class SpotLight : public Subject
 {
 private:

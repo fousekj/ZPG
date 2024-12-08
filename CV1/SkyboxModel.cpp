@@ -1,5 +1,17 @@
 #include "SkyboxModel.h"
 
+/**
+* @file SkyboxModel.cpp
+ *
+ * @brief SkyboxModel. file with functions definitions
+ *
+ * This file contains functions definitions for SkyboxModel class
+ * which is used for drawing skybox
+ *
+ *
+ * @author Jiøí Fousek FOU0027
+*/
+
 SkyboxModel::SkyboxModel()
 {
 	this->texture = new CubeTexture(1);

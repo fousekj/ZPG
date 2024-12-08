@@ -1,5 +1,13 @@
 #include "SpotLight.h"
 
+/**
+* @file SpotLight.cpp
+* 
+* @brief SpotLight class implementation
+* 
+* @author Jiøí Fousek FOU0027
+*/
+
 SpotLight::SpotLight(Camera* camera, glm::vec3 color, float cutOff, float outerCutOff, int id)
 {
 	this->camera = camera;

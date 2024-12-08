@@ -8,6 +8,17 @@
 
 #include "BasicTransformation.h"
 
+/**
+* @file Rotation.h
+ *
+ * @brief Rotation class
+ *
+ *  Declaration of Rotation class with functions
+ *  for rotation of object
+ * 
+ * @author Jiøí Fousek FOU0027
+*/
+
 class Rotation : public BasicTransformation
 {
 private:

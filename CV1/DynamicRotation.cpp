@@ -1,5 +1,16 @@
 #include "DynamicRotation.h"
 
+/**
+* @file DynamicRotation.cpp
+ *
+ * @brief DynamicRotation. file with functions definitions
+ *
+ * This file contains functions definitions for DynamicRotation class
+ * which is used for rotating objects in scene
+ *
+ * @author Jiøí Fousek FOU0027
+*/
+
 DynamicRotation::DynamicRotation(float angle, glm::vec3 axis, float speed)
 {
 	this->angle = angle;

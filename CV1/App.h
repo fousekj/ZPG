@@ -21,7 +21,6 @@
 #include <string>
 using namespace std;
 
-//#include "BaseModel.h"
 #include "Model.h"
 #include "TexturedModel.h"
 #include "ShaderProgram.h"
@@ -52,7 +51,7 @@ using namespace std;
  *
  * @brief App. file with functions declarations
  *
- * @author Jiøí Fousek
+ * @author Jiøí Fousek FOU0027
   **/
 
 
@@ -73,8 +72,6 @@ private:
 	int currentScene;
 	Camera* camera;
 
-	void createForest();
-	void createBalls();
 	void createTriangle();
 	void create4Lights();
 	void createForestWithLights();
@@ -82,7 +79,7 @@ private:
 	void createNightForest();
 	void createBallsDifferentMaterials();
 	void createSkyboxScene();
-	void createTestScene();
+	void createHouse();
 
 public:
 	App();

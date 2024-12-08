@@ -29,7 +29,6 @@ public:
 	void addLight(SpotLight* light);
 	void addLight(DirectionalLight* light);
 	void render();
-	//Camera* camera;
 	void rotateRandomObject();
 	void setSkybox(Skybox* skybox);
 	bool isSkyboxSet();

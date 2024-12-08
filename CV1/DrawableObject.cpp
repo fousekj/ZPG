@@ -59,7 +59,7 @@ void DrawableObject::updateRotation(float angle, glm::vec3 axis, int index)
 
 void DrawableObject::draw()
 {
-	if (dynamic_cast<TexturedModel*>(this->model) == NULL)
+	//if (dynamic_cast<TexturedModel*>(this->model) != NULL)
 		this->shaderProgram->setMaterial(this->material);
 
 	if (dynamic_cast<TexturedModel*>(this->model) == NULL && dynamic_cast<AssimpModel*>(this->model) == NULL )

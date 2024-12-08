@@ -1,5 +1,17 @@
 #include "Rotation.h"
 
+/**
+* @file Rotation.cpp
+ *
+ * @brief Rotation file with functions definitions
+ *
+ * This file contains functions definitions for Rotation class
+ * which is used for rotation of objects
+ *
+ * @author Jiøí Fousek FOU0027
+ *
+*/
+
 Rotation::Rotation(float angle, glm::vec3 axis)
 {
     this->angle = angle;

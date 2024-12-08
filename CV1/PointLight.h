@@ -9,6 +9,16 @@
 #include "Subject.h"
 #include "Observer.h"
 
+/**
+* @file PointLight.h
+ *
+ * @brief PointLight class
+ *
+ *  Class for creating PointLight object
+ *
+ *  @author Jiøí Fousek FOU0%27
+*/
+
 class PointLight : public Subject
 {
 private:

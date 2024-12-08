@@ -19,6 +19,14 @@ using namespace std;
 #include "Subject.h"
 #include "Observer.h"
 
+/**
+* @file Camera.h
+* 
+* @brief Camera class
+* 
+* @author Jiri Fousek FOU0027
+* 
+*/
 
 class Camera : public Subject
 {
