@@ -1,11 +1,13 @@
-#version 330
+#version 450
+layout(location = 0) in vec3 vp;
 
-in vec3 ex_texCoord;
-out vec4 frag_color;
+uniform mat4 modelMatrix;
+uniform mat4 viewMatrix;
+uniform mat4 projectionMatrix;
 
-uniform samplerCube skybox;
+out vec3 fragmentLocalPosition;
 
-void main()
-{
-    frag_color = texture(skybox, ex_texCoord);
-} 
+void main () {
+	 gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vp, 1.0);
+	 fragmentLocalPosition = vp;
+}

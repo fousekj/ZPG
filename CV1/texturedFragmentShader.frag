@@ -73,11 +73,11 @@ void main() {
             attenuation = 1.0 / (lights[i].constant + (lights[i].linear * light_distance) + (lights[i].quadratic * pow(light_distance, 2)));
 
             float diffuse_strength = max(dot(normalize(light_direction), normalize(ex_worldNorm)), 0.0);
-            diffuse += texColor * vec4((diffuse_strength * r_d * attenuation * spotlight_intensity) * lights[i].color, 1.0);
+            diffuse += texColor * vec4((diffuse_strength  * attenuation * spotlight_intensity) * lights[i].color, 1.0);
 
             float spec = max(dot(camera_direction, reflection_direction), 0.0);
             spec = pow(spec, 32.0);
-            specular += spec * r_s * attenuation * texColor * vec4(lights[i].color, 1.0);
+            specular += spec * attenuation * texColor * vec4(lights[i].color, 1.0);
         } 
         else if (lights[i].type == 2) { // Directional light
             vec3 camera_direction = normalize(viewPosition - ex_worldPos);
@@ -87,11 +87,11 @@ void main() {
             vec3 reflection_direction = reflect(-light_direction, ex_worldNorm);
 
             float diffuse_strength = max(dot(normalize(light_direction), normalize(ex_worldNorm)), 0.0);
-            diffuse += texColor * vec4((diffuse_strength * r_d * attenuation) * lights[i].color, 1.0);
+            diffuse += texColor * vec4((diffuse_strength * attenuation) * lights[i].color, 1.0);
 
             float spec = max(dot(camera_direction, reflection_direction), 0.0);
             spec = pow(spec, 32.0);
-            specular += spec * r_s * attenuation * texColor * vec4(lights[i].color, 1.0);
+            specular += spec * attenuation * texColor * vec4(lights[i].color, 1.0);
         }
     }
 

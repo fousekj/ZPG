@@ -39,6 +39,14 @@ using namespace std;
 #include "Texture.h"
 #include "TexturedModel.h"
 
+#define SHADER_PHONG 0
+#define SHADER_LAMBERT 1
+#define SHADER_BLINN 2
+#define SHADER_CONSTANT 3
+#define SHADER_SKYBOX 4
+
+
+
 class ShaderProgram : public Observer
 
 {
@@ -48,14 +56,16 @@ private:
 	void setVec3Uniform(string name, glm::vec3 value);
 	void setFloatUniform(string name, float value);
 
+	int shaderType;
+
 	GLuint getTransformID();
 	GLuint getProjectionMatrixID();
 	GLuint getViewMatrixID();
 
 
 public:
-	ShaderProgram(const char* vertexPath, const char* fragmentPath, PointLight* light);
-	ShaderProgram(const char* vertexPath, const char* fragmentPath);
+	ShaderProgram(const char* vertexPath, const char* fragmentPath, PointLight* light, int shaderType);
+	ShaderProgram(const char* vertexPath, const char* fragmentPath, int shaderType);
 	void use();
 	void stop();
 	void setCamMatrix(glm::mat4 projectionMat, glm::mat4 viewMat);

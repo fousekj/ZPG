@@ -149,6 +149,7 @@
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="SkyboxModel.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Skybox.h" />
+    <ClInclude Include="SkyboxModel.h" />
     <ClInclude Include="skycube.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="SpotLight.h" />
@@ -208,8 +210,6 @@
     <None Include="PhongFragment.frag" />
     <None Include="skyboxFragment.frag" />
     <None Include="skyboxVertex.vert" />
-    <None Include="TestFragment.glsl" />
-    <None Include="TestVertex.glsl" />
     <None Include="texturedFragmentShader.frag" />
     <None Include="texturedVertexShader.vert" />
     <None Include="TriangleFragment.frag" />

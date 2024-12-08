@@ -10,9 +10,7 @@
 
 Scene::Scene()
 {
-	//this->camera = new Camera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	this->skybox = NULL;
-
 }
 
 void Scene::addObject(DrawableObject* object)
@@ -42,9 +40,11 @@ void Scene::render()
 	
 	for (DrawableObject* obj : objects) {
 		
-		for (SpotLight* light : spotlights)
+		for (SpotLight* light : spotlights) {
 			light->notify_observers();
 
+		}
+	
 		for (PointLight* light : lights)
 			light->notify_observers();
 		

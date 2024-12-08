@@ -10,7 +10,7 @@
 
 void App::createForest()
 {
-	ShaderProgram* shaderForest = new ShaderProgram("ForestVertex.vert", "ForestFragment.frag");
+	ShaderProgram* shaderForest = new ShaderProgram("ForestVertex.vert", "ForestFragment.frag", SHADER_PHONG);
 	PointLight* light = new PointLight(glm::vec3(0.f, 100.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
 	light->attach(shaderForest);
 	this->camera->attach(shaderForest);
@@ -57,7 +57,7 @@ void App::createForest()
 
 void App::createBalls()
 {
-	ShaderProgram* shaderPhong = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag");
+	ShaderProgram* shaderPhong = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag", SHADER_PHONG);
 	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
 	light->attach(shaderPhong);
 	this->camera->attach(shaderPhong);
@@ -93,7 +93,7 @@ void App::createBalls()
 
 void App::createTriangle()
 {
-	ShaderProgram* shaderTriangle = new ShaderProgram("BallsVertex.vert", "BallsFragment.frag");
+	ShaderProgram* shaderTriangle = new ShaderProgram("4LightsVertex.vert", "PhongFragment.frag", SHADER_PHONG);
 	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, .5f, 0.5f), 0);
 	light->attach(shaderTriangle);
 
@@ -114,8 +114,8 @@ void App::create4Lights()
 	Model* suzi = new Model(GL_TRIANGLES, suziSmooth, 2904);
 	Scene* scene4Lights = new Scene();
 	scene4Lights->addLight(light);
-	// Phong
-	ShaderProgram* spPhong = new ShaderProgram("4LightsVertex.vert", "PhongFragment.frag", light);
+	
+	ShaderProgram* spPhong = new ShaderProgram("4LightsVertex.vert", "PhongFragment.frag", light, SHADER_PHONG);
 	this->camera->attach(spPhong);
 	light->attach(spPhong);
 	DrawableObject* phong = new DrawableObject(spPhong, suzi, color);
@@ -124,8 +124,8 @@ void App::create4Lights()
 	phong->setRotation(0.f, glm::vec3(1, 0, 0));
 	scene4Lights->addObject(phong);
 
-	// Blinn
-	ShaderProgram* spBlinn = new ShaderProgram("4LightsVertex.vert", "BlinnFragment.frag", light);
+	
+	ShaderProgram* spBlinn = new ShaderProgram("4LightsVertex.vert", "BlinnFragment.frag", light, SHADER_BLINN);
 	this->camera->attach(spBlinn);
 	light->attach(spBlinn);
 	DrawableObject* blinn = new DrawableObject(spBlinn, suzi, color);
@@ -134,8 +134,7 @@ void App::create4Lights()
 	blinn->setRotation(0.f, glm::vec3(1, 0, 0));
 	scene4Lights->addObject(blinn);
 
-	// Lambert
-	ShaderProgram* spLambert = new ShaderProgram("4LightsVertex.vert", "LambertFragment.frag", light);
+	ShaderProgram* spLambert = new ShaderProgram("4LightsVertex.vert", "LambertFragment.frag", light, SHADER_LAMBERT);
 	this->camera->attach(spLambert);
 	light->attach(spLambert);
 	DrawableObject* lambert = new DrawableObject(spLambert, suzi, color);
@@ -143,9 +142,8 @@ void App::create4Lights()
 	lambert->setTranslation(glm::vec3(1.5f, 0.f, 0.f));
 	lambert->setRotation(0.f, glm::vec3(1, 0, 0));
 	scene4Lights->addObject(lambert);
-
-	// Constant
-	ShaderProgram* spConstant = new ShaderProgram("4LightsVertex.vert", "ConstantFragment.frag", light);
+	
+	ShaderProgram* spConstant = new ShaderProgram("4LightsVertex.vert", "ConstantFragment.frag", light, SHADER_CONSTANT);
 	this->camera->attach(spConstant);
 	light->attach(spConstant);
 	DrawableObject* constant = new DrawableObject(spConstant, suzi, color);
@@ -153,13 +151,13 @@ void App::create4Lights()
 	constant->setTranslation(glm::vec3(5.f, 0.f, 0.f));
 	constant->setRotation(0.f, glm::vec3(1, 0, 0));
 	scene4Lights->addObject(constant);
-
+	
 	this->scenes.push_back(scene4Lights);
 }
 
 void App::createForestWithLights()
 {
-	ShaderProgram* shaderForest = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag");
+	ShaderProgram* shaderForest = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag", SHADER_PHONG);
 	PointLight* light = new PointLight(glm::vec3(0.f, 5.f, 0.f), glm::vec3(0.f, 0.f, 1.f), 0);
 	light->attach(shaderForest);
 	this->camera->attach(shaderForest);
@@ -175,7 +173,7 @@ void App::createForestWithLights()
 	scene->addLight(light3);
 
 
-	ShaderProgram* shaderTexture = new ShaderProgram("texturedVertexShader.vert", "texturedFragmentShader.frag");
+	ShaderProgram* shaderTexture = new ShaderProgram("texturedVertexShader.vert", "texturedFragmentShader.frag", SHADER_PHONG);
 	DrawableObject* plainObj = new DrawableObject(shaderTexture, new TexturedModel(GL_TRIANGLES, plain, 6, "grass.png", 1), glm::vec3(1.f, 1.f, 1.f));
 	this->camera->attach(shaderTexture);
 	light->attach(shaderTexture);
@@ -212,7 +210,7 @@ void App::createForestWithLights()
 
 void App::createBallsWithLights()
 {
-	ShaderProgram* shaderPhong = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag");
+	ShaderProgram* shaderPhong = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag", SHADER_PHONG);
 	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
 	light->attach(shaderPhong);
 	this->camera->attach(shaderPhong);
@@ -248,11 +246,12 @@ void App::createBallsWithLights()
 
 void App::createNightForest()
 {
-	ShaderProgram* shaderNight = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag");
-	//this->spotLight->attach(shaderNight);
+	ShaderProgram* shaderNight = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag", SHADER_PHONG);
+	SpotLight* spotLight = new SpotLight(this->camera, glm::vec3(1.f), glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(17.5f)), 0);
+	spotLight->attach(shaderNight);
 
 	Scene* scene = new Scene();
-	//scene->addLight(this->spotLight);
+	scene->addLight(spotLight);
 	glm::vec3 color = glm::vec3(1.f, 1.f, 1.f);
 
 	for (int i = 0; i < 10; i++)
@@ -276,17 +275,12 @@ void App::createNightForest()
 		}
 	}
 
-	/*DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
-	treeObj->setScale(1.f);
-	treeObj->setTranslation(glm::vec3(0.f, 0.f, -5.f));
-	treeObj->setDynamicRotation(45.f, glm::vec3(0, 1, 0), 1.f);
-	scene->addObject(treeObj);*/
 	this->scenes.push_back(scene);
 }
 
 void App::createBallsDifferentMaterials()
 {
-	ShaderProgram* shaderPhong = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag");
+	ShaderProgram* shaderPhong = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag", SHADER_PHONG);
 	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
 	light->attach(shaderPhong);
 	this->camera->attach(shaderPhong);
@@ -320,14 +314,14 @@ void App::createBallsDifferentMaterials()
 	this->scenes.push_back(sceneBalls);
 }
 
-void App::createTestTexture()
+void App::createSkyboxScene()
 {
 	Scene* skyboxScene = new Scene();
 	Skybox* skybox = new Skybox();
 	this->camera->attach(skybox);
 	skyboxScene->setSkybox(skybox);
 
-	ShaderProgram* shaderForest = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag");
+	ShaderProgram* shaderForest = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag", SHADER_PHONG);
 	this->camera->attach(shaderForest);
 
 	DirectionalLight* light = new DirectionalLight(glm::vec3(1.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
@@ -378,12 +372,13 @@ void App::error_callback(int error, const char* description)
 
 void App::compileShaders()
 {
-	//this->createTriangle();
-	//this->createForestWithLights();
-	//this->createNightForest();
-	//this->createBallsWithLights();
-	//this->createBallsDifferentMaterials();
-	this->createTestTexture();
+	this->createTriangle();
+	this->createForestWithLights();
+	this->createNightForest();
+	this->createBallsWithLights();
+	this->createBallsDifferentMaterials();
+	this->createSkyboxScene();
+	this->create4Lights();
 }
 
 
@@ -438,8 +433,6 @@ void App::cursor_callback(GLFWwindow* window, double x, double y) {
 	glfwGetWindowSize(window, &width, &height);
 	glfwSetCursorPos(window, width / 2, height / 2);
 	this->camera->moveMouse(width, height, x, y);
-	//this->spotLight->position = this->camera->getPosition();
-	//this->spotLight->direction = this->camera->getFront();
 
 }
 

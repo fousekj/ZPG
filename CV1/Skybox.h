@@ -6,14 +6,14 @@
 #include "ShaderProgram.h"
 #include "Camera.h"
 #include "skycube.h"
+#include "SkyboxModel.h"
 
 
 class Skybox : public Observer
 {
 private:
-	CubeTexture* texture;
-	GLuint VAO;
-	GLuint VBO;
+
+	SkyboxModel* model;
 	bool followCamera = true;
 	glm::mat4 modelMatrix;
 	glm::mat4 viewMatrix;

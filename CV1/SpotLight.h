@@ -8,21 +8,25 @@
 
 #include "Subject.h"
 #include "Observer.h"
+#include "Camera.h"
 
 class SpotLight : public Subject
 {
 private:
 	int id;
 public:
+	Camera* camera;
 	glm::vec3 position;
 	glm::vec3 direction;
 	glm::vec3 color;
 	float cutOff;
-	SpotLight(glm::vec3 position, glm::vec3 direction, glm::vec3 color, float cutOff, int id);
+	float outerCutOff;
+	float constant = 1.0f;
+	float linear = 0.09f;
+	float quadratic = 0.032f;
+	SpotLight(Camera* camera, glm::vec3 color, float cutOff, float outerCutOff, int id);
 	void notify_observers() override;
 
-	float constant = 1.0f;
-	float linear = 0.f;
-	float quadratic = 0.f;
+
 };
 

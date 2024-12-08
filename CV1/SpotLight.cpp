@@ -1,16 +1,20 @@
 #include "SpotLight.h"
 
-SpotLight::SpotLight(glm::vec3 position, glm::vec3 direction, glm::vec3 color, float cutOff, int id)
+SpotLight::SpotLight(Camera* camera, glm::vec3 color, float cutOff, float outerCutOff, int id)
 {
-	this->position = position;
-	this->direction = direction;
+	this->camera = camera;
 	this->color = color;
 	this->cutOff = cutOff;
+	this->outerCutOff = outerCutOff;
 	this->id = id;
+	this->position = camera->getPosition();
+	this->direction = camera->getFront();
 }
 
 void SpotLight::notify_observers()
 {
+	this->position = camera->getPosition();
+	this->direction = camera->getFront();
 	for (auto observer : observers)
 	{
 		observer->update(*this, this->id);

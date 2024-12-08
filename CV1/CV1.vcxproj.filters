@@ -90,6 +90,9 @@
     <ClCompile Include="CubeTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SkyboxModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderProgram.h">
@@ -200,6 +203,9 @@
     <ClInclude Include="CubeTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SkyboxModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ForestVertex.vert">
@@ -245,12 +251,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="texturedFragmentShader.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="TestFragment.glsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="TestVertex.glsl">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="skyboxFragment.frag">

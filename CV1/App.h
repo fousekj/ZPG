@@ -71,7 +71,6 @@ private:
 	vector<Scene*> scenes;
 	int currentScene;
 	Camera* camera;
-	SpotLight* spotLight;
 
 	void createForest();
 	void createBalls();
@@ -81,7 +80,7 @@ private:
 	void createBallsWithLights();
 	void createNightForest();
 	void createBallsDifferentMaterials();
-	void createTestTexture();
+	void createSkyboxScene();
 
 public:
 	App();

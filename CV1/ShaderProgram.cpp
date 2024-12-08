@@ -8,17 +8,19 @@
  * @author Jiøí Fousek
   **/
 
-ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath, PointLight* light)
+ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath, PointLight* light, int shaderType)
 {
 	ShaderLoader* shaderLoader = new ShaderLoader();
 	this->programID = shaderLoader->loadShader(vertexPath, fragmentPath);
+	this->shaderType = shaderType;
 	this->use();
 }
 
-ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath)
+ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath, int shaderType)
 {
 	ShaderLoader* shaderLoader = new ShaderLoader();
 	this->programID = shaderLoader->loadShader(vertexPath, fragmentPath);
+	this->shaderType = shaderType;
 	this->use();
 }
 
@@ -89,7 +91,7 @@ void ShaderProgram::setTransformMatrix(glm::mat4 matrix)
 void ShaderProgram::setMaterial(Material* material)
 {
 	//this->use();
-	if (material != NULL)
+	if (material != NULL && this->shaderType == SHADER_PHONG)
 	{
 		this->setFloatUniform("r_a", material->r_a);
 		this->setFloatUniform("r_d", material->r_d);
@@ -115,13 +117,21 @@ void ShaderProgram::update(Camera& camera)
 void ShaderProgram::update(PointLight& light, int light_id)
 {
 	this->use();
-	this->setVec3Uniform("lights[" + to_string(light_id) + "].position", light.position);
-	this->setVec3Uniform("lights[" + to_string(light_id) + "].color", light.color);
-	this->setFloatUniform("lights[" + to_string(light_id) + "].constant", light.constant);
-	this->setFloatUniform("lights[" + to_string(light_id) + "].linear", light.linear);
-	this->setFloatUniform("lights[" + to_string(light_id) + "].quadratic", light.quadratic);
-	this->setIntUniform("lights[" + to_string(light_id) + "].type", POINT_LIGHT);
-	this->setIntUniform("lightCount", light_id + 1);
+	if (this->shaderType != SHADER_CONSTANT)
+	{
+		this->setVec3Uniform("lights[" + to_string(light_id) + "].position", light.position);
+		this->setVec3Uniform("lights[" + to_string(light_id) + "].color", light.color);
+		if (shaderType == SHADER_PHONG)
+		{
+			this->setFloatUniform("lights[" + to_string(light_id) + "].constant", light.constant);
+			this->setFloatUniform("lights[" + to_string(light_id) + "].linear", light.linear);
+			this->setFloatUniform("lights[" + to_string(light_id) + "].quadratic", light.quadratic);
+		}
+
+		this->setIntUniform("lights[" + to_string(light_id) + "].type", POINT_LIGHT);
+		this->setIntUniform("lightCount", light_id + 1);
+	}
+	
 	this->stop();
 }
 
