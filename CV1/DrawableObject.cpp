@@ -9,7 +9,7 @@
   **/
 
 
-DrawableObject::DrawableObject(ShaderProgram* shaderProgram, Model* model, glm::vec3 color)
+DrawableObject::DrawableObject(ShaderProgram* shaderProgram, BaseModel* model, glm::vec3 color)
 {
 	this->shaderProgram = shaderProgram;
 	this->model = model;
@@ -18,7 +18,7 @@ DrawableObject::DrawableObject(ShaderProgram* shaderProgram, Model* model, glm::
 	this->material = new Material(1, 1, 1);
 }
 
-DrawableObject::DrawableObject(ShaderProgram* shaderProgram, Model* model, glm::vec3 color, Material* material)
+DrawableObject::DrawableObject(ShaderProgram* shaderProgram, BaseModel* model, glm::vec3 color, Material* material)
 {
 	this->shaderProgram = shaderProgram;
 	this->model = model;
@@ -59,8 +59,15 @@ void DrawableObject::updateRotation(float angle, glm::vec3 axis, int index)
 
 void DrawableObject::draw()
 {
-	this->shaderProgram->setMaterial(this->material);
-	this->shaderProgram->setObjectColor(this->color);
+	if (dynamic_cast<TexturedModel*>(this->model) == NULL)
+		this->shaderProgram->setMaterial(this->material);
+
+	if (dynamic_cast<TexturedModel*>(this->model) == NULL)
+		this->shaderProgram->setObjectColor(this->color);
+
+	if (dynamic_cast<TexturedModel*>(this->model) != NULL)
+		this->shaderProgram->setTexture(dynamic_cast<TexturedModel*>(this->model)->getTexture());
+
 	this->shaderProgram->setTransformMatrix(this->transformation->getTransformMatrix());
 	this->model->drawModel();
 }

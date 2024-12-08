@@ -5,19 +5,25 @@
 //Include GLFW  
 #include <GLFW/glfw3.h>  
 
+#define GLM_ENABLE_EXPERIMENTAL
+
 //Include GLM  
-#include <glm/vec3.hpp> // glm::vec3
-#include <glm/vec4.hpp> // glm::vec4
-#include <glm/mat4x4.hpp> // glm::mat4
-#include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
-#include <glm/gtc/type_ptr.hpp> // glm::value_ptr
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include <SOIL.h>
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string>
 using namespace std;
 
+//#include "BaseModel.h"
 #include "Model.h"
+#include "TexturedModel.h"
 #include "ShaderProgram.h"
 #include "Shader.h"
 #include "Transformation.h"
@@ -35,7 +41,7 @@ using namespace std;
 #include "PointLight.h"
 #include "DirectionalLight.h"
 #include "Material.h"
-
+#include "Texture.h"
 #include <vector>
 
 
@@ -74,6 +80,7 @@ private:
 	void createBallsWithLights();
 	void createNightForest();
 	void createBallsDifferentMaterials();
+	void createTestTexture();
 
 public:
 	App();

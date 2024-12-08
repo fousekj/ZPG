@@ -173,6 +173,17 @@ void App::createForestWithLights()
 	scene->addLight(light);
 	scene->addLight(light2);
 	scene->addLight(light3);
+
+
+	ShaderProgram* shaderTexture = new ShaderProgram("texturedVertexShader.vert", "texturedFragmentShader.frag");
+	DrawableObject* plainObj = new DrawableObject(shaderTexture, new TexturedModel(GL_TRIANGLES, plain, 6, "grass.png", 1), glm::vec3(1.f, 1.f, 1.f));
+	this->camera->attach(shaderTexture);
+	light->attach(shaderTexture);
+	light2->attach(shaderTexture);
+	light3->attach(shaderTexture);
+	plainObj->setScale(100.f);
+	scene->addObject(plainObj);
+
 	glm::vec3 color = glm::vec3(1.f, 1.f, 1.f);
 
 	for (int i = 0; i < 10; i++)
@@ -196,11 +207,6 @@ void App::createForestWithLights()
 		}
 	}
 
-	/*DrawableObject* treeObj = new DrawableObject(shaderForest, new Model(GL_TRIANGLES, tree, 92814), color);
-	treeObj->setScale(1.f);
-	treeObj->setTranslation(glm::vec3(0.f, 0.f, -5.f));
-	treeObj->setDynamicRotation(45.f, glm::vec3(0, 1, 0), 1.f);
-	scene->addObject(treeObj);*/
 	this->scenes.push_back(scene);
 }
 
@@ -243,10 +249,10 @@ void App::createBallsWithLights()
 void App::createNightForest()
 {
 	ShaderProgram* shaderNight = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag");
-	this->spotLight->attach(shaderNight);
+	//this->spotLight->attach(shaderNight);
 
 	Scene* scene = new Scene();
-	scene->addLight(this->spotLight);
+	//scene->addLight(this->spotLight);
 	glm::vec3 color = glm::vec3(1.f, 1.f, 1.f);
 
 	for (int i = 0; i < 10; i++)
@@ -314,11 +320,36 @@ void App::createBallsDifferentMaterials()
 	this->scenes.push_back(sceneBalls);
 }
 
+void App::createTestTexture()
+{
+	//ShaderProgram* shaderTexture = new ShaderProgram("texturedVertexShader.vert", "texturedFragmentShader.frag");
+	//PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, 1.f, 1.f), 0);
+	//DirectionalLight* light = new DirectionalLight(glm::vec3(0.f, 0.f, -1.f), glm::vec3(1.f, 1.f, 1.f), 0);
+
+	//light->attach(shaderTexture);
+	//this->camera->attach(shaderTexture);
+	//Scene* sceneTexture = new Scene();
+	//sceneTexture->addLight(light);
+	//glm::vec3 color = glm::vec3(0.3f, 0.3f, 0.3f);
+
+	//DrawableObject* plainObj = new DrawableObject(shaderTexture, new TexturedModel(GL_TRIANGLES, sphere, 6, "grass.png"), color);
+	//plainObj->setScale(100.f);
+	//plainObj->setTranslation(glm::vec3(0.f, 0.f, 0.f));
+	//plainObj->setRotation(60.f, glm::vec3(1, 0, 0));
+	//plainObj->setDynamicRotation(0.f, glm::vec3(1, 0, 0), 1.f);
+	//float randRot = 1 + (rand() % 180);
+	//plainObj->setDynamicRotation(randRot, glm::vec3(1, 0, 0), 1.f);
+
+	//sceneTexture->addObject(plainObj);
+	//this->scenes.push_back(sceneTexture);
+
+}
+
 App::App() 
 { 
 	this->currentScene = 0;
-	this->camera = new Camera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	this->spotLight = new SpotLight(this->camera->getPosition(), this->camera->getFront(), glm::vec3(1.f, 1.f, 1.f), glm::cos(glm::radians(20.f)), 0);
+	this->camera = new Camera(glm::vec3(0.0f, 0.0f, 1.f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//this->spotLight = new SpotLight(this->camera->getPosition(), this->camera->getFront(), glm::vec3(1.f, 1.f, 1.f), glm::cos(glm::radians(20.f)), 0);
 }
 
 App::~App() { }
@@ -331,14 +362,11 @@ void App::error_callback(int error, const char* description)
 void App::compileShaders()
 {
 	this->createTriangle();
-	//this->createForest();
-	//this->createBalls();
-	//this->create4Lights();
-
 	this->createForestWithLights();
-	this->createNightForest();
-	this->createBallsWithLights();
-	this->createBallsDifferentMaterials();
+	//this->createNightForest();
+	//this->createBallsWithLights();
+	//this->createBallsDifferentMaterials();
+	this->createTestTexture();
 }
 
 
@@ -356,23 +384,23 @@ void App::key_callback(GLFWwindow* window, int key, int scancode, int action, in
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 		this->camera->moveForward();
-		this->spotLight->position = this->camera->getPosition();
-		this->spotLight->direction = this->camera->getFront();
+		//this->spotLight->position = this->camera->getPosition();
+		//this->spotLight->direction = this->camera->getFront();
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 		this->camera->moveBackward();
-		this->spotLight->position = this->camera->getPosition();
-		this->spotLight->direction = this->camera->getFront();
+		//this->spotLight->position = this->camera->getPosition();
+		//this->spotLight->direction = this->camera->getFront();
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 		this->camera->moveLeft();
-		this->spotLight->position = this->camera->getPosition();
-		this->spotLight->direction = this->camera->getFront();
+		//this->spotLight->position = this->camera->getPosition();
+		//this->spotLight->direction = this->camera->getFront();
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 		this->camera->moveRight();
-		this->spotLight->position = this->camera->getPosition();
-		this->spotLight->direction = this->camera->getFront();
+		//this->spotLight->position = this->camera->getPosition();
+		//this->spotLight->direction = this->camera->getFront();
 	}
 
 	//printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
@@ -394,8 +422,8 @@ void App::cursor_callback(GLFWwindow* window, double x, double y) {
 	glfwGetWindowSize(window, &width, &height);
 	glfwSetCursorPos(window, width / 2, height / 2);
 	this->camera->moveMouse(width, height, x, y);
-	this->spotLight->position = this->camera->getPosition();
-	this->spotLight->direction = this->camera->getFront();
+	//this->spotLight->position = this->camera->getPosition();
+	//this->spotLight->direction = this->camera->getFront();
 
 }
 

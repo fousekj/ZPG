@@ -36,6 +36,8 @@ using namespace std;
 #include "DirectionalLight.h"
 #include "Camera.h"
 #include "Material.h"
+#include "Texture.h"
+#include "TexturedModel.h"
 
 class ShaderProgram : public Observer
 
@@ -50,6 +52,7 @@ private:
 	GLuint getProjectionMatrixID();
 	GLuint getViewMatrixID();
 
+
 public:
 	ShaderProgram(const char* vertexPath, const char* fragmentPath, PointLight* light);
 	ShaderProgram(const char* vertexPath, const char* fragmentPath);
@@ -60,6 +63,7 @@ public:
 	void setViewPosition(glm::vec3 position);
 	void setTransformMatrix(glm::mat4 matrix);
 	void setMaterial(Material* material);
+	void setTexture(Texture* texture);
 	
 	void update(Camera& camera);
 	void update(PointLight& light, int light_id);

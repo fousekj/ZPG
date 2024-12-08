@@ -1,0 +1,22 @@
+#version 400
+
+layout(location=0) in vec3 vPos;
+layout(location=1) in vec3 vNormal;
+layout(location=2) in vec2 uvc;
+
+
+out vec3 ex_worldPos;
+out vec3 ex_worldNorm;
+out vec2 ex_texCoord;
+
+uniform mat4 modelMatrix;
+uniform mat4 projectionMatrix;
+uniform mat4 viewMatrix;
+
+void main () {
+	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4 (vPos, 1.0);
+	ex_worldPos = vec3(modelMatrix * vec4(vPos, 1.0));
+	mat3 normalMatrix = transpose(inverse(mat3(modelMatrix)));
+	ex_worldNorm = normalize(normalMatrix * vNormal);
+	ex_texCoord = uvc;
+}

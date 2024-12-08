@@ -89,10 +89,19 @@ void ShaderProgram::setTransformMatrix(glm::mat4 matrix)
 void ShaderProgram::setMaterial(Material* material)
 {
 	//this->use();
-	this->setFloatUniform("r_a", material->r_a);
-	this->setFloatUniform("r_d", material->r_d);
-	this->setFloatUniform("r_s", material->r_s);
+	if (material != NULL)
+	{
+		this->setFloatUniform("r_a", material->r_a);
+		this->setFloatUniform("r_d", material->r_d);
+		this->setFloatUniform("r_s", material->r_s);
+	}
+
 	//this->stop();
+}
+
+void ShaderProgram::setTexture(Texture* texture)
+{
+	this->setIntUniform("textureID", texture->getTextureID());
 }
 
 void ShaderProgram::update(Camera& camera)
