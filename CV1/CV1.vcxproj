@@ -104,13 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\soil\include;..\..\glew-2.1.0\include;..\..\glm-master;..\..\glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\assimp\include;..\..\soil\include;..\..\glew-2.1.0\include;..\..\glm-master;..\..\glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\soil\lib-vc2012\Platform_x64;..\..\glew-2.1.0\lib\Release\x64;..\..\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;SOIL.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\assimp\lib\x64\v141\Release;..\..\soil\lib-vc2012\Platform_x64;..\..\glew-2.1.0\lib\Release\x64;..\..\glfw-3.4.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,7 +131,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="AssimpModel.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CubeTexture.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DrawableObject.cpp" />
     <ClCompile Include="DynamicRotation.cpp" />
@@ -146,6 +148,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -155,10 +158,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="AssimpModel.h" />
     <ClInclude Include="BaseModel.h" />
     <ClInclude Include="BasicTransformation.h" />
     <ClInclude Include="bushes.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CubeTexture.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="DynamicRotation.h" />
@@ -175,6 +180,8 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="Skybox.h" />
+    <ClInclude Include="skycube.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Subject.h" />
@@ -199,6 +206,10 @@
     <None Include="MulitpleLightsFrag.frag" />
     <None Include="MulitpleLightsVert.vert" />
     <None Include="PhongFragment.frag" />
+    <None Include="skyboxFragment.frag" />
+    <None Include="skyboxVertex.vert" />
+    <None Include="TestFragment.glsl" />
+    <None Include="TestVertex.glsl" />
     <None Include="texturedFragmentShader.frag" />
     <None Include="texturedVertexShader.vert" />
     <None Include="TriangleFragment.frag" />
@@ -212,6 +223,12 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="grass.png" />
+    <Image Include="negx.jpg" />
+    <Image Include="negy.jpg" />
+    <Image Include="negz.jpg" />
+    <Image Include="posx.jpg" />
+    <Image Include="posy.jpg" />
+    <Image Include="posz.jpg" />
     <Image Include="wooden_fence.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

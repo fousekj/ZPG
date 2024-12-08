@@ -322,26 +322,12 @@ void App::createBallsDifferentMaterials()
 
 void App::createTestTexture()
 {
-	//ShaderProgram* shaderTexture = new ShaderProgram("texturedVertexShader.vert", "texturedFragmentShader.frag");
-	//PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 5.f), glm::vec3(1.f, 1.f, 1.f), 0);
-	//DirectionalLight* light = new DirectionalLight(glm::vec3(0.f, 0.f, -1.f), glm::vec3(1.f, 1.f, 1.f), 0);
-
-	//light->attach(shaderTexture);
-	//this->camera->attach(shaderTexture);
-	//Scene* sceneTexture = new Scene();
-	//sceneTexture->addLight(light);
-	//glm::vec3 color = glm::vec3(0.3f, 0.3f, 0.3f);
-
-	//DrawableObject* plainObj = new DrawableObject(shaderTexture, new TexturedModel(GL_TRIANGLES, sphere, 6, "grass.png"), color);
-	//plainObj->setScale(100.f);
-	//plainObj->setTranslation(glm::vec3(0.f, 0.f, 0.f));
-	//plainObj->setRotation(60.f, glm::vec3(1, 0, 0));
-	//plainObj->setDynamicRotation(0.f, glm::vec3(1, 0, 0), 1.f);
-	//float randRot = 1 + (rand() % 180);
-	//plainObj->setDynamicRotation(randRot, glm::vec3(1, 0, 0), 1.f);
-
-	//sceneTexture->addObject(plainObj);
-	//this->scenes.push_back(sceneTexture);
+	//Skybox* skybox = new Skybox();
+	Scene* skyboxScene = new Scene();
+	Skybox* skybox = new Skybox();
+	this->camera->attach(skybox);
+	skyboxScene->setSkybox(skybox);
+	this->scenes.push_back(skyboxScene);
 
 }
 
@@ -361,8 +347,8 @@ void App::error_callback(int error, const char* description)
 
 void App::compileShaders()
 {
-	this->createTriangle();
-	this->createForestWithLights();
+	//this->createTriangle();
+	//this->createForestWithLights();
 	//this->createNightForest();
 	//this->createBallsWithLights();
 	//this->createBallsDifferentMaterials();

@@ -81,6 +81,15 @@
     <ClCompile Include="TexturedModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AssimpModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderProgram.h">
@@ -179,6 +188,18 @@
     <ClInclude Include="BaseModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AssimpModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="skycube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ForestVertex.vert">
@@ -226,6 +247,18 @@
     <None Include="texturedFragmentShader.frag">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="TestFragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="TestVertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="skyboxFragment.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="skyboxVertex.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CV1.rc">
@@ -242,6 +275,24 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="wooden_fence.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="negx.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="negy.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="negz.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="posx.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="posy.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="posz.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

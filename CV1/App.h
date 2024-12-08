@@ -42,6 +42,7 @@ using namespace std;
 #include "DirectionalLight.h"
 #include "Material.h"
 #include "Texture.h"
+#include "Skybox.h"
 #include <vector>
 
 

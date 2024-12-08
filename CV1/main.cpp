@@ -23,24 +23,22 @@ int main(void)
 
 
 }
-/*using namespace std;
-
-const float triangles[48] = {
-    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,
-     0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 0.0f,
-     0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,
-
-    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,
-     0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,
-    -0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f
-};
+/*
+#include "skycube.h"
+GLuint shaderProgram = 0;
 
 static void error_callback(int error, const char* description) {
     fputs(description, stderr);
 }
 
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) glfwSetWindowShouldClose(window, GL_TRUE);
+}
+
 int main(void)
 {
+
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
     if (!glfwInit()) {
@@ -61,17 +59,16 @@ int main(void)
     glewExperimental = GL_TRUE;
     glewInit();
 
-
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
-    float ratio = width / (float)height; //perspective matrix
+    float ratio = width / (float)height;
     glViewport(0, 0, width, height);
 
     //Vertex Array Object (VAO)
     GLuint VBO = 0;
     glGenBuffers(1, &VBO); // generate the VBO
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(triangles), &triangles[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(skycube), &skycube[0], GL_STATIC_DRAW);
 
     GLuint VAO = 0;
     glGenVertexArrays(1, &VAO); //generate the VAO
@@ -80,62 +77,41 @@ int main(void)
 
     //enable vertex attributes
     glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)(sizeof(float) * 3));
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)(sizeof(float) * 6));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (GLvoid*)0);
 
     //Create and compile shaders
-    GLuint shaderProgram;
-    new ShaderLoader("PhongVertexShader.glsl", "PhongFragmentShader.glsl", &shaderProgram);
+    new ShaderLoader("TestVertex.glsl", "TestFragment.glsl", &shaderProgram);
 
-    //Texture one in texture unit 0
+    //Textures - Albedo
     glActiveTexture(GL_TEXTURE0);
-    GLuint textureID1 = SOIL_load_OGL_texture("wooden_fence.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    if (textureID1 == NULL) {
-        std::cout << "An error occurred while loading texture." << std::endl;
+    GLuint image = SOIL_load_OGL_cubemap("posx.jpg", "negx.jpg", "posy.jpg", "negy.jpg", "posz.jpg", "negz.jpg", SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
+    if (image == NULL) {
+        std::cout << "An error occurred while loading CubeMap." << std::endl;
         exit(EXIT_FAILURE);
     }
-    glBindTexture(GL_TEXTURE_2D, textureID1);
-
-    //Texture two in texture unit 1
-    glActiveTexture(GL_TEXTURE1);
-    GLuint textureID2 = SOIL_load_OGL_texture("grass.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-    if (textureID2 == NULL) {
-        std::cout << "An error occurred while loading texture." << std::endl;
-        exit(EXIT_FAILURE);
-    }
-    glBindTexture(GL_TEXTURE_2D, textureID2);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, image);
+    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS); //Smooth connection
 
 
     glm::mat4 M = glm::mat4(1.0f);
-
-    glUseProgram(shaderProgram);
-    glEnable(GL_DEPTH_TEST);
-    GLint idTU = glGetUniformLocation(shaderProgram, "textureUnitID");
     float angle = 0;
 
+    glUseProgram(shaderProgram);
+    GLint idTexUnit = glGetUniformLocation(shaderProgram, "UISky");
+    glUniform1i(idTexUnit, 0);
+
+    glfwSetKeyCallback(window, key_callback);
+    glEnable(GL_DEPTH_TEST);
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glBindVertexArray(VAO);
-        glUniform1i(idTU, 0); // set TU 0
-        M = glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, 0.0f, 0.0f));
-        M = glm::rotate(M, angle, glm::vec3(0.0f, 0.0f, 1.0f));
-        M = glm::scale(M, glm::vec3(0.5f, 0.5f, 0.5f));
+        M = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1.0f, 1.0f, 1.0f));
+        M = glm::scale(M, glm::vec3(0.2f, 0.2f, 0.2f));
         GLint idModelTransform = glGetUniformLocation(shaderProgram, "modelMatrix");
         glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, &M[0][0]);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
 
-        glBindVertexArray(VAO);
-        glUniform1i(idTU, 1); // set TU 1
-        M = glm::translate(glm::mat4(1.0f), glm::vec3(0.4f, 0.0f, 0.0f));
-        M = glm::rotate(M, -angle, glm::vec3(0.0f, 0.0f, 1.0f));
-        M = glm::scale(M, glm::vec3(0.5f, 0.5f, 0.5f));
-        idModelTransform = glGetUniformLocation(shaderProgram, "modelMatrix");
-        glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, &M[0][0]);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
+        // draw triangles
+        glDrawArrays(GL_TRIANGLES, 0, 108); //mode,first,count
         glfwPollEvents();
         glfwSwapBuffers(window);
         angle += 0.01f;

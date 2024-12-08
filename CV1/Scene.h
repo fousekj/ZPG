@@ -2,6 +2,7 @@
 #include "DrawableObject.h"
 #include "ShaderProgram.h"
 #include "Camera.h"
+#include "Skybox.h"
 
 #include <glm/vec3.hpp> // glm::vec3
 
@@ -20,6 +21,7 @@ private:
 	vector<PointLight*> lights;
 	vector<SpotLight*> spotlights;
 	vector<DirectionalLight*> directionalLights;
+	Skybox* skybox;
 public:
 	Scene();
 	void addObject(DrawableObject* object);
@@ -27,8 +29,9 @@ public:
 	void addLight(SpotLight* light);
 	void addLight(DirectionalLight* light);
 	void render();
-	Camera* camera;
+	//Camera* camera;
 	void rotateRandomObject();
+	void setSkybox(Skybox* skybox);
 };
 
 

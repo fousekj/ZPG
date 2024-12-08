@@ -44,10 +44,10 @@ class ShaderProgram : public Observer
 {
 private:
 	GLuint programID;
-	void setMat4Uniform(string name, glm::mat4 value);
+
 	void setVec3Uniform(string name, glm::vec3 value);
 	void setFloatUniform(string name, float value);
-	void setIntUniform(string name, int value);
+
 	GLuint getTransformID();
 	GLuint getProjectionMatrixID();
 	GLuint getViewMatrixID();
@@ -64,6 +64,8 @@ public:
 	void setTransformMatrix(glm::mat4 matrix);
 	void setMaterial(Material* material);
 	void setTexture(Texture* texture);
+	void setMat4Uniform(string name, glm::mat4 value);
+	void setIntUniform(string name, int value);
 	
 	void update(Camera& camera);
 	void update(PointLight& light, int light_id);

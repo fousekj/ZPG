@@ -10,7 +10,9 @@
 
 Scene::Scene()
 {
-	this->camera = new Camera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//this->camera = new Camera(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	this->skybox = NULL;
+
 }
 
 void Scene::addObject(DrawableObject* object)
@@ -35,7 +37,9 @@ void Scene::addLight(DirectionalLight* light)
 
 void Scene::render()
 {
-
+	if (this->skybox != NULL)
+		skybox->draw();
+	
 	for (DrawableObject* obj : objects) {
 		
 		for (SpotLight* light : spotlights)
@@ -59,5 +63,11 @@ void Scene::rotateRandomObject()
 	int index = rand() % this->objects.size();
 	this->objects[index]->updateRotation(1.0f, glm::vec3(0.0f, 1.0f, 0.0f), 2);
 }
+
+void Scene::setSkybox(Skybox* skybox)
+{
+	this->skybox = skybox;
+}
+
 
 
