@@ -11,6 +11,7 @@
 #include "Material.h"
 #include "TexturedModel.h"
 #include "Texture.h"
+#include "AssimpModel.h"
 
 /**
  * @file DrawableObject.cpp
@@ -28,6 +29,7 @@ private:
 	Transformation* transformation;
 	glm::vec3 color;
 	Material* material;
+	Texture* texture;
 public:
 	DrawableObject(ShaderProgram* shaderProgram, BaseModel* model, glm::vec3 color);
 	DrawableObject(ShaderProgram* shaderProgram, BaseModel* model, glm::vec3 color, Material* material);

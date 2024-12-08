@@ -62,11 +62,14 @@ void DrawableObject::draw()
 	if (dynamic_cast<TexturedModel*>(this->model) == NULL)
 		this->shaderProgram->setMaterial(this->material);
 
-	if (dynamic_cast<TexturedModel*>(this->model) == NULL)
+	if (dynamic_cast<TexturedModel*>(this->model) == NULL && dynamic_cast<AssimpModel*>(this->model) == NULL )
 		this->shaderProgram->setObjectColor(this->color);
 
 	if (dynamic_cast<TexturedModel*>(this->model) != NULL)
 		this->shaderProgram->setTexture(dynamic_cast<TexturedModel*>(this->model)->getTexture());
+
+	if (dynamic_cast<AssimpModel*>(this->model) != NULL)
+		this->shaderProgram->setTexture(dynamic_cast<AssimpModel*>(this->model)->getTexture());
 
 	this->shaderProgram->setTransformMatrix(this->transformation->getTransformMatrix());
 	this->model->drawModel();

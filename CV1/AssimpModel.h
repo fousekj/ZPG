@@ -31,6 +31,7 @@ public:
 	AssimpModel(string fileName, string textureFile, GLuint textureID);
 	~AssimpModel();
 	void drawModel();
+	Texture* getTexture();
 
 };
 

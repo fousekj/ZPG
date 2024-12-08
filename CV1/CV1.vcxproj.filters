@@ -259,6 +259,12 @@
     <None Include="skyboxVertex.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="house.blend">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="house.mtl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CV1.rc">
@@ -293,6 +299,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="posz.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="house.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

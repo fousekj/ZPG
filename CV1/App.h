@@ -44,6 +44,7 @@ using namespace std;
 #include "Texture.h"
 #include "Skybox.h"
 #include <vector>
+#include "AssimpModel.h"
 
 
 /**
@@ -81,6 +82,7 @@ private:
 	void createNightForest();
 	void createBallsDifferentMaterials();
 	void createSkyboxScene();
+	void createTestScene();
 
 public:
 	App();

@@ -37,7 +37,7 @@ void main() {
 
     vec4 texColor = texture(textureID, ex_texCoord);
 
-    vec4 ambient = texColor * vec4(0.1, 0.1, 0.1, 1.0);
+    vec4 ambient = texColor * r_a;
 
     for (int i = 0; i < lightCount; i++) {
         if (lights[i].type == 0) { // Point light
@@ -50,11 +50,11 @@ void main() {
             attenuation = 1.0 / (lights[i].constant + (lights[i].linear * light_distance) + (lights[i].quadratic * pow(light_distance, 2)));
 
             float diffuse_strength = max(dot(normalize(light_direction), normalize(ex_worldNorm)), 0.0);
-            diffuse += texColor * vec4((diffuse_strength * attenuation) * lights[i].color, 1.0);
+            diffuse += texColor * vec4((diffuse_strength * r_d * attenuation) * lights[i].color, 1.0);
 
             float spec = max(dot(camera_direction, reflection_direction), 0.0);
             spec = pow(spec, 32.0);
-            specular += spec * attenuation * texColor * vec4(lights[i].color, 1.0);
+            specular += spec * attenuation * r_s * texColor * vec4(lights[i].color, 1.0);
         } 
         else if (lights[i].type == 1) { // Spotlight
             vec3 camera_direction = normalize(viewPosition - ex_worldPos);

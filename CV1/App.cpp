@@ -357,6 +357,22 @@ void App::createSkyboxScene()
 
 }
 
+void App::createTestScene()
+{
+	ShaderProgram* shaderAssimp = new ShaderProgram("texturedVertexShader.vert", "texturedFragmentShader.frag", SHADER_PHONG);
+	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
+	light->attach(shaderAssimp);
+	DrawableObject* assimp = new DrawableObject(shaderAssimp, new AssimpModel("house.obj", "house.png", 1), glm::vec3(1.f, 1.f, 1.f));
+	
+	this->camera->attach(shaderAssimp);
+	Scene* scene = new Scene();
+	scene->addLight(light);
+	scene->addObject(assimp);
+	this->scenes.push_back(scene);
+	
+
+}
+
 App::App() 
 { 
 	this->currentScene = 0;
@@ -372,13 +388,14 @@ void App::error_callback(int error, const char* description)
 
 void App::compileShaders()
 {
-	this->createTriangle();
+	/*this->createTriangle();
 	this->createForestWithLights();
 	this->createNightForest();
 	this->createBallsWithLights();
 	this->createBallsDifferentMaterials();
 	this->createSkyboxScene();
-	this->create4Lights();
+	this->create4Lights();*/
+	this->createTestScene();
 }
 
 
@@ -448,8 +465,8 @@ void App::key_callback_static(GLFWwindow* window, int key, int scancode, int act
 }
 
 void App::window_focus_callback_static(GLFWwindow* window, int focused) {
-	App* app = static_cast<App*>(glfwGetWindowUserPointer(window));
-	app->window_focus_callback(window, focused); 
+	//App* app = static_cast<App*>(glfwGetWindowUserPointer(window));
+	//app->window_focus_callback(window, focused); 
 }
 
 void App::window_iconify_callback_static(GLFWwindow* window, int iconified) {

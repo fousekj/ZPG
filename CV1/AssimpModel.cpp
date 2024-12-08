@@ -124,3 +124,8 @@ void AssimpModel::drawModel()
 	glDrawElements(GL_TRIANGLES, this->indicesCount, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
+
+Texture* AssimpModel::getTexture()
+{
+    return this->texture;
+}

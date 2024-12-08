@@ -204,6 +204,8 @@
     <None Include="ConstantFragment.frag" />
     <None Include="ForestFragment.frag" />
     <None Include="ForestVertex.vert" />
+    <None Include="house.blend" />
+    <None Include="house.mtl" />
     <None Include="LambertFragment.frag" />
     <None Include="MulitpleLightsFrag.frag" />
     <None Include="MulitpleLightsVert.vert" />
@@ -223,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="grass.png" />
+    <Image Include="house.png" />
     <Image Include="negx.jpg" />
     <Image Include="negy.jpg" />
     <Image Include="negz.jpg" />
