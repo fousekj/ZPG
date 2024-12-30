@@ -54,7 +54,7 @@ void main() {
             diffuse += vec4((diffuse_strength * r_d * attenuation ) * lights[i].color, 1);
 
             float spec = max(dot(camera_direction, reflection_direction), 0.0);
-            spec = pow(spec, 32);
+            spec = pow(spec, 32);  
             specular += spec * r_s * attenuation * vec4(lights[i].color, 1.0);
 		} 
         // spot light
@@ -62,8 +62,8 @@ void main() {
 
             vec3 camera_direction = normalize(viewPosition - ex_worldPos);
 			vec3 light_direction = normalize(lights[i].position - ex_worldPos);
-			float attenuation = 1;
-			float spotlight_intensity = 1;
+			float attenuation = 1.0;
+			float spotlight_intensity = 1.0;
 
             float theta = dot(light_direction, normalize(-lights[i].direction));
             spotlight_intensity = (theta - lights[i].cutOff) / (1 - lights[i].cutOff);
@@ -83,7 +83,7 @@ void main() {
 			float spec = max(dot(camera_direction, reflection_direction), 0.0);
 			spec = pow(spec, 32);
 			specular += spec * r_s * attenuation * vec4(lights[i].color, 1.0);
-            
+
         }
         // directional light
         else if (lights[i].type == 2) {

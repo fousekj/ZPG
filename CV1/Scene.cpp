@@ -42,7 +42,6 @@ void Scene::render()
 		
 		for (SpotLight* light : spotlights) {
 			light->notify_observers();
-
 		}
 	
 		for (PointLight* light : lights)

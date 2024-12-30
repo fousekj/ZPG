@@ -207,6 +207,7 @@
     <None Include="house.blend" />
     <None Include="house.mtl" />
     <None Include="LambertFragment.frag" />
+    <None Include="login.mtl" />
     <None Include="MulitpleLightsFrag.frag" />
     <None Include="MulitpleLightsVert.vert" />
     <None Include="PhongFragment.frag" />

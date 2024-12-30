@@ -166,12 +166,13 @@ void App::createBallsWithLights()
 void App::createNightForest()
 {
 	ShaderProgram* shaderNight = new ShaderProgram("MulitpleLightsVert.vert", "MulitpleLightsFrag.frag", SHADER_PHONG);
+	this->camera->attach(shaderNight);
 	SpotLight* spotLight = new SpotLight(this->camera, glm::vec3(1.f), glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(17.5f)), 0);
 	spotLight->attach(shaderNight);
 
 	Scene* scene = new Scene();
 	scene->addLight(spotLight);
-	glm::vec3 color = glm::vec3(1.f, 1.f, 1.f);
+	glm::vec3 color = glm::vec3(1.f, 0.f, 0.f);
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -279,14 +280,19 @@ void App::createSkyboxScene()
 void App::createHouse()
 {
 	ShaderProgram* shaderAssimp = new ShaderProgram("texturedVertexShader.vert", "texturedFragmentShader.frag", SHADER_PHONG);
-	PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
-	light->attach(shaderAssimp);
-	DrawableObject* assimp = new DrawableObject(shaderAssimp, new AssimpModel("house.obj", "house.png", 2), glm::vec3(1.f, 1.f, 1.f));
+	//PointLight* light = new PointLight(glm::vec3(0.f, 0.f, 0.f), glm::vec3(1.f, 1.f, 1.f), 0);
+	//light->attach(shaderAssimp);
+	DrawableObject* assimp = new DrawableObject(shaderAssimp, new AssimpModel("login.obj", "grass.png", 2), glm::vec3(1.f, 1.f, 1.f));
+	DrawableObject* house = new DrawableObject(shaderAssimp, new AssimpModel("house.obj", "house.png", 3), glm::vec3(1.f, 1.f, 1.f));
+	SpotLight* spotlight = new SpotLight(this->camera, glm::vec3(1.f), glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(17.5f)), 0);
+	spotlight->attach(shaderAssimp);
 	
 	this->camera->attach(shaderAssimp);
 	Scene* scene = new Scene();
-	scene->addLight(light);
+	//scene->addLight(light);
+	scene->addLight(spotlight);
 	scene->addObject(assimp);
+	scene->addObject(house);
 	this->scenes.push_back(scene);
 	
 
@@ -315,6 +321,7 @@ void App::compileShaders()
 	this->createHouse();
 	this->createSkyboxScene();
 	this->create4Lights();
+
 	
 }
 

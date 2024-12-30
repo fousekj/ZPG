@@ -265,6 +265,9 @@
     <None Include="house.mtl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="login.mtl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CV1.rc">
